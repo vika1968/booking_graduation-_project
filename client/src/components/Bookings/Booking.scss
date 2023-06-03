@@ -1,0 +1,110 @@
+body {
+    color: #2b2d42;
+    font-size: 16px;
+    letter-spacing: 0.05rem;
+
+    .booking__header {
+        text-align: center;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    .booking {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+        margin: 20px;
+
+        &:hover {
+            box-shadow: 10px 10px 20px #ccc;
+        }
+
+        &__poster {
+            width: 50%;
+            margin-right: auto;
+
+            img {
+                object-fit: cover;
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        &__form {
+
+            width: 100%;
+            padding: 30px;
+            background-color: #f0f0f0;
+
+            form {
+                // width: 50%;
+                display: flex;
+                flex-direction: column;
+                color: #2b2d42;
+
+                label {
+                    font-weight: bold;
+                    margin-top: 20px;
+                }
+
+                input {
+                    margin: 10px 0 20px 0;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                }
+
+                button {
+                    margin-top: 20px;
+                    background-color: #2b2d42;
+                    border-radius: 5px;
+                    color: whitesmoke;
+                    padding: 10px 5px;
+                    font-size: 16px;
+                    transition: all 0.3s ease-in-out;
+
+                    &:hover {
+                        background-color: #121217;
+                    }
+                }
+            }
+
+            .booking__details {
+                max-width: 500px;
+                word-wrap: break-word;
+            }
+        }
+    }
+
+    .booking-btn__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        ;
+
+        .booking-btn__goBack,
+        .booking-btn__goMyOrders {
+            font-size: 16px;
+            letter-spacing: 0.1rem;
+            margin: 30px;
+            color: #2b2d42;
+            background-color: inherit;
+            border: 1px solid #2b2d42;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            letter-spacing: 0.05rem;
+            align-items: center;
+
+            &:hover {
+                background-color: #2b2d42;
+                color: white;
+            }
+        }
+    }
+}

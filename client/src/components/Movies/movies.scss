@@ -1,0 +1,81 @@
+html,
+body {
+  width: 100%;
+}
+
+.main__container {
+  width: 90vw;
+
+  .movies__header-container {
+    .movies__header {
+      flex-shrink: 0;
+      margin: auto;
+      padding: 1rem;
+      width: 80%;
+      background-color: #900c3f;
+      color: white;
+      text-align: center;
+
+      .movies__title {
+        margin: 0;
+        font-size: 25px;
+        padding: 5px;
+        font-family: Georgia, 'Times New Roman', Times, serif
+      }
+
+      .movies__search {
+        .movies__input {
+          width: 1200px;
+          width: 80%;
+          font-size: 16px;
+          font-weight: bold;
+
+          &__input {
+            width: 100%;
+          }
+
+          &::placeholder {
+            color: #2b2d42;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+
+
+  .movies {
+    width: 100%;
+
+    &__list {
+      width: 100%;
+      margin: auto;
+      margin-top: 5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .booking-btn__container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .booking-btn__goBack {
+        margin: 30px;
+        color: #2b2d42;
+        background-color: inherit;
+        border: 1px solid #2b2d42;
+        padding: 1rem 2rem;
+        text-decoration: none;
+        letter-spacing: 0.05rem;
+        align-items: center;
+
+        &:hover {
+          background-color: #2b2d42;
+          color: white;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+.footer {
+    width: 100%;
+    max-width: 1024px;
+    font-size: 12px;
+  
+    &__icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+  
+      & > a {
+        margin-right: 10px;
+      }
+    }
+  
+    &__icon {
+      height: 40px;
+      width: 40px;
+      //color: #003580;
+      color: rgb(118, 62, 170);
+  
+      &:hover {
+        color: #70706e;
+      }
+    }
+  
+    &__text {
+      font-family: "Montserrat";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  

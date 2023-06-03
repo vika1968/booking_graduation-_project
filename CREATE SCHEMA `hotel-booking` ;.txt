@@ -1,0 +1,61 @@
+CREATE SCHEMA `hotel-booking` ;
+
+CREATE TABLE `hotel-booking`.users (
+  userID INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL ,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  country VARCHAR(255) NOT NULL,
+  img VARCHAR(255),
+  city VARCHAR(255) NOT NULL,
+  phone VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  isAdmin BOOLEAN DEFAULT FALSE,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE `hotel-booking`.rooms (
+  roomId INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  maxPeople INT NOT NULL,
+  description VARCHAR(1000) NOT NULL,
+  roomNumbers INT NOT NULL  
+);
+
+
+CREATE TABLE `hotel-booking`.room_unavailable_dates (
+  roomId INT,
+  unavailableDateStart DATE NOT NULL,
+  unavailableDateEnd DATE NOT NULL,
+  FOREIGN KEY (roomId) REFERENCES rooms (roomId)
+);
+
+CREATE TABLE  `hotel-booking`.hotels (
+  hotelID INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(500) NOT NULL,
+  type VARCHAR(500) NOT NULL,
+  city VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  distance VARCHAR(255) NOT NULL, 
+  title VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  rating DECIMAL(3, 1), 
+  cheapestPrice DECIMAL(10, 2) NOT NULL,
+  featured BOOLEAN DEFAULT false
+);
+
+CREATE TABLE `hotel-booking`.room_types (
+  typeID INT AUTO_INCREMENT PRIMARY KEY,
+  hotelID INT, 
+  roomType VARCHAR(255),  
+  FOREIGN KEY (hotelID) REFERENCES hotels(hotelID)
+);
+
+CREATE TABLE `hotel-booking`.hotel_photos (
+  photoID INT,  
+  hotelID INT,   
+  photo VARCHAR(1000), 
+  FOREIGN KEY (hotelID) REFERENCES hotels (hotelID)
+);
