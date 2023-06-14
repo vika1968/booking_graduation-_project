@@ -1,71 +1,123 @@
-import React, { useEffect, useState } from 'react';
-import "./datatable.scss";
-import { Link, useLocation } from "react-router-dom";
 
+import "./datatable.scss";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useFetch from "../../hooks/useFetch";
 import axios from "axios";
-import useFetch from '../../hooks/useFetch';
+
+interface Row {
+  id: string;
+  [key: string]: any;
+}
 
 interface DatatableProps {
-  columns: any[]; // Замените any на конкретные типы столбцов, если есть
+  columns: GridColDef[];
 }
 
 const Datatable: React.FC<DatatableProps> = ({ columns }) => {
+
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-  const [list, setList] = useState<any[]>();
-  const { data, loading, error } = useFetch(`/${path}`);
+
+  const [list, setList] = useState<Row[] | null>(null);
+  const { data, loading, error } = useFetch(`/api/${path}`);
+
+  // useEffect(() => {
+  //   if (data && data.length > 0) {
+  //     const updatedRows = data.map((row: any) => ({
+  //       id: row.userID.toString(), // Assigning the unique identifier to the `id` property
+  //       ...row,
+  //     }));
+  //     setList(updatedRows);
+  //   } else {
+  //     setList([]);
+  //   }
+  // }, [data]);
 
   useEffect(() => {
-    setList(data);
-  }, [data]);
+    if (data && data.length > 0) {
+      let updatedRows: Row[] = [];
+  
+      if (path === 'users') {
+        updatedRows = data.map((row: any) => ({
+          id: row.userID.toString(),
+          ...row,
+        }));
+      } else if (path === 'hotels') {
 
+        console.log('hotels!!!!!')
+        updatedRows = data.map((row: any) => ({
+          id: row.hotelID.toString(),
+          ...row,
+        }));
+      } else if (path === 'rooms') {
+        updatedRows = data.map((row: any) => ({
+          id: row.roomID.toString(),
+          ...row,
+        }));
+      }
+  
+      setList(updatedRows);
+    } else {
+      setList([]);
+    }
+  }, [data]);
+  
+  
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`/${path}/${id}`);
-      setList(list!.filter((item) => item._id !== id));
-    } catch (err) {}
+     // await axios.delete(`/api/${path}/${id}`);
+
+     const response = await axios.delete(`/api/${path}/${id}`);
+     const { message } = response.data;
+     alert(message);
+     
+      setList((prevList) => prevList?.filter((item) => item.id !== id) ?? null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const actionColumn: GridColDef = {
+    field: "action",
+    headerName: "Action",
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellAction">
+          <Link to="/users/test" style={{ textDecoration: "none" }}>
+            <div className="viewButton">View</div>
+          </Link>
+          <div
+            className="deleteButton"
+            onClick={() => handleDelete(params.row.id as string)}
+          >
+            Delete
+          </div>
+        </div>
+      );
+    },
   };
 
   return (
     <div className="datatable">
       <div className="datatableTitle">
         {path}
-        <Link to={`/${path}/new`} className="link">
+        <Link to={`/api/${path}/new`} className="link">
           Add New
         </Link>
       </div>
-      <table>
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th key={column.field}>{column.headerName}</th>
-            ))}
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row: any) => (
-            <tr key={row._id}>
-              {columns.map((column) => (
-                <td key={column.field}>{row[column.field]}</td>
-              ))}
-              <td>
-                <div className="cellAction">
-                  <Link to="/users/test" style={{ textDecoration: "none" }}>
-                    <div className="viewButton">View</div>
-                  </Link>
-                  <div
-                    className="deleteButton"
-                    onClick={() => handleDelete(row._id)}
-                  >
-                    Delete
-                  </div>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <DataGrid
+        className="datagrid"
+        rows={list || []}
+        columns={columns.concat(actionColumn)}
+        pagination
+        // pageSize={9}
+        // rowsPerPageOptions={[9]}
+        checkboxSelection
+        getRowId={(row) => row.id}
+      />
     </div>
   );
 };

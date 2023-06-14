@@ -32,7 +32,7 @@ export const userInputs = [
     id: "city",
     label: "City",
     type: "text",
-    placeholder: "USA",
+    placeholder: "New York",
   },
 ];
 
@@ -144,5 +144,24 @@ export const roomInputs = [
     label: "Max People",
     type: "number",
     placeholder: "2",
+  },
+];
+
+export const roomsType = [
+  {
+    id: "1",   
+    value: "2 bed rooms",
+  },
+  {
+    id: "2",   
+    value: "King size bed, 1 bathroom",
+  },
+  {
+    id: "3",   
+    value: "1 bed room",
+  },
+  {
+    id: "4",   
+    value: "3 bed rooms",
   },
 ];

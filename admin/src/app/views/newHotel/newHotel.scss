@@ -5,9 +5,10 @@
   .newContainer {
     flex: 6;
 
-    .top,
-    .bottom {
-      box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    .newContainer__top,
+    .newContainer__bottom {
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
       padding: 10px;
       margin: 20px;
       display: flex;
@@ -17,7 +18,7 @@
         font-size: 20px;
       }
 
-      .left {
+      .newContainer__left {
         flex: 1;
         text-align: center;
 
@@ -29,15 +30,22 @@
         }
       }
 
-      .right {
+      .newContainer__right {
         flex: 2;
-        padding: 0px 20px;
 
         form {
           display: flex;
           flex-wrap: wrap;
           gap: 30px;
-          justify-content: space-between;
+          justify-content: space-around;
+
+          .selectRooms{
+            width: 100%;
+            select{
+              width: 100%;
+              padding: 10px;
+            }
+          }
 
           .formInput {
             width: 40%;
@@ -74,4 +82,12 @@
       }
     }
   }
+}
+
+.input-placeholder {
+  color: #c01e1e; /* laceholder  color*/
+}
+
+.input-filled {
+  color: blue; /*Input color */
 }

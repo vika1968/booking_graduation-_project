@@ -34,9 +34,9 @@ const Login = () => {
     navigate(`/`, { state: credentials.email });
   }
      // navigate("/");
-    } catch (err: any) {
+    } catch (error: any) {
    //   dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
-   console.log(err)
+   console.log(error.response.data.error)
     }
   };
 

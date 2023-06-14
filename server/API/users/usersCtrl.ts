@@ -17,6 +17,7 @@ export async function getUser(req: express.Request, res: express.Response) {
 
         const decodedUserId = jwt.decode(userId, secret);
         const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = '${decodedUserId.userID}'`;
+        console.log(query)
         connection.query(query, [decodedUserId], (error, results) => {
             if (error) {
                 res.status(500).send({ error: "Error executing SQL query" });
@@ -54,7 +55,7 @@ export async function register(req: express.Request, res: express.Response) {
             return res.status(500).send({ success: false, error: "No city available." });
         if (!phone)
             //  throw new Error("No phone available from req.body");
-            return res.status(500).send({ success: phone, error: "No city available." });
+            return res.status(500).send({ success: false, error: "No city available." });
 
         const { error } = UserValidation.validate({ email, password });
         if (error) {
@@ -83,7 +84,7 @@ export async function register(req: express.Request, res: express.Response) {
 
             const insertId = results.insertId;
 
-            console.log(insertId)
+            console.log('insertId')
 
             const cookie = { userID: insertId };
             const JWTCookie = jwt.encode(cookie, secret);
@@ -103,8 +104,8 @@ export async function login(req: express.Request, res: express.Response) {
         const { credentials } = req.body;
         const email = credentials.email;
         const password = credentials.password;
-        console.log(email)
-        console.log(password)
+        console.log('email')
+        console.log('password')
 
         if (!email || !password)
             throw new Error("no data from client login in login");
@@ -119,7 +120,7 @@ export async function login(req: express.Request, res: express.Response) {
 
                 const cookie = { userID: results[0].userID };
 
-                console.log(cookie)
+                console.log('cookie')
                 const secret = process.env.JWT_SECRET;
                 if (!secret) throw new Error("Couldn't load secret key from .env file");
 
@@ -227,4 +228,31 @@ export async function getUserByID(req: express.Request, res: express.Response) {
     }
 }
 
+// export async function getUsers  (req: express.Request, res: express.Response,next)=>{
+//     try {
+//       const users = await User.find();
+//       res.status(200).json(users);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+export async function getUsers(req: express.Request, res: express.Response, next: express.NextFunction) {
+    try {   
+        console.log("All admins")   
+        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1`;
+        console.log(query)
+        connection.query(query, (error, results) => {
+            if (error) {
+                res.status(500).send({ error: "Error executing SQL query" });
+            } else {
+                console.log(results)
+               res.status(200).json(results);
+              
+            }
+        });
+    } catch (error: any) {
+        next(error);
+        res.status(500).send({ success: false, error: error.message });
+    }
+}
 

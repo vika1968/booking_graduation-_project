@@ -15,11 +15,12 @@ hotelsRouter
     //   .put("/update-user", updateUser)
     //   .delete("/:id", deleteUser)
     //CREATE
-    .post("/", verifyToken_1.verifyAdmin, hotelsCtrl_1.createHotel)
+    //.post("/", verifyAdmin, createHotel)
+    .post("/", hotelsCtrl_1.createHotel)
     //UPDATE
     .put("/:id", verifyToken_1.verifyAdmin, hotelsCtrl_1.updateHotel)
     //DELETE
-    .delete("/:id", verifyToken_1.verifyAdmin, hotelsCtrl_1.deleteHotel)
+    .delete("/:id", hotelsCtrl_1.deleteHotel)
     //GET
     .get("/find/:id", hotelsCtrl_1.getHotel)
     //GET ALL

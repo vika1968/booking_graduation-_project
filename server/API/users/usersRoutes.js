@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const usersCtrl_1 = require("./usersCtrl");
 const userRouter = express_1.default.Router();
 userRouter
+    .get("/", usersCtrl_1.getUsers)
     .get("/:id", usersCtrl_1.getUserByID)
     .get("/retrieve/get-user-by-cookie", usersCtrl_1.getUser)
     .post("/login", usersCtrl_1.login)

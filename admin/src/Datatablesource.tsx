@@ -1,5 +1,3 @@
-import React from "react";
-
 export const userColumns = [
   { field: "_id", headerName: "ID", width: 70 },
   {
@@ -9,11 +7,7 @@ export const userColumns = [
     renderCell: (params: any) => {
       return (
         <div className="cellWithImg">
-          <img
-            className="cellImg"
-            src={params.row.img || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
-            alt="avatar"
-          />
+          <img className="cellImg" src={params.row.img || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"} alt="avatar" />
           {params.row.username}
         </div>
       );
@@ -24,6 +18,7 @@ export const userColumns = [
     headerName: "Email",
     width: 230,
   },
+
   {
     field: "country",
     headerName: "Country",

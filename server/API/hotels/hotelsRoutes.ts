@@ -19,13 +19,14 @@ hotelsRouter
 //   .put("/update-user", updateUser)
 //   .delete("/:id", deleteUser)
 //CREATE
-.post("/", verifyAdmin, createHotel)
+//.post("/", verifyAdmin, createHotel)
+.post("/", createHotel)
 
 //UPDATE
 .put("/:id", verifyAdmin, updateHotel)
 
 //DELETE
-.delete("/:id", verifyAdmin, deleteHotel)
+.delete("/:id", deleteHotel)
 
 //GET
 .get("/find/:id", getHotel)

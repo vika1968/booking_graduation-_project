@@ -59,3 +59,30 @@ CREATE TABLE `hotel-booking`.hotel_photos (
   photo VARCHAR(1000), 
   FOREIGN KEY (hotelID) REFERENCES hotels (hotelID)
 );
+
+ALTER TABLE `hotel-booking`.`hotel_photos` 
+CHANGE COLUMN `photoID` `photoID` INT NOT NULL AUTO_INCREMENT  ,
+ADD PRIMARY KEY (`photoID`);
+;
+
+ALTER TABLE `hotel-booking`.`room_types`
+DROP FOREIGN KEY `room_types_ibfk_1`,
+ADD FOREIGN KEY (`hotelID`) REFERENCES `hotels` (`hotelID`) ON DELETE CASCADE;
+
+ALTER TABLE `hotel-booking`.`hotel_photos`
+DROP FOREIGN KEY `hotel_photos_ibfk_1`,
+ADD FOREIGN KEY (`hotelID`) REFERENCES `hotels` (`hotelID`) ON DELETE CASCADE;
+
+ --Remove all foreign keys-------------
+
+SELECT CONCAT('ALTER TABLE `', table_name, '` DROP FOREIGN KEY `', constraint_name, '`;') AS 'SQL'
+FROM information_schema.key_column_usage
+WHERE constraint_schema = 'hotel-booking'
+  AND referenced_table_schema = 'hotel-booking'
+  AND referenced_column_name IS NOT NULL;
+
+  ---------------------------------------------------------
+
+ALTER TABLE `hotel-booking`.`hotel_photos` DROP FOREIGN KEY `hotel_photos_ibfk_2`;
+ALTER TABLE `hotel-booking`.`room_types` DROP FOREIGN KEY `room_types_ibfk_2`;
+ALTER TABLE `hotel-booking`.`room_unavailable_dates` DROP FOREIGN KEY `room_unavailable_dates_ibfk_1`;

@@ -1,11 +1,15 @@
-import "./login.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
-// import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import "./newRoom.scss";
+//import Sidebar from "../../components/sidebar/Sidebar";
+//import Navbar from "../../components/navbar/Navbar";
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
+//import useFetch from "../../hooks/useFetch";
 import axios from "axios";
-import { roomInputs } from "../../formSource";
+import { roomInputs } from "../../../formSource";
+import Navbar from "../../../components/navbar/Navbar";
+import Sidebar from "../../../components/sidebar/Sidebar";
+import useFetch from "../../../hooks/useFetch";
+//import { roomInputs } from "../../formSource";
 
 interface Hotel {
   hotelID?: number;
@@ -21,10 +25,18 @@ interface Hotel {
   featured?: boolean;
 }
 
+interface Room {
+  roomId?: number;
+  title: string;
+  price: number;
+  maxPeople: number;
+  description: string;
+  roomNumbers: number;
+}
 
 const NewRoom = () => {
   const [info, setInfo] = useState({});
-  const [hotelId, setHotelId] = useState(undefined);
+  const [hotelId, setHotelId] = useState<number | undefined>(undefined);
   const [rooms, setRooms] = useState("");
 
   const { data, loading, error } = useFetch("/hotels");
@@ -35,7 +47,9 @@ const NewRoom = () => {
 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const roomNumbers = rooms.split(",").map((room) => ({ number: room.trim() }));
+    const roomNumbers = rooms
+      .split(",")
+      .map((roomNumber: string) => ({ number: Number(roomNumber) })) as unknown as Room[];
     try {
       await axios.post(`/rooms/${hotelId}`, { ...info, roomNumbers });
     } catch (err) {
@@ -68,7 +82,7 @@ const NewRoom = () => {
               <div className="formInput">
                 <label>Rooms</label>
                 <textarea
-                  onChange={(event: any) => setRooms(event.target.value)}
+                  onChange={(event) => setRooms(event.target.value)}
                   placeholder="Give comma between room numbers."
                 />
               </div>
@@ -76,14 +90,18 @@ const NewRoom = () => {
                 <label>Choose a hotel</label>
                 <select
                   id="hotelId"
-                  onChange={(event: any) => setHotelId(event.target.value)}
+                  onChange={(event) => setHotelId(Number(event.target.value))}
                 >
-                  {loading
-                    ? "loading"
-                    : data &&
-                      data.map((hotel: Hotel) => (
-                        <option key={hotel.hotelID} value={hotel.hotelID}>{hotel.name}</option>
-                      ))}
+                  {loading ? (
+                    <option>Loading...</option>
+                  ) : (
+                    data &&
+                    data.map((hotel: Hotel) => (
+                      <option key={hotel.hotelID} value={hotel.hotelID}>
+                        {hotel.name}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
               <button onClick={handleClick}>Send</button>

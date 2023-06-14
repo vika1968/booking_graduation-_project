@@ -21,6 +21,8 @@ app.use(express_1.default.static("client"));
 //  import orderRouter from "./API/orders/ordersRoutes";
 //  app.use("/api/orders", orderRouter)
 // app.use("/api/auth", authRoute);
+const adminRoutes_1 = __importDefault(require("./API/admin/adminRoutes"));
+app.use("/api/admin", adminRoutes_1.default);
 const usersRoutes_1 = __importDefault(require("./API/users/usersRoutes"));
 app.use("/api/users", usersRoutes_1.default);
 const hotelsRoutes_1 = __importDefault(require("./API/hotels/hotelsRoutes"));

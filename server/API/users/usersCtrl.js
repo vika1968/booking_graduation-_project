@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserByID = exports.deleteUser = exports.updateUser = exports.login = exports.register = exports.getUser = void 0;
+exports.getUsers = exports.getUserByID = exports.deleteUser = exports.updateUser = exports.login = exports.register = exports.getUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jwt_simple_1 = __importDefault(require("jwt-simple"));
 const userValidator_1 = require("./userValidator");
@@ -29,6 +29,7 @@ function getUser(req, res) {
                 throw new Error("No authorized user !!!!!!!");
             const decodedUserId = jwt_simple_1.default.decode(userId, secret);
             const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = '${decodedUserId.userID}'`;
+            console.log(query);
             database_1.default.query(query, [decodedUserId], (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing SQL query" });
@@ -67,7 +68,7 @@ function register(req, res) {
                 return res.status(500).send({ success: false, error: "No city available." });
             if (!phone)
                 //  throw new Error("No phone available from req.body");
-                return res.status(500).send({ success: phone, error: "No city available." });
+                return res.status(500).send({ success: false, error: "No city available." });
             const { error } = userValidator_1.UserValidation.validate({ email, password });
             if (error) {
                 return res.status(500).send({ success: false, error: error.message });
@@ -88,7 +89,7 @@ function register(req, res) {
                 if (!secret)
                     return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
                 const insertId = results.insertId;
-                console.log(insertId);
+                console.log('insertId');
                 const cookie = { userID: insertId };
                 const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
                 res.cookie("userId", JWTCookie);
@@ -107,8 +108,8 @@ function login(req, res) {
             const { credentials } = req.body;
             const email = credentials.email;
             const password = credentials.password;
-            console.log(email);
-            console.log(password);
+            console.log('email');
+            console.log('password');
             if (!email || !password)
                 throw new Error("no data from client login in login");
             const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE email='${email}'`;
@@ -121,7 +122,7 @@ function login(req, res) {
                     }
                     const isMatch = yield bcrypt_1.default.compare(password, results[0].password);
                     const cookie = { userID: results[0].userID };
-                    console.log(cookie);
+                    console.log('cookie');
                     const secret = process.env.JWT_SECRET;
                     if (!secret)
                         throw new Error("Couldn't load secret key from .env file");
@@ -226,3 +227,34 @@ function getUserByID(req, res) {
     });
 }
 exports.getUserByID = getUserByID;
+// export async function getUsers  (req: express.Request, res: express.Response,next)=>{
+//     try {
+//       const users = await User.find();
+//       res.status(200).json(users);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+function getUsers(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            console.log("All admins");
+            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1`;
+            console.log(query);
+            database_1.default.query(query, (error, results) => {
+                if (error) {
+                    res.status(500).send({ error: "Error executing SQL query" });
+                }
+                else {
+                    console.log(results);
+                    res.status(200).json(results);
+                }
+            });
+        }
+        catch (error) {
+            next(error);
+            res.status(500).send({ success: false, error: error.message });
+        }
+    });
+}
+exports.getUsers = getUsers;

@@ -14,35 +14,82 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHotelRooms = exports.countByType = exports.countByCity = exports.getHotels = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
-const createHotel = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { name, type, city, address, distance, title, description, rating, cheapestPrice, featured } = req.body;
-        const query = `
-      INSERT INTO hotels (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+function createHotel(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const name = req.body.newHotel.name;
+            const type = req.body.newHotel.type;
+            const city = req.body.newHotel.city;
+            const address = req.body.newHotel.address;
+            const distance = req.body.newHotel.distance;
+            const title = req.body.newHotel.title;
+            const description = req.body.newHotel.description;
+            const rating = 0;
+            const cheapestPrice = req.body.newHotel.cheapestPrice;
+            const featured = req.body.newHotel.featured;
+            let newFeatured = 0;
+            const rooms = req.body.newHotel.rooms;
+            const photos = req.body.newHotel.photos;
+            if (featured === false) {
+                newFeatured = 0;
+            }
+            else if (featured === true) {
+                newFeatured = 1;
+            }
+            const hotelsQuery = `
+      INSERT INTO \`hotel-booking\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
+      VALUES ("${name}", "${type}", "${req.body.newHotel.city}", "${req.body.newHotel.address}", "${req.body.newHotel.distance}", "${req.body.newHotel.title}", "${req.body.newHotel.description}", "0", "${req.body.newHotel.cheapestPrice}", ${newFeatured});
     `;
-        const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, featured];
-        database_1.default.query(query, values, (err, result) => {
-            if (err) {
-                next(err);
-            }
-            else {
-                const hotelId = result.insertId;
-                res.status(200).json(Object.assign({ hotelId }, req.body));
-            }
-        });
-    }
-    catch (err) {
-        next(err);
-    }
-});
+            database_1.default.query(hotelsQuery, (error, hotelsResults) => {
+                if (error) {
+                    return res.status(500).send({
+                        success: false,
+                        error: "Failed to insert hotel data into the database.",
+                    });
+                }
+                const hotelId = hotelsResults.insertId;
+                const photosQuery = `
+        INSERT INTO \`hotel-booking\`.\`hotel_photos\` (hotelID, photo)
+        VALUES
+      `;
+                const photoValues = photos.map((photo) => `(${hotelId}, "${photo}")`).join(", ");
+                // console.log(photosQuery + photoValues)
+                database_1.default.query(photosQuery + photoValues, (error, photosResults) => {
+                    if (error) {
+                        return res.status(500).send({
+                            success: false,
+                            error: "Failed to insert hotel photos data into the database.",
+                        });
+                    }
+                    const roomsQuery = `
+          INSERT INTO \`hotel-booking\`.\`room_types\` (hotelID, roomType)
+          VALUES
+        `;
+                    const roomValues = rooms.map((room) => `(${hotelId}, "${room}")`).join(", ");
+                    database_1.default.query(roomsQuery + roomValues, (error, roomsResults) => {
+                        if (error) {
+                            return res.status(500).send({
+                                success: false,
+                                error: "Failed to insert hotel room types data into the database.",
+                            });
+                        }
+                        res.send({ success: true });
+                    });
+                });
+            });
+        }
+        catch (error) {
+            res.status(500).send({ success: false, error: error.message });
+        }
+    });
+}
 exports.createHotel = createHotel;
 const updateHotel = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const { name, type, city, address, distance, title, description, rating, cheapestPrice, featured } = req.body;
         const query = `
-        UPDATE hotels
+        UPDATE \`hotel-booking\`.hotels
         SET name = ?, type = ?, city = ?, address = ?, distance = ?, title = ?, description = ?, rating = ?, cheapestPrice = ?, featured = ?
         WHERE hotelID = ?
       `;
@@ -69,15 +116,17 @@ exports.updateHotel = updateHotel;
 const deleteHotel = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = 'DELETE FROM hotels WHERE hotelID = ?';
-        const values = [id];
-        database_1.default.query(query, values, (err, result) => {
+        const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = '${id}'`;
+        // const values = [id];
+        console.log(query);
+        database_1.default.query(query, (err, result) => {
             if (err) {
                 next(err);
             }
             else {
                 if (result.affectedRows > 0) {
-                    res.status(200).json('Hotel has been deleted.');
+                    console.log(result);
+                    res.status(200).json({ message: 'Hotel has been deleted.' });
                 }
                 else {
                     res.status(404).json({ error: 'Hotel not found' });
@@ -93,7 +142,7 @@ exports.deleteHotel = deleteHotel;
 const getHotel = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = 'SELECT * FROM hotels WHERE hotelID = ?';
+        const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
@@ -117,12 +166,14 @@ exports.getHotel = getHotel;
 const getHotels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
+        // const query = `
+        //   SELECT *  FROM  \`hotel-booking\`.hotels
+        //   WHERE cheapestPrice > IFNULL(?, 1) AND cheapestPrice < IFNULL(?, 999)
+        //   LIMIT ?
+        // `;
         const query = `
-      SELECT *
-      FROM hotels
-      WHERE cheapestPrice > IFNULL(?, 1) AND cheapestPrice < IFNULL(?, 999)
-      LIMIT ?
-    `;
+    SELECT *  FROM  \`hotel-booking\`.hotels
+  `;
         const values = [min, max, limit];
         database_1.default.query(query, values, (err, result) => {
             if (err) {

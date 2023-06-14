@@ -27,6 +27,9 @@ app.use(express.static("client"));
 //  app.use("/api/orders", orderRouter)
 
 // app.use("/api/auth", authRoute);
+import adminRoutes from "./API/admin/adminRoutes";
+app.use("/api/admin", adminRoutes);
+
 import usersRoutes from "./API/users/usersRoutes";
 app.use("/api/users", usersRoutes);
 
