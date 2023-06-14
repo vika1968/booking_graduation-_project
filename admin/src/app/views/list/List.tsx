@@ -6,7 +6,7 @@ import "./list.scss"
 
 const List = ({columns}: any) => {
 
-  console.log("List")
+ // console.log("List")
   return (
     <div className="list">
       <Sidebar/>

@@ -1,4 +1,5 @@
 export interface HotelInterface {
+    hotelID: number;
     name: string;
     type: string;
     city: string;

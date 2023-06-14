@@ -1,9 +1,8 @@
 import { useContext } from "react";
-// import { darkModeContext } from "../../context/darkModeContext";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import "./navbar.scss";
 import { DarkModeContext } from "../../context/darkModeContext";
-// import darkModeContext from "../../context/darkModeContext";
+
 
 
 const Navbar = () => {

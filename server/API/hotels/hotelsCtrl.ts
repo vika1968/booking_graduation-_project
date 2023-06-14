@@ -160,17 +160,36 @@ export const getHotel = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
+export const getHotelByName = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    console.log('getHotelByName')
+    const { name } = req.params;
+    const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE name = ?';
+    const values = [name];
+
+    connection.query(query, values, (err, result: RowDataPacket[]) => {
+      if (err) {
+        next(err);
+      } else {
+        if (result.length > 0) {
+          res.status(200).json(result[0]);
+        } else {
+          res.status(404).json({ error: 'Hotel not found' });
+        }
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getHotels = async (req: Request, res: Response, next: NextFunction) => {
   try {    
     const { min, max, limit } = req.query;
-    // const query = `
-    //   SELECT *  FROM  \`hotel-booking\`.hotels
-    //   WHERE cheapestPrice > IFNULL(?, 1) AND cheapestPrice < IFNULL(?, 999)
-    //   LIMIT ?
-    // `;
 
     const query = `
-    SELECT *  FROM  \`hotel-booking\`.hotels
+    SELECT * FROM  \`hotel-booking\`.hotels
   `;
     const values = [min, max, limit];
 
@@ -193,7 +212,7 @@ export const countByCity = async (req: Request, res: Response, next: NextFunctio
     const placeholders = cityList.map(() => '?').join(', ');
     const query = `
       SELECT city, COUNT(*) AS count
-      FROM hotels
+      FROM \`hotel-booking\`.hotels
       WHERE city IN (${placeholders})
       GROUP BY city
     `;
@@ -215,7 +234,7 @@ export const countByType = async (req: Request, res: Response, next: NextFunctio
   try {
     const query = `
       SELECT type, COUNT(*) AS count
-      FROM hotels
+      FROM \`hotel-booking\`.hotels
       GROUP BY type
     `;
 
@@ -234,7 +253,7 @@ export const countByType = async (req: Request, res: Response, next: NextFunctio
 export const getHotelRooms = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const query = 'SELECT * FROM rooms WHERE hotelID = ?';
+    const query = 'SELECT * FROM \`hotel-booking\`.rooms WHERE hotelID = ?';
     const values = [id];
 
     connection.query(query, values, (err, result) => {

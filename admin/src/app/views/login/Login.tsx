@@ -35,10 +35,8 @@ const Login = () => {
       const { data } = await axios.post("/api/admin/login", { credentials });
       const { success, adminArray } = data;
 
-      if (success) {
-        console.log(success);
-               // navigate(`/`, { state: credentials.email });
-        navigate(`/`)
+      if (success) {     
+         navigate(`/`)
       }
     } catch (error: any) {
       console.log(error);    

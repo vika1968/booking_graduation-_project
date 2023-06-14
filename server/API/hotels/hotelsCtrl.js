@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHotelRooms = exports.countByType = exports.countByCity = exports.getHotels = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
+exports.getHotelRooms = exports.countByType = exports.countByCity = exports.getHotels = exports.getHotelByName = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
 function createHotel(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -163,16 +163,36 @@ const getHotel = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getHotel = getHotel;
+const getHotelByName = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log('getHotelByName');
+        const { name } = req.params;
+        const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE name = ?';
+        const values = [name];
+        database_1.default.query(query, values, (err, result) => {
+            if (err) {
+                next(err);
+            }
+            else {
+                if (result.length > 0) {
+                    res.status(200).json(result[0]);
+                }
+                else {
+                    res.status(404).json({ error: 'Hotel not found' });
+                }
+            }
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getHotelByName = getHotelByName;
 const getHotels = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
-        // const query = `
-        //   SELECT *  FROM  \`hotel-booking\`.hotels
-        //   WHERE cheapestPrice > IFNULL(?, 1) AND cheapestPrice < IFNULL(?, 999)
-        //   LIMIT ?
-        // `;
         const query = `
-    SELECT *  FROM  \`hotel-booking\`.hotels
+    SELECT * FROM  \`hotel-booking\`.hotels
   `;
         const values = [min, max, limit];
         database_1.default.query(query, values, (err, result) => {
@@ -196,7 +216,7 @@ const countByCity = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const placeholders = cityList.map(() => '?').join(', ');
         const query = `
       SELECT city, COUNT(*) AS count
-      FROM hotels
+      FROM \`hotel-booking\`.hotels
       WHERE city IN (${placeholders})
       GROUP BY city
     `;
@@ -219,7 +239,7 @@ const countByType = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         const query = `
       SELECT type, COUNT(*) AS count
-      FROM hotels
+      FROM \`hotel-booking\`.hotels
       GROUP BY type
     `;
         database_1.default.query(query, (err, result) => {
@@ -239,7 +259,7 @@ exports.countByType = countByType;
 const getHotelRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = 'SELECT * FROM rooms WHERE hotelID = ?';
+        const query = 'SELECT * FROM \`hotel-booking\`.rooms WHERE hotelID = ?';
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {

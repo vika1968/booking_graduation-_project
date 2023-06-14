@@ -27,6 +27,8 @@ const usersRoutes_1 = __importDefault(require("./API/users/usersRoutes"));
 app.use("/api/users", usersRoutes_1.default);
 const hotelsRoutes_1 = __importDefault(require("./API/hotels/hotelsRoutes"));
 app.use("/api/hotels", hotelsRoutes_1.default);
+const roomsRoutes_1 = __importDefault(require("./API/rooms/roomsRoutes"));
+app.use("/api/rooms", roomsRoutes_1.default);
 // app.use("/api/rooms", roomsRoute);
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);

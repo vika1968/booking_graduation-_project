@@ -37,6 +37,9 @@ import hotelsRoutes from "./API/hotels/hotelsRoutes";
 app.use("/api/hotels", hotelsRoutes);
 
 
+import roomsRoutes from "./API/rooms/roomsRoutes";
+app.use("/api/rooms", roomsRoutes);
+
 
 // app.use("/api/rooms", roomsRoute);
 

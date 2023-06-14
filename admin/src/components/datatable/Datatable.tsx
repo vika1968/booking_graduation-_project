@@ -5,6 +5,9 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
+import { UserInterface } from "../../helpers/userInterface";
+import { HotelInterface } from "../../helpers/hotelInterface";
+import { RoomInterface } from "../../helpers/roomInterface";
 
 interface Row {
   id: string;
@@ -23,55 +26,39 @@ const Datatable: React.FC<DatatableProps> = ({ columns }) => {
   const [list, setList] = useState<Row[] | null>(null);
   const { data, loading, error } = useFetch(`/api/${path}`);
 
-  // useEffect(() => {
-  //   if (data && data.length > 0) {
-  //     const updatedRows = data.map((row: any) => ({
-  //       id: row.userID.toString(), // Assigning the unique identifier to the `id` property
-  //       ...row,
-  //     }));
-  //     setList(updatedRows);
-  //   } else {
-  //     setList([]);
-  //   }
-  // }, [data]);
-
   useEffect(() => {
     if (data && data.length > 0) {
       let updatedRows: Row[] = [];
   
-      if (path === 'users') {
-        updatedRows = data.map((row: any) => ({
+      if (path === 'users') {      
+        updatedRows = data.map((row: UserInterface) => ({
           id: row.userID.toString(),
-          ...row,
-        }));
-      } else if (path === 'hotels') {
-
-        console.log('hotels!!!!!')
-        updatedRows = data.map((row: any) => ({
+          ...row,         
+        }));      
+      } else if (path === 'hotels') {      
+        updatedRows = data.map((row: HotelInterface) => ({
           id: row.hotelID.toString(),
           ...row,
         }));
       } else if (path === 'rooms') {
-        updatedRows = data.map((row: any) => ({
-          id: row.roomID.toString(),
+        updatedRows = data.map((row: RoomInterface) => ({
+          id: row.roomId.toString(),
           ...row,
         }));
       }
   
-      setList(updatedRows);
+     setList(updatedRows);  
+
     } else {
       setList([]);
     }
-  }, [data]);
-  
+  }, [data]);    
   
   const handleDelete = async (id: string) => {
-    try {
-     // await axios.delete(`/api/${path}/${id}`);
-
+    try {   
      const response = await axios.delete(`/api/${path}/${id}`);
      const { message } = response.data;
-     alert(message);
+     alert(message);    
      
       setList((prevList) => prevList?.filter((item) => item.id !== id) ?? null);
     } catch (err) {
@@ -91,7 +78,7 @@ const Datatable: React.FC<DatatableProps> = ({ columns }) => {
           </Link>
           <div
             className="deleteButton"
-            onClick={() => handleDelete(params.row.id as string)}
+            onClick={() => handleDelete(params.row.id )}
           >
             Delete
           </div>
@@ -99,12 +86,12 @@ const Datatable: React.FC<DatatableProps> = ({ columns }) => {
       );
     },
   };
-
+ 
   return (
     <div className="datatable">
       <div className="datatableTitle">
         {path}
-        <Link to={`/api/${path}/new`} className="link">
+        <Link to={`/${path}/new`} className="link">
           Add New
         </Link>
       </div>
@@ -112,9 +99,7 @@ const Datatable: React.FC<DatatableProps> = ({ columns }) => {
         className="datagrid"
         rows={list || []}
         columns={columns.concat(actionColumn)}
-        pagination
-        // pageSize={9}
-        // rowsPerPageOptions={[9]}
+        pagination     
         checkboxSelection
         getRowId={(row) => row.id}
       />

@@ -7,7 +7,7 @@ import {   countByCity,
     getHotel,
     getHotelRooms,
     getHotels,
-    updateHotel,} from "./hotelsCtrl";
+    updateHotel,getHotelByName} from "./hotelsCtrl";
 
 const hotelsRouter = express.Router();
 
@@ -30,6 +30,7 @@ hotelsRouter
 
 //GET
 .get("/find/:id", getHotel)
+.get("/find/:name", getHotelByName)
 
 //GET ALL
 .get("/", getHotels)

@@ -23,6 +23,7 @@ hotelsRouter
     .delete("/:id", hotelsCtrl_1.deleteHotel)
     //GET
     .get("/find/:id", hotelsCtrl_1.getHotel)
+    .get("/find/:name", hotelsCtrl_1.getHotelByName)
     //GET ALL
     .get("/", hotelsCtrl_1.getHotels)
     .get("/countByCity", hotelsCtrl_1.countByCity)

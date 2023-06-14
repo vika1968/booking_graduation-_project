@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 // import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
-
 import "./sidebar.scss";
 import { DarkModeContext } from "../../context/darkModeContext";
 
@@ -26,7 +25,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">yourVoyageAdmin</span>
+          <span className="logo">Your Booking Place</span>
         </Link>
       </div>
       <hr />

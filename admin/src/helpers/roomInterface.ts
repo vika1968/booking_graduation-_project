@@ -4,5 +4,5 @@ export interface RoomInterface {
   price: number;
   maxPeople: number;
   description: string;
-  roomNumbers: number;
+  hotelID: number;
 }

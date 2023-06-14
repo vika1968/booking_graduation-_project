@@ -21,7 +21,8 @@ CREATE TABLE `hotel-booking`.rooms (
   price DECIMAL(10, 2) NOT NULL,
   maxPeople INT NOT NULL,
   description VARCHAR(1000) NOT NULL,
-  roomNumbers INT NOT NULL  
+//  roomNumbers INT NOT NULL    // potom udalila
+  hotelID   INT NOT NULL  // potom dobavila
 );
 
 
@@ -86,3 +87,21 @@ WHERE constraint_schema = 'hotel-booking'
 ALTER TABLE `hotel-booking`.`hotel_photos` DROP FOREIGN KEY `hotel_photos_ibfk_2`;
 ALTER TABLE `hotel-booking`.`room_types` DROP FOREIGN KEY `room_types_ibfk_2`;
 ALTER TABLE `hotel-booking`.`room_unavailable_dates` DROP FOREIGN KEY `room_unavailable_dates_ibfk_1`;
+
+
+ALTER TABLE `hotel-booking`.rooms
+DROP COLUMN roomNumbers;
+
+CREATE TABLE  `hotel-booking`.`room_numbers` (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  roomId INT NOT NULL,
+  number INT NOT NULL,
+  unavailable_dates JSON,
+  FOREIGN KEY (roomId) REFERENCES rooms(roomId)
+);
+
+
+ALTER TABLE `hotel-booking`.rooms
+ADD COLUMN hotelID INT NOT NULL,
+ADD CONSTRAINT fk_hotelID
+FOREIGN KEY (hotelID) REFERENCES `hotel-booking`.hotels(hotelID);
