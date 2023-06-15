@@ -112,11 +112,9 @@ export const updateHotel = async (req: Request, res: Response, next: NextFunctio
 
 export const deleteHotel = async (req: Request, res: Response, next: NextFunction) => {
   try {
-
    
     const { id } = req.params;
-    const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = '${id}'`;
-   // const values = [id];
+    const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = '${id}'`; 
 
     console.log(query)  
 

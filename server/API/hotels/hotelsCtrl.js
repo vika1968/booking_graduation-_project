@@ -117,7 +117,6 @@ const deleteHotel = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { id } = req.params;
         const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = '${id}'`;
-        // const values = [id];
         console.log(query);
         database_1.default.query(query, (err, result) => {
             if (err) {
