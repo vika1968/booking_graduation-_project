@@ -27,7 +27,6 @@ CREATE TABLE  `hotel-booking`.hotels (
   cheapestPrice DECIMAL(10, 2) NOT NULL,
   featured BOOLEAN DEFAULT false
 );
-
 CREATE TABLE `hotel-booking`.hotel_photos (
   photoID INT AUTO_INCREMENT PRIMARY KEY,  
   hotelID INT,   
@@ -41,11 +40,11 @@ CREATE TABLE `hotel-booking`.rooms (
   title VARCHAR(255) NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   maxPeople INT NOT NULL,
-  description VARCHAR(1000) NOT NULL, // tut nugen typeID
+  description VARCHAR(1000) NOT NULL,  
+  typeID INT NOT NULL,
   hotelID  INT NOT NULL, 
   FOREIGN KEY (hotelID) REFERENCES hotels (hotelID)  ON DELETE CASCADE
 );
-
 
 CREATE TABLE `hotel-booking`.room_unavailable_dates (
   ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,14 +54,10 @@ CREATE TABLE `hotel-booking`.room_unavailable_dates (
   FOREIGN KEY (roomId) REFERENCES rooms (roomId)  ON DELETE CASCADE
 );
 
-
 CREATE TABLE `hotel-booking`.room_types (
-  typeID INT AUTO_INCREMENT PRIMARY KEY,
-  hotelID INT,  // eto ne nugno
-  roomType VARCHAR(255),  
- // FOREIGN KEY (hotelID) REFERENCES hotels(hotelID)  ON DELETE CASCADE
+  typeID INT AUTO_INCREMENT PRIMARY KEY, 
+  roomType VARCHAR(255)   
 );
-
 
 CREATE TABLE  `hotel-booking`.`room_numbers` (
   ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -72,6 +67,13 @@ CREATE TABLE  `hotel-booking`.`room_numbers` (
   FOREIGN KEY (roomId) REFERENCES rooms(roomId)  ON DELETE CASCADE
 );
 
+
+INSERT INTO `hotel-booking`.room_types (roomType)
+VALUES
+('2 bed rooms'),
+('King size bed, 1 bathroom'),
+('1 bed room'),
+('3 bed rooms');
 
 
 

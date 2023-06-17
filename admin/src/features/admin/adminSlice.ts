@@ -2,13 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Admin } from "./adminModel";
 import { getAdminByCookieMain } from "./adminAPI";
-// import { getUserByCookieMain } from "./userAPI";
-// import { ASdmin } from "./userModel";
-//import { RootState } from "../../app/store";
-// import { User } from "./userModel";
-// import { getUserByCookieMain } from "./userAPI";
-// import { RootState } from "../../app/store";
-
 
 export enum Status {
   LOADING = "loading",

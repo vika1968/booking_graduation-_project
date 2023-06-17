@@ -23,7 +23,7 @@ hotelsRouter
 .post("/", createHotel)
 
 //UPDATE
-.put("/:id", verifyAdmin, updateHotel)
+.put("/:id", updateHotel)
 
 //DELETE
 .delete("/:id", deleteHotel)

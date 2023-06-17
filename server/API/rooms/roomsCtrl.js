@@ -12,11 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRoom = exports.createRoom = exports.getRooms = void 0;
+exports.deleteRoom = exports.createRoom = exports.getRoomTypes = exports.getRooms = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
 const getRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
+        // console.log('min')
+        // console.log(max)
+        // console.log(limit)
         const query = `
     SELECT * FROM  \`hotel-booking\`.rooms
   `;
@@ -35,16 +38,34 @@ const getRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getRooms = getRooms;
-const createRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getRoomTypes = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const query = `
+    SELECT * FROM  \`hotel-booking\`.room_types
+  `;
+        database_1.default.query(query, (err, result) => {
+            if (err) {
+                next(err);
+            }
+            else {
+                res.status(200).json(result);
+            }
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getRoomTypes = getRoomTypes;
+const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hotelID = req.params.hotelID;
         const { title, price, maxPeople, description, roomNumbers, typeID } = req.body;
-        console.log(typeID);
         // Проверка наличия записи в таблице rooms с указанными параметрами
         const checkRoomQuery = `
-      SELECT * FROM \`hotel-booking\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ?;
+      SELECT * FROM \`hotel-booking\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ? AND typeID = ?;
     `;
-        const checkRoomValues = [hotelID, title, price, maxPeople, description];
+        const checkRoomValues = [hotelID, title, price, maxPeople, description, typeID];
         database_1.default.query(checkRoomQuery, checkRoomValues, (error, checkRoomResults) => {
             if (error) {
                 return res.status(500).send({
@@ -61,10 +82,10 @@ const createRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             }
             // Вставка данных в таблицу rooms
             const roomQuery = `
-        INSERT INTO \`hotel-booking\`.\`rooms\` (hotelID, title, price, maxPeople, description)
-        VALUES (?, ?, ?, ?, ?);
+        INSERT INTO \`hotel-booking\`.\`rooms\` (hotelID, title, price, maxPeople, description, typeID)
+        VALUES (?, ?, ?, ?, ?, ?);
       `;
-            const roomValues = [hotelID, title, price, maxPeople, description];
+            const roomValues = [hotelID, title, price, maxPeople, description, typeID];
             database_1.default.query(roomQuery, roomValues, (error, roomResults) => {
                 if (error) {
                     return res.status(500).send({
@@ -78,6 +99,7 @@ const createRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
           VALUES
         `;
                 const roomNumbersValues = roomNumbers.map((room) => `(${roomId}, ${room.number})`).join(", ");
+                console.log(roomNumbers);
                 database_1.default.query(roomNumbersQuery + roomNumbersValues, (error, roomNumbersResults) => {
                     if (error) {
                         return res.status(500).send({
@@ -97,10 +119,9 @@ const createRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.createRoom = createRoom;
 const deleteRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('Delete rom');
+        console.log('Delete room');
         const { id } = req.params;
         const query = `DELETE FROM \`hotel-booking\`.rooms WHERE roomID = '${id}'`;
-        console.log(query);
         database_1.default.query(query, (err, result) => {
             if (err) {
                 next(err);

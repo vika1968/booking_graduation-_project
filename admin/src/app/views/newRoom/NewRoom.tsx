@@ -180,7 +180,7 @@ const NewRoom = () => {
   //метод reduce() для преобразования массива roomInputs в объект initialInfo.
 
   const initialInfo: RoomInterface = roomInputs.reduce((accumulator, input) => ({ ...accumulator, [input.id]: "" }),
-    { hotelID: 0,typeID: 0  } as RoomInterface ,    
+    { hotelID: 0, typeID: 0  } as RoomInterface ,    
   );
   //console.log(initialInfo)
 
@@ -192,7 +192,8 @@ const NewRoom = () => {
   const [placeholders, setPlaceholders] = useState<{ [key: string]: string }>({});
 
   const { data, loading, error } = useFetch("/api/hotels");
-  const {loading: roomsLoading, data: roomsData,error: roomsError} = useFetch("/api/rooms");
+ // const {loading: roomsLoading, data: roomsData, error: roomsError} = useFetch("/api/rooms");
+  const { data: roomTypesData, loading: roomTypesLoading, error: roomTypesError} = useFetch("/api/rooms/room-types");
 
   useEffect(() => {
     const updatedPlaceholders: { [key: string]: string } = {};
@@ -335,12 +336,13 @@ const NewRoom = () => {
              
               <select id="rooms" onChange={(event) => setTypeID(Number(event.target.value))}>
                       <option value="">Select the room type</option>
-                      {roomsLoading ? (
+                      {roomTypesLoading ? (
                         <option>Loading</option>
                       ) : (
-                        roomsType.map((room) => (
-                          <option key={room.id} value={room.id}>
-                            {room.value}
+                      //  roomTypesData &&
+                        roomTypesData.map((roomType: roomTypesInterface) => (
+                          <option key={roomType.typeID} value={roomType.typeID}>
+                            {roomType.roomType}
                           </option>
                         ))
                       )}

@@ -85,23 +85,35 @@ export async function createHotel(req: express.Request, res: express.Response) {
 
 export const updateHotel = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+      console.log('updateHotel')
       const { id } = req.params;
-      const { name, type, city, address, distance, title, description, rating, cheapestPrice, featured } = req.body;
+      console.log(id)
+      // const { name, type, city, address, distance, title, description, rating, cheapestPrice, featured } = req.body;
+      // const query = `
+      //   UPDATE \`hotel-booking\`.hotels
+      //   SET name = ?, type = ?, city = ?, address = ?, distance = ?, title = ?, description = ?, rating = ?, cheapestPrice = ?, featured = ?
+      //   WHERE hotelID = ?
+      // `;
+      // const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, featured, id];
+
+      const { name, type, title, city} = req.body;
+      console.log(name)
       const query = `
         UPDATE \`hotel-booking\`.hotels
-        SET name = ?, type = ?, city = ?, address = ?, distance = ?, title = ?, description = ?, rating = ?, cheapestPrice = ?, featured = ?
-        WHERE hotelID = ?
+        SET name = "${name}", type = "${type}", title = "${title}", city = "${city}"
+        WHERE hotelID =${id}
       `;
-      const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, featured, id];
-  
-      connection.query(query, values, (err, result: OkPacket) => {
+    //  const values = [name, type, title, city, id];
+      console.log(query)
+      connection.query(query, (err, result: OkPacket) => {
         if (err) {
           next(err);
         } else {
           if (result.affectedRows > 0) {
-            res.status(200).json({ hotelId: id, ...req.body });
+            res.status(200).json({  success: true,  message: 'Hotel has been updated.' });
           } else {
-            res.status(404).json({ error: 'Hotel not found' });
+            res.status(404).json({  success: false, error: 'Hotel not found' });
           }
         }
       });

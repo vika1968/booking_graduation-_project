@@ -28,6 +28,7 @@ roomsRouter
     // .get("/countByType", countByType)
     // .get("/room/:id", getHotelRooms)
     .get("/", roomsCtrl_1.getRooms)
+    .get("/room-types", roomsCtrl_1.getRoomTypes)
     .delete("/:id", roomsCtrl_1.deleteRoom)
     .post("/:hotelID", roomsCtrl_1.createRoom);
 exports.default = roomsRouter;

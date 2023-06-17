@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const verifyToken_1 = require("../../utils/verifyToken");
 const hotelsCtrl_1 = require("./hotelsCtrl");
 const hotelsRouter = express_1.default.Router();
 hotelsRouter
@@ -18,7 +17,7 @@ hotelsRouter
     //.post("/", verifyAdmin, createHotel)
     .post("/", hotelsCtrl_1.createHotel)
     //UPDATE
-    .put("/:id", verifyToken_1.verifyAdmin, hotelsCtrl_1.updateHotel)
+    .put("/:id", hotelsCtrl_1.updateHotel)
     //DELETE
     .delete("/:id", hotelsCtrl_1.deleteHotel)
     //GET
