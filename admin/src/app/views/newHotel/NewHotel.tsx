@@ -41,11 +41,7 @@ const NewHotel = () => {
   const [isFilled, setIsFilled] = useState(false);
   const [placeholders, setPlaceholders] = useState<string[]>([]);
   const [addedHotel, setAddedHotel] = useState(false);
-  const {
-    loading: roomsLoading,
-    data: roomsData,
-    error: roomsError,
-  } = useFetch("/rooms");
+  const {loading: roomsLoading, data: roomsData,error: roomsError} = useFetch("/rooms");
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>

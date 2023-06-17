@@ -14,25 +14,6 @@ CREATE TABLE `hotel-booking`.users (
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-
-CREATE TABLE `hotel-booking`.rooms (
-  roomId INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  price DECIMAL(10, 2) NOT NULL,
-  maxPeople INT NOT NULL,
-  description VARCHAR(1000) NOT NULL,
-//  roomNumbers INT NOT NULL    // potom udalila
-  hotelID   INT NOT NULL  // potom dobavila
-);
-
-
-CREATE TABLE `hotel-booking`.room_unavailable_dates (
-  roomId INT,
-  unavailableDateStart DATE NOT NULL,
-  unavailableDateEnd DATE NOT NULL,
-  FOREIGN KEY (roomId) REFERENCES rooms (roomId)
-);
-
 CREATE TABLE  `hotel-booking`.hotels (
   hotelID INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(500) NOT NULL,
@@ -47,32 +28,64 @@ CREATE TABLE  `hotel-booking`.hotels (
   featured BOOLEAN DEFAULT false
 );
 
-CREATE TABLE `hotel-booking`.room_types (
-  typeID INT AUTO_INCREMENT PRIMARY KEY,
-  hotelID INT, 
-  roomType VARCHAR(255),  
-  FOREIGN KEY (hotelID) REFERENCES hotels(hotelID)
-);
-
 CREATE TABLE `hotel-booking`.hotel_photos (
-  photoID INT,  
+  photoID INT AUTO_INCREMENT PRIMARY KEY,  
   hotelID INT,   
   photo VARCHAR(1000), 
-  FOREIGN KEY (hotelID) REFERENCES hotels (hotelID)
+  FOREIGN KEY (hotelID) REFERENCES hotels (hotelID)  ON DELETE CASCADE
 );
 
-ALTER TABLE `hotel-booking`.`hotel_photos` 
-CHANGE COLUMN `photoID` `photoID` INT NOT NULL AUTO_INCREMENT  ,
-ADD PRIMARY KEY (`photoID`);
-;
 
-ALTER TABLE `hotel-booking`.`room_types`
-DROP FOREIGN KEY `room_types_ibfk_1`,
-ADD FOREIGN KEY (`hotelID`) REFERENCES `hotels` (`hotelID`) ON DELETE CASCADE;
+CREATE TABLE `hotel-booking`.rooms (
+  roomId INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  maxPeople INT NOT NULL,
+  description VARCHAR(1000) NOT NULL, // tut nugen typeID
+  hotelID  INT NOT NULL, 
+  FOREIGN KEY (hotelID) REFERENCES hotels (hotelID)  ON DELETE CASCADE
+);
 
-ALTER TABLE `hotel-booking`.`hotel_photos`
-DROP FOREIGN KEY `hotel_photos_ibfk_1`,
-ADD FOREIGN KEY (`hotelID`) REFERENCES `hotels` (`hotelID`) ON DELETE CASCADE;
+
+CREATE TABLE `hotel-booking`.room_unavailable_dates (
+  ID INT AUTO_INCREMENT PRIMARY KEY,
+  roomId INT,
+  unavailableDateStart DATE NOT NULL,
+  unavailableDateEnd DATE NOT NULL,
+  FOREIGN KEY (roomId) REFERENCES rooms (roomId)  ON DELETE CASCADE
+);
+
+
+CREATE TABLE `hotel-booking`.room_types (
+  typeID INT AUTO_INCREMENT PRIMARY KEY,
+  hotelID INT,  // eto ne nugno
+  roomType VARCHAR(255),  
+ // FOREIGN KEY (hotelID) REFERENCES hotels(hotelID)  ON DELETE CASCADE
+);
+
+
+CREATE TABLE  `hotel-booking`.`room_numbers` (
+  ID INT PRIMARY KEY AUTO_INCREMENT,
+  roomId INT NOT NULL,
+  number INT NOT NULL,
+  unavailable_dates JSON,
+  FOREIGN KEY (roomId) REFERENCES rooms(roomId)  ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  --Remove all foreign keys-------------
 
@@ -89,19 +102,7 @@ ALTER TABLE `hotel-booking`.`room_types` DROP FOREIGN KEY `room_types_ibfk_2`;
 ALTER TABLE `hotel-booking`.`room_unavailable_dates` DROP FOREIGN KEY `room_unavailable_dates_ibfk_1`;
 
 
-ALTER TABLE `hotel-booking`.rooms
-DROP COLUMN roomNumbers;
-
-CREATE TABLE  `hotel-booking`.`room_numbers` (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  roomId INT NOT NULL,
-  number INT NOT NULL,
-  unavailable_dates JSON,
-  FOREIGN KEY (roomId) REFERENCES rooms(roomId)
-);
-
 
 ALTER TABLE `hotel-booking`.rooms
-ADD COLUMN hotelID INT NOT NULL,
 ADD CONSTRAINT fk_hotelID
 FOREIGN KEY (hotelID) REFERENCES `hotel-booking`.hotels(hotelID);

@@ -166,26 +166,33 @@
 
 import React, { useState, useEffect, ChangeEvent, MouseEvent } from "react";
 import axios from "axios";
-import { roomInputs } from "../../../helpers/formSource";
+import { roomInputs, roomsType } from "../../../helpers/formSource";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import useFetch from "../../../hooks/useFetch";
 import { RoomInterface } from "../../../helpers/roomInterface";
 import { HotelInterface } from "../../../helpers/hotelInterface";
+import { roomTypesInterface } from "../../../helpers/roomTypesInterface";
 
 
 const NewRoom = () => {
-  const initialInfo = roomInputs.reduce(
-    (acc, input) => ({ ...acc, [input.id]: "" }),
-    { hotelID: 0 } as RoomInterface
-  );
 
+  //метод reduce() для преобразования массива roomInputs в объект initialInfo.
+
+  const initialInfo: RoomInterface = roomInputs.reduce((accumulator, input) => ({ ...accumulator, [input.id]: "" }),
+    { hotelID: 0,typeID: 0  } as RoomInterface ,    
+  );
+  //console.log(initialInfo)
+
+ 
   const [info, setInfo] = useState<RoomInterface>(initialInfo);
-  const [hotelID, setHotelID] = useState<number | undefined>(undefined);
+  const [hotelID, setHotelID] = useState<number>(0);
+  const [typeID, setTypeID] = useState<number>(0);
   const [rooms, setRooms] = useState("");
   const [placeholders, setPlaceholders] = useState<{ [key: string]: string }>({});
 
   const { data, loading, error } = useFetch("/api/hotels");
+  const {loading: roomsLoading, data: roomsData,error: roomsError} = useFetch("/api/rooms");
 
   useEffect(() => {
     const updatedPlaceholders: { [key: string]: string } = {};
@@ -205,12 +212,14 @@ const NewRoom = () => {
 
   const handleClear = () => {
     setInfo(initialInfo);
-    setHotelID(undefined);
+    setHotelID(0);
+    setTypeID(0);
     setRooms("");
   };
 
   const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    console.log(typeID)
 
     if (isNaN(info.price)) {
       alert("The 'Price' field must be a number.");
@@ -224,7 +233,7 @@ const NewRoom = () => {
 
     const cleanedRooms = parseInt(rooms.replace(/,/g, ""), 10);
     if (isNaN(cleanedRooms)) {
-      alert("The room numbers must be comma-separated integers.");
+      alert("The 'Rooms' must be a comma-separated numbers or single number.");
       return;
     }
 
@@ -267,9 +276,14 @@ const NewRoom = () => {
         return;
       }
 
+      if (typeID === undefined || typeID === 0) {
+        alert("The 'Room Type' must be chosen.");
+        return;
+      }
+
       const { data } = await axios.post(`/api/rooms/${hotelID}`, {
         ...info,
-        roomNumbers,
+        roomNumbers, typeID
       });
 
       const { success } = data;
@@ -311,9 +325,29 @@ const NewRoom = () => {
                 <textarea
                   value={rooms}
                   onChange={(event) => setRooms(event.target.value)}
-                  placeholder="Give comma between room numbers!"
+                  placeholder="Give comma between room numbers or enter single number!"
                 />
-              </div>
+              </div>    
+
+
+              <div className="formInput">
+              <label>Choose a room type</label>
+             
+              <select id="rooms" onChange={(event) => setTypeID(Number(event.target.value))}>
+                      <option value="">Select the room type</option>
+                      {roomsLoading ? (
+                        <option>Loading</option>
+                      ) : (
+                        roomsType.map((room) => (
+                          <option key={room.id} value={room.id}>
+                            {room.value}
+                          </option>
+                        ))
+                      )}
+                    </select>
+                </div>  
+
+
               <div className="formInput">
                 <label>Choose a hotel</label>
                 <select
@@ -332,7 +366,8 @@ const NewRoom = () => {
                       </option>
                     ))
                   )}
-                </select>
+                </select>               
+
               </div>
               <button onClick={handleClick}>Send</button>
             </form>

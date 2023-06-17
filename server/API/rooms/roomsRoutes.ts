@@ -1,6 +1,6 @@
 import express from "express";
 import {verifyAdmin} from "../../utils/verifyToken"
-import { getRooms,createRoom} from "./roomsCtrl";
+import { getRooms, createRoom,deleteRoom} from "./roomsCtrl";
 
 const roomsRouter = express.Router();
 
@@ -30,5 +30,6 @@ roomsRouter
 // .get("/countByType", countByType)
 // .get("/room/:id", getHotelRooms)
 .get("/", getRooms)
+.delete("/:id", deleteRoom)
 .post("/:hotelID",  createRoom);
 export default roomsRouter;

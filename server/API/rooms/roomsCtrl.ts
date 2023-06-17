@@ -27,7 +27,9 @@ try {
 export const createRoom = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const hotelID = req.params.hotelID;
-    const { title, price, maxPeople, description, roomNumbers } = req.body;
+    const { title, price, maxPeople, description, roomNumbers, typeID } = req.body;
+
+    console.log(typeID)
 
     // Проверка наличия записи в таблице rooms с указанными параметрами
     const checkRoomQuery = `
@@ -94,6 +96,32 @@ export const createRoom = async (req: Request, res: Response, next: NextFunction
 };
 
 
+export const deleteRoom = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+   console.log('Delete rom')
+
+    const { id } = req.params;
+    const query = `DELETE FROM \`hotel-booking\`.rooms WHERE roomID = '${id}'`; 
+
+    console.log(query)  
+
+    connection.query(query,  (err, result: OkPacket) => {
+      if (err) {
+        next(err);
+      } else {
+        if (result.affectedRows > 0) {
+          console.log(result)
+          res.status(200).json({ message: 'Room has been deleted.' });
+
+        } else {
+          res.status(404).json({ error: 'Room not found' });
+        }
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 
 

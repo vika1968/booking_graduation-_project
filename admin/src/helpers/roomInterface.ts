@@ -5,5 +5,6 @@ export interface RoomInterface {
   maxPeople: number;
   description: string;
   hotelID: number;
+  typeID: number;
   [key: string]: number | string;
 }

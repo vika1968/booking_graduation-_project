@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRoom = exports.getRooms = void 0;
+exports.deleteRoom = exports.createRoom = exports.getRooms = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
 const getRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -38,7 +38,8 @@ exports.getRooms = getRooms;
 const createRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hotelID = req.params.hotelID;
-        const { title, price, maxPeople, description, roomNumbers } = req.body;
+        const { title, price, maxPeople, description, roomNumbers, typeID } = req.body;
+        console.log(typeID);
         // Проверка наличия записи в таблице rooms с указанными параметрами
         const checkRoomQuery = `
       SELECT * FROM \`hotel-booking\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ?;
@@ -94,3 +95,29 @@ const createRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.createRoom = createRoom;
+const deleteRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log('Delete rom');
+        const { id } = req.params;
+        const query = `DELETE FROM \`hotel-booking\`.rooms WHERE roomID = '${id}'`;
+        console.log(query);
+        database_1.default.query(query, (err, result) => {
+            if (err) {
+                next(err);
+            }
+            else {
+                if (result.affectedRows > 0) {
+                    console.log(result);
+                    res.status(200).json({ message: 'Room has been deleted.' });
+                }
+                else {
+                    res.status(404).json({ error: 'Room not found' });
+                }
+            }
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.deleteRoom = deleteRoom;

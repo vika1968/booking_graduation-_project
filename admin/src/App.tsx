@@ -11,7 +11,7 @@ import {
 import Login from "./app/views/login/Login";
 import Home from "./app/views/home/Home";
 import Single from "./app/views/single/Single";
-import New from "./app/views/new/New";
+import NewUser from "./app/views/newUser/NewUser";
 import NewHotel from "./app/views/newHotel/NewHotel";
 import NewRoom from "./app/views/newRoom/NewRoom";
 import List from "./app/views/list/List";
@@ -74,7 +74,7 @@ function App() {
                 path="new"
                 element={
                   <ProtectedRoute>
-                    <New inputs={userInputs} title="Add New User" />
+                    <NewUser inputs={userInputs} title="Add New User" />
                   </ProtectedRoute>
                 }
               />

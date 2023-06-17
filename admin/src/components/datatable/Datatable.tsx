@@ -1,5 +1,5 @@
 
-import "./datatable.scss";
+import "./dataTable.scss";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ interface DatatableProps {
   columns: GridColDef[];
 }
 
-const Datatable: React.FC<DatatableProps> = ({ columns }) => {
+const DataTable: React.FC<DatatableProps> = ({ columns }) => {
 
   const location = useLocation();
   const path = location.pathname.split("/")[1];
@@ -56,7 +56,9 @@ const Datatable: React.FC<DatatableProps> = ({ columns }) => {
   
   const handleDelete = async (id: string) => {
     try {   
+      console.log(`/api/${path}/${id}`)
      const response = await axios.delete(`/api/${path}/${id}`);
+   
      const { message } = response.data;
      alert(message);    
      
@@ -107,4 +109,4 @@ const Datatable: React.FC<DatatableProps> = ({ columns }) => {
   );
 };
 
-export default Datatable;
+export default DataTable;
