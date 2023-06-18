@@ -2,16 +2,15 @@ import "./newUser.scss";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import axios from "axios";
 import { UserInterface } from "../../../helpers/userInterface";
-import { userInputs } from "../../../helpers/formSource";
 
 interface Input {
   id: string;
   label: string;
   type: string;
-  placeholder?: string;
+  placeholder: string;
 }
 
 interface NewProps {
@@ -20,14 +19,42 @@ interface NewProps {
 }
 
 const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
-  //const [file, setFile] = useState<File | null>(null);
+
+  const initialInfo: UserInterface =inputs.reduce(
+    (accumulator, input) => ({ ...accumulator, [input.id]: "" }),
+    { photos: [] } as unknown as UserInterface
+  );
+
+  const [isFilled, setIsFilled] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sendFiles, setSendFiles] = useState<string[]>([]);
-  const [info, setInfo] = useState<UserInterface>({} as UserInterface);
+  const [info, setInfo] = useState<UserInterface>(initialInfo);
+  const [addedUser, setAddedUser] = useState(false);
+  const [placeholders, setPlaceholders] = useState<{ [key: string]: string }>(
+    {}
+  );
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  useEffect(() => {
+    const updatedPlaceholders: { [key: string]: string } = {};
+    inputs.forEach((input) => {
+      updatedPlaceholders[input.id] = input.placeholder;
+    });
+    setPlaceholders(updatedPlaceholders);
+  }, []);
+  
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement  | HTMLSelectElement>) => {
+    const { id, value } = event.target;
+    setInfo((prev) => ({ ...prev, [event.target.id]: event.target.value }));
+    setIsFilled(value !== "");
   };
+
+  const handleClear = () => {
+    setInfo(initialInfo);  
+    setSendFiles([]);
+    setSelectedFiles([]);
+  };
+
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
@@ -45,21 +72,14 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
   const handleClick = async (e: FormEvent) => {
     e.preventDefault();
     try {
+
+      setAddedUser(false);
       let isValid = true;
       inputs.forEach((input) => {
+        const fieldValue = info[input.id];
         if (
-          (input.id === info.email &&
-            (info.email === undefined || info.email.trim() === "")) ||
-          (input.id === info.city &&
-            (info.city === undefined || info.city.trim() === "")) ||
-          (input.id === info.country &&
-            (info.country === undefined || info.country.trim() === "")) ||
-          (input.id === info.password &&
-            (info.password === undefined || info.password.trim() === "")) ||
-          (input.id === info.phone &&
-            (info.phone === undefined || info.phone.trim() === "")) ||
-          (input.id === info.username &&
-            (info.username === undefined || info.username.trim() === ""))
+          (typeof fieldValue === "string" && fieldValue.trim() === "") ||
+          (typeof fieldValue === "number" && fieldValue === 0)
         ) {
           isValid = false;
         }
@@ -79,7 +99,16 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
       const { success } = data;
       if (success) {
         alert("New admin successfully added");
-      }
+        handleClear();
+
+         // Reset placeholders
+         const updatedPlaceholders: { [key: string]: string } = {};
+         inputs.forEach((input) => {
+           updatedPlaceholders[input.id] = input.placeholder;
+         });
+         setPlaceholders(updatedPlaceholders);
+       }
+     
     } catch (error: any) {
       alert(error.response.data.error);
     }
@@ -122,10 +151,12 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
                   <input
-                    onChange={handleChange}
-                    type={input.type}
-                    placeholder={input.placeholder}
                     id={input.id}
+                    type={input.type}
+                    placeholder={placeholders[input.id]}
+                    value={info[input.id] as string}
+                    onChange={handleChange}
+                    className={isFilled ? "input-filled" : "none"}
                   />
                 </div>
               ))}

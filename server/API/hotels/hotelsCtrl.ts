@@ -19,7 +19,7 @@ export async function createHotel(req: express.Request, res: express.Response) {
     const cheapestPrice = req.body.newHotel.cheapestPrice;
     const featured: boolean = req.body.newHotel.featured;
     let newFeatured: number = 0 
-    const rooms = req.body.newHotel.rooms;
+    // const rooms = req.body.newHotel.rooms;
     const photos: string[] = req.body.newHotel.photos;
 
     if (featured===false) {
@@ -34,6 +34,7 @@ export async function createHotel(req: express.Request, res: express.Response) {
       VALUES ("${name}", "${type}", "${req.body.newHotel.city}", "${req.body.newHotel.address}", "${req.body.newHotel.distance}", "${req.body.newHotel.title}", "${req.body.newHotel.description}", "0", "${req.body.newHotel.cheapestPrice}", ${newFeatured});
     `; 
     
+    console.log(hotelsQuery)
     connection.query(hotelsQuery, (error, hotelsResults: any) => {
       if (error) {
         return res.status(500).send({
@@ -50,7 +51,7 @@ export async function createHotel(req: express.Request, res: express.Response) {
       `;
 
       const photoValues = photos.map((photo: string) => `(${hotelId}, "${photo}")`).join(", ");
-      // console.log(photosQuery + photoValues)
+       console.log(photosQuery + photoValues)
       connection.query(photosQuery + photoValues, (error, photosResults) => {
         if (error) {
           return res.status(500).send({
@@ -59,23 +60,25 @@ export async function createHotel(req: express.Request, res: express.Response) {
           });
         }
       
-        const roomsQuery = `
-          INSERT INTO \`hotel-booking\`.\`room_types\` (hotelID, roomType)
-          VALUES
-        `;
+      
+
+        // const roomsQuery = `
+        //   INSERT INTO \`hotel-booking\`.\`room_types\` (hotelID, roomType)
+        //   VALUES
+        // `;
      
-        const roomValues = rooms.map((room: any) => `(${hotelId}, "${room}")`).join(", ");
+        // const roomValues = rooms.map((room: any) => `(${hotelId}, "${room}")`).join(", ");
+        // console.log(roomsQuery + roomValues)
+        // connection.query(roomsQuery + roomValues, (error, roomsResults) => {
+        //   if (error) {
+        //     return res.status(500).send({
+        //       success: false,
+        //       error: "Failed to insert hotel room types data into the database.",
+        //     });
+        //   }
 
-        connection.query(roomsQuery + roomValues, (error, roomsResults) => {
-          if (error) {
-            return res.status(500).send({
-              success: false,
-              error: "Failed to insert hotel room types data into the database.",
-            });
-          }
-
-          res.send({ success: true });
-        });
+        res.status(200).json({  success: true,  message: 'Hotel has been inserted.' });
+        // });
       });
     });
   } catch (error: any) {
@@ -173,7 +176,7 @@ export const getHotel = async (req: Request, res: Response, next: NextFunction) 
 export const getHotelByName = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-    console.log('getHotelByName')
+  //  console.log('getHotelByName')
     const { name } = req.params;
     const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE name = ?';
     const values = [name];
@@ -277,3 +280,5 @@ export const getHotelRooms = async (req: Request, res: Response, next: NextFunct
     next(err);
   }
 };
+
+

@@ -21,6 +21,7 @@ export const userInputs = [
     id: "password",
     label: "Password",
     type: "password",
+    placeholder: "your passowrd",
   },
   {
     id: "country",
@@ -125,13 +126,13 @@ export const roomInputs = [
     id: "title",
     label: "Title",
     type: "text",
-    placeholder: "2 bed room",
+    placeholder: "2 bed rooms",
   },
   {
     id: "description",
     label: "Description",
     type: "text",
-    placeholder: "King size bed, 1 bathroom",
+    placeholder: "Large double bed, 1 small bed. 2 bathrooms. Accommodates up to 3 people",
   },
   {
     id: "price",

@@ -1,12 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Admin } from "./adminModel";
+// import { Admin } from "./adminModel";
 
 export const getAdminByCookieMain = createAsyncThunk("get-admin-by-cookie", async (_, thunkApi) => {
- try { 
-  //  const timestamp = Date.now();
-    const { data } = await axios.get("/api/admin/retrieve/get-admin-by-cookie");
-   // const { data } = await axios.get(`/api/admin/retrieve/get-admin-by-cookie?timestamp=${timestamp}`);
+ try {  
+    const { data } = await axios.get("/api/admin/retrieve/get-admin-by-cookie"); 
    console.log('data')
     if (!data) throw new Error("Couldn't receive data from axios GET '/get-admin-by-cookie' from: adminAPI ");
     const { adminData } = data;  

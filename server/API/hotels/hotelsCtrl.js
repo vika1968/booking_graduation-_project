@@ -28,7 +28,7 @@ function createHotel(req, res) {
             const cheapestPrice = req.body.newHotel.cheapestPrice;
             const featured = req.body.newHotel.featured;
             let newFeatured = 0;
-            const rooms = req.body.newHotel.rooms;
+            // const rooms = req.body.newHotel.rooms;
             const photos = req.body.newHotel.photos;
             if (featured === false) {
                 newFeatured = 0;
@@ -40,6 +40,7 @@ function createHotel(req, res) {
       INSERT INTO \`hotel-booking\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
       VALUES ("${name}", "${type}", "${req.body.newHotel.city}", "${req.body.newHotel.address}", "${req.body.newHotel.distance}", "${req.body.newHotel.title}", "${req.body.newHotel.description}", "0", "${req.body.newHotel.cheapestPrice}", ${newFeatured});
     `;
+            console.log(hotelsQuery);
             database_1.default.query(hotelsQuery, (error, hotelsResults) => {
                 if (error) {
                     return res.status(500).send({
@@ -53,7 +54,7 @@ function createHotel(req, res) {
         VALUES
       `;
                 const photoValues = photos.map((photo) => `(${hotelId}, "${photo}")`).join(", ");
-                // console.log(photosQuery + photoValues)
+                console.log(photosQuery + photoValues);
                 database_1.default.query(photosQuery + photoValues, (error, photosResults) => {
                     if (error) {
                         return res.status(500).send({
@@ -61,20 +62,21 @@ function createHotel(req, res) {
                             error: "Failed to insert hotel photos data into the database.",
                         });
                     }
-                    const roomsQuery = `
-          INSERT INTO \`hotel-booking\`.\`room_types\` (hotelID, roomType)
-          VALUES
-        `;
-                    const roomValues = rooms.map((room) => `(${hotelId}, "${room}")`).join(", ");
-                    database_1.default.query(roomsQuery + roomValues, (error, roomsResults) => {
-                        if (error) {
-                            return res.status(500).send({
-                                success: false,
-                                error: "Failed to insert hotel room types data into the database.",
-                            });
-                        }
-                        res.send({ success: true });
-                    });
+                    // const roomsQuery = `
+                    //   INSERT INTO \`hotel-booking\`.\`room_types\` (hotelID, roomType)
+                    //   VALUES
+                    // `;
+                    // const roomValues = rooms.map((room: any) => `(${hotelId}, "${room}")`).join(", ");
+                    // console.log(roomsQuery + roomValues)
+                    // connection.query(roomsQuery + roomValues, (error, roomsResults) => {
+                    //   if (error) {
+                    //     return res.status(500).send({
+                    //       success: false,
+                    //       error: "Failed to insert hotel room types data into the database.",
+                    //     });
+                    //   }
+                    res.status(200).json({ success: true, message: 'Hotel has been inserted.' });
+                    // });
                 });
             });
         }
@@ -175,7 +177,7 @@ const getHotel = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 exports.getHotel = getHotel;
 const getHotelByName = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('getHotelByName');
+        //  console.log('getHotelByName')
         const { name } = req.params;
         const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE name = ?';
         const values = [name];

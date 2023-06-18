@@ -196,8 +196,8 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
       alert(message);
 
       setList((prevList) => prevList?.filter((item) => item.id !== id) ?? null);
-    } catch (err) {
-      console.error(err);
+    } catch (error: any) {
+      alert(error.response.data.error);
     }
   };
 
@@ -223,8 +223,8 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
           item.id === id ? { ...item, name, type, title, city } : item
         ) ?? null
       );
-    } catch (err) {
-      console.error(err);
+    } catch (error: any) {
+      alert(error.response.data.error);
     }
   };
   
@@ -236,7 +236,8 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
       <div
         contentEditable
         suppressContentEditableWarning
-        onBlur={(e) => handleUpdate(params.id as string, params.row.name, params.row.type, field as string, e.target.innerText)}
+       // onBlur={(e) => handleUpdate(params.id as string, params.row.name, params.row.type, field as string, e.target.innerText)}
+       onClick={(e) => handleUpdate(params.row.id, params.row.name, params.row.type, params.row.title, params.row.city)}
       >
         {value}
       </div>
@@ -263,7 +264,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
           {path === "hotels" && (
             <div
               className="updateButton"
-              onClick={() => handleUpdate(params.row.id, params.row.name, params.row.type, params.row.title, params.row.city)}
+              onClick={(e) => handleUpdate(params.row.id, params.row.name, params.row.type, params.row.title, params.row.city)}
             >
               Update
             </div>

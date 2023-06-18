@@ -44,9 +44,7 @@ const Login = () => {
     }
   };
 
-  // Функция для проверки правильного формата email
-  const validateEmail = (email: string) => {
-    // Простая проверка формата email, может быть заменена на более строгую проверку
+  const validateEmail = (email: string) => { 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };

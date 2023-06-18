@@ -1,13 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { DarkModeContext } from "./context/darkModeContext";
-
-import { AuthContext } from "./context/AuthContext";
-import {
-  hotelColumns,
-  roomColumns,
-  userColumns,
-} from "./helpers/DataColumns";
+import { useEffect } from "react";
+import { hotelColumns, roomColumns, userColumns } from "./helpers/DataColumns";
 import Login from "./app/views/login/Login";
 import Home from "./app/views/home/Home";
 import Single from "./app/views/single/Single";
@@ -20,24 +13,42 @@ import { adminSelector } from "./features/admin/adminSlice";
 import { Admin } from "./features/admin/adminModel";
 import { getAdminByCookieMain } from "./features/admin/adminAPI";
 import "./style/dark.scss";
+import { darkModeSelector } from "./features/darkMode/darkModeSlicve";
 import { userInputs } from "./helpers/formSource";
 
 function App() {
-  const { darkMode } = useContext(DarkModeContext);
   const dispatch = useAppDispatch();
-  const admin = useAppSelector(adminSelector) as Admin[] | null;
+  const admin = useAppSelector(adminSelector) as Admin | null;
+  const darkMode = useAppSelector(darkModeSelector);
 
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+
+    console.log(children)
+    //   if (!admin) {
+    //     return <Navigate to="/login" />;
+    //   }
+
+    //   return <>{children}</>;
+    // };
+
+    // useEffect(() => {
+    //   setTimeout(() => {
+    //     dispatch(getAdminByCookieMain());
+    //   }, 0);
+    // }, []);
+
+    useEffect(() => {
+      if (!admin) {
+        dispatch(getAdminByCookieMain());
+      }
+    }, [admin, dispatch]);
+
     if (!admin) {
       return <Navigate to="/login" />;
     }
 
     return <>{children}</>;
   };
-
-  useEffect(() => {
-    dispatch(getAdminByCookieMain());
-  }, []);
 
   return (
     <div className={darkMode ? "app dark" : "app"}>

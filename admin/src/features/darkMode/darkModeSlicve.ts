@@ -1,63 +1,48 @@
+
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 interface DarkModeState {
   darkMode: boolean;
 }
 
 type DarkModeAction =
-  | { type: "LIGHT" }
+  | { type: "IGHT" }
   | { type: "DARK" }
   | { type: "TOGGLE" };
 
 const INITIAL_STATE: DarkModeState = {
-  darkMode: false,  
+  darkMode: false,
 };
 
 export const darkModeSlice = createSlice({
   name: "darkMode",
   initialState: INITIAL_STATE,
   reducers: {
-    setDarkMode: (state, action: PayloadAction<boolean>) => {
-      state.darkMode = action.payload;
-    },
+    // setDarkMode: (state, action: PayloadAction<boolean>) => {
+    //   state.darkMode = action.payload;
+    //   console.log('setDarkMode')
+    // },
     toggleDarkMode: (state) => {
       state.darkMode = !state.darkMode;
+      console.log('toggleDarkMode')
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase("LIGHT", (state) => {
+      state.darkMode = false;
+    });
+    builder.addCase("DARK", (state) => {
+      state.darkMode = true;  
+    });
+    builder.addCase("TOGGLE", (state) => {
+      state.darkMode = !state.darkMode;
+    });
   },
 });
 
-export const { setDarkMode, toggleDarkMode } = darkModeSlice.actions;
+export const { toggleDarkMode } = darkModeSlice.actions;
+export const darkModeSelector = (state: RootState) => state.darkMode.darkMode;
 export default darkModeSlice.reducer;
 
-
-// export const { resetAdmin } = adminSlice.actions;
-// export const adminSelector = (state: RootState) => state.admin.value;
-// export const adminStatusSelector = (state: RootState) => state.admin.status;
-
-
-// import { useDispatch, useSelector } from "react-redux";
-// import { setDarkMode, toggleDarkMode } from "./darkModeSlice";
-
-// const MyComponent = () => {
-//   const dispatch = useDispatch();
-//   const darkMode = useSelector((state) => state.darkMode.darkMode);
-
-//   const handleToggleDarkMode = () => {
-//     dispatch(toggleDarkMode());
-//   };
-
-//   const handleSetDarkMode = (value) => {
-//     dispatch(setDarkMode(value));
-//   };
-
-//   return (
-//     <div>
-//       <h1>Dark Mode: {darkMode ? "On" : "Off"}</h1>
-//       <button onClick={handleToggleDarkMode}>Toggle Dark Mode</button>
-//       <button onClick={() => handleSetDarkMode(true)}>Enable Dark Mode</button>
-//       <button onClick={() => handleSetDarkMode(false)}>Disable Dark Mode</button>
-//     </div>
-//   );
-// };
-
-// export default MyComponent;

@@ -5,11 +5,7 @@ import { store } from "./app/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-import { AuthContextProvider } from "./context/AuthContext";
-import { DarkModeContextProvider } from "./context/darkModeContext";
-// import DarkModeContextProvider from "./context/darkModeContext";
-// import { AuthContextProvider } from "./context/AuthContext";
-// import { DarkModeContextProvider } from "./context/darkModeContext";
+
 
 
 const container = document.getElementById("root")!;
@@ -17,13 +13,10 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AuthContextProvider>
-        <DarkModeContextProvider>
-          <App />
-        </DarkModeContextProvider>
-      </AuthContextProvider>
+    <Provider store={store}>    
+      <App />       
     </Provider>
+
   </React.StrictMode>
 );
 

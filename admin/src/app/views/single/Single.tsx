@@ -16,15 +16,17 @@ const Single = () => {
             <h1 className="title">Information</h1>
             <div className="item">
               <img
-                src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+                // src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+                // src="https://as1.ftcdn.net/v2/jpg/01/85/04/84/1000_F_185048418_X1kohHSgyAbPJQxPHurs4uXCTmcRSNAp.jpg"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR25wSgGGaOwHY5VR8g5ZzKOhyG0TG_jwB_IQ&usqp=CAU"
                 alt=""
                 className="itemImg"
               />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">Kim Fox</h1>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gmail.com</span>
+                  <span className="itemValue">kimfox@gmail.com</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Phone:</span>

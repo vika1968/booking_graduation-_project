@@ -8,4 +8,5 @@ export interface UserInterface {
   city: string;
   phone: string;
   password: string;
+  [key: string]: number | string;
 }

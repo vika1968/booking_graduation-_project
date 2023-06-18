@@ -9,6 +9,7 @@ export interface HotelInterface {
     description: string;
     rating: number;
     cheapestPrice: number;
-    featured: boolean;
+    featured: string | number;  
+    [key: string]: number | string;
   }
   

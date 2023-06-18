@@ -31,14 +31,17 @@ export const adminSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAdminByCookieMain.pending, (state) => {
-        state.status = Status.LOADING;     
+        state.status = Status.LOADING; 
+        console.log( 'Status.LOADING' )    
       })
       .addCase(getAdminByCookieMain.fulfilled, (state, action) => {
         state.status = Status.IDLE;
-        state.value = action.payload;       
+        state.value = action.payload;    
+        console.log( 'Status.IDLE' )   
       })
       .addCase(getAdminByCookieMain.rejected, (state) => {
         state.status = Status.FAILED;
+        console.log( 'Status.FAILED' )  
       })
   },
 });

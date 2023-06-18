@@ -1,15 +1,23 @@
 import { Link } from "react-router-dom";
 // import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
+// import { useContext } from "react";
 import "./sidebar.scss";
-import { DarkModeContext } from "../../context/darkModeContext";
+// import { DarkModeContext } from "../../context/darkModeContext";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../app/hooks";
+import { darkModeSelector, toggleDarkMode } from "../../features/darkMode/darkModeSlicve";
+import { resetAdmin } from "../../features/admin/adminSlice";
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+ /// const { dispatch } = useContext(DarkModeContext);
+
+ const dispatch = useDispatch();
+const darkModeState = useAppSelector(darkModeSelector);
 
   const logOut = () => {
-    localStorage.removeItem("user");
-    document.location.reload();
+   // localStorage.removeItem("user");
+   // document.location.reload();
+   dispatch(resetAdmin());
   };
 
   const confirmationButton = () => {
@@ -62,11 +70,14 @@ const Sidebar = () => {
       <div className="bottom">
         <div
           className="colorOption"
-          onClick={() => dispatch({ type: "LIGHT" })}
+        //  onClick={() => dispatch({ type: "LIGHT" })}
+        onClick={() => dispatch({ type: "LIGHT" })}
+ 
         ></div>
         <div
           className="colorOption"
-          onClick={() => dispatch({ type: "DARK" })}
+        //  onClick={() => dispatch({ type: "DARK" })}
+        onClick={() => dispatch({ type: "DARK" })}
         ></div>
       </div>
     </div>
@@ -74,3 +85,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
