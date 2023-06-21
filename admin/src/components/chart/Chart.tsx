@@ -1,14 +1,6 @@
 import React from 'react';
+import {  AreaChart,  Area,  XAxis,  CartesianGrid,  Tooltip,  ResponsiveContainer} from "recharts";
 import "./chart.scss";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-
 interface ChartProps {
   aspect: number;
   title: string;

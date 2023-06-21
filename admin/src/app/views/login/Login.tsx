@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import "./login.scss";
-import { getAdminByCookieMain } from "../../../features/admin/adminAPI";
+
 
 
 const Login = () => {
@@ -12,7 +11,6 @@ const Login = () => {
     password: "",
   });
 
-  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +37,7 @@ const Login = () => {
          navigate(`/`)
       }
     } catch (error: any) {
-      console.log(error);    
+     // console.log(error);    
       alert(error.response.data.error)
     }
   };

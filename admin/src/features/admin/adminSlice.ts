@@ -25,23 +25,24 @@ export const adminSlice = createSlice({
   reducers: {
     resetAdmin: (state) => {
       state.value = null;
-      state.status = Status.IDLE;
+      state.status = Status.IDLE;   
+      //console.log( 'resetAdmin' )  
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getAdminByCookieMain.pending, (state) => {
         state.status = Status.LOADING; 
-        console.log( 'Status.LOADING' )    
+     // console.log( 'Status.LOADING' )    
       })
       .addCase(getAdminByCookieMain.fulfilled, (state, action) => {
         state.status = Status.IDLE;
         state.value = action.payload;    
-        console.log( 'Status.IDLE' )   
+     //  console.log( 'Status.IDLE' )   
       })
       .addCase(getAdminByCookieMain.rejected, (state) => {
         state.status = Status.FAILED;
-        console.log( 'Status.FAILED' )  
+     //  console.log( 'Status.FAILED' )  
       })
   },
 });

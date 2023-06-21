@@ -1,19 +1,13 @@
-import { useContext } from "react";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import "./navbar.scss";
-import { DarkModeContext } from "../../context/darkModeContext";
+
 import { useDispatch } from "react-redux";
-import { toggleDarkMode, darkModeSelector } from "../../features/darkMode/darkModeSlicve";
+import { toggleDarkMode,  darkModeSelector} from "../../features/darkMode/darkModeSlice";
 import { useAppSelector } from "../../app/hooks";
-
-
+import "./navbar.scss";
 
 const Navbar = () => {
-  //const { dispatch } = useContext(DarkModeContext);
-
- const dispatch = useDispatch();
-const darkModeState = useAppSelector(darkModeSelector);
-
+  const dispatch = useDispatch();
+  const darkModeState = useAppSelector(darkModeSelector);
 
   return (
     <div className="navbar">
@@ -22,8 +16,7 @@ const darkModeState = useAppSelector(darkModeSelector);
           <div className="item">
             <DarkModeOutlinedIcon
               className="icon"
-             // onClick={() => dispatch({ type: "TOGGLE" })}
-             onClick={() => dispatch(toggleDarkMode())}
+              onClick={() => dispatch(toggleDarkMode())}
             />
           </div>
         </div>

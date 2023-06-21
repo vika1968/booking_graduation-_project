@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { DateRange } from "react-date-range";
 import format from "date-fns/format";
@@ -7,32 +7,38 @@ import useFetch from "../../../hooks/useFetch";
 import Header from "../../../components/header/Header";
 import Navbar from "../../../components/navbar/Navbar";
 import SearchItem from "../../../components/searchItem/SearchItem";
-
-interface Hotel {
-  photos: string[];
-  name: string;
-  distance: number;
-  description: string;
-  rating?: number;
-  cheapestPrice: number;
-  hotelID: number;
-}
+import useFetchClient from "../../../hooks/useFetchClient";
+import { HotelInterface } from "../../../helpers/hotelInterface";
 
 const List: React.FC = () => {
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
+  // const [destination, setDestination] = useState<string>('')
   const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState<number | undefined>(undefined);
   const [max, setMax] = useState<number | undefined>(undefined);
 
-  const { data, loading, error, reFetch } = useFetch(
-    `/hotels?city=${destination}&min=${min || 0}&max=${max || 1000}`
+
+  let { data, loading, error, reFetch } = useFetchClient<HotelInterface[]>(   
+    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 1000}&limit=5`   
   );
 
+  console.log("LIST")
+  console.log(destination)
+
+  useEffect(() => {
+    // Perform the reFetch only if destination, min, or max have changed
+    if (destination !== location.state.destination || min !== location.state.min || max !== location.state.max) {
+      reFetch();
+    }
+  }, [destination, min, max, location.state.destination, location.state.min, location.state.max]);
+  
   const handleClick = () => {
-    reFetch();
+    if (destination !== location.state.destination || min !== location.state.min || max !== location.state.max) {
+      reFetch();
+    }
   };
 
   return (
@@ -48,6 +54,7 @@ const List: React.FC = () => {
               <input
                 className="list-search__input"
                 placeholder={destination}
+                onChange={(e) => setDestination(e.target.value)}
                 type="text"
               />
             </div>
@@ -123,20 +130,20 @@ const List: React.FC = () => {
               </div>
             </div>
             <button className="list-search__button" onClick={handleClick}>
-              Search
+              Search!!!!
             </button>
           </div>
           <div className="list-result">
-            {loading ? (
-              "loading"
-            ) : (
-              <>
-                {(data as Hotel[]).map((item: Hotel) => (
-                  <SearchItem item={item} key={item.hotelID} />
-                ))}
-              </>
-            )}
-          </div>
+  {loading ? (
+    "loading"
+  ) : (
+    <>
+      {data && data.map((item) => (
+        <SearchItem item={item} key={item.hotelID} />
+      ))}
+    </>
+  )}
+</div>
         </div>
       </div>
     </div>

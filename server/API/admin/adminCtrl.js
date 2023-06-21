@@ -28,9 +28,7 @@ function getAdmin(req, res) {
             if (!adminId)
                 throw new Error("No authorized admin !!!!!!!");
             const decodedAdminId = jwt_simple_1.default.decode(adminId, secret);
-            console.log(decodedAdminId);
             const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND  userID = '${decodedAdminId.adminID}'`;
-            console.log(query);
             database_1.default.query(query, [decodedAdminId], (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing SQL query" });
@@ -76,7 +74,7 @@ function register(req, res) {
             }
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
             const hash = bcrypt_1.default.hashSync(password, salt);
-            //  const query = `INSERT INTO \`hotel-booking\`.\`users\` (email, password) VALUES ("${email}", "${hash}");`;
+            ;
             const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", true);`;
             console.log(query);
             database_1.default.query(query, (error, results, fields) => {

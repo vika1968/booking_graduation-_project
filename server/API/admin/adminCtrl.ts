@@ -8,8 +8,6 @@ import { AdminValidation } from "./adminValidator";
 
 const saltRounds = 10;
 
-
-
 export async function getAdmin(req: express.Request, res: express.Response) {
     try {
      
@@ -21,16 +19,14 @@ export async function getAdmin(req: express.Request, res: express.Response) {
         if (!adminId) throw new Error("No authorized admin !!!!!!!");
 
         const decodedAdminId = jwt.decode(adminId, secret);
-        console.log( decodedAdminId)
+       
         const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND  userID = '${decodedAdminId.adminID}'`;
-        console.log(query)
+     
         connection.query(query, [decodedAdminId], (error, results) => {
             if (error) {
                 res.status(500).send({ error: "Error executing SQL query" });
             } else {
-
                 res.send({ sucess: true, adminData: results });
-
             }
         });
     } catch (error: any) {
@@ -70,8 +66,7 @@ export async function register(req: express.Request, res: express.Response) {
 
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
-
-        //  const query = `INSERT INTO \`hotel-booking\`.\`users\` (email, password) VALUES ("${email}", "${hash}");`;
+      ;
         const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", true);`;
 
         console.log(query)

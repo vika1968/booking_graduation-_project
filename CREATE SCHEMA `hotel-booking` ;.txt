@@ -27,6 +27,7 @@ CREATE TABLE  `hotel-booking`.hotels (
   cheapestPrice DECIMAL(10, 2) NOT NULL,
   featured BOOLEAN DEFAULT false
 );
+
 CREATE TABLE `hotel-booking`.hotel_photos (
   photoID INT AUTO_INCREMENT PRIMARY KEY,  
   hotelID INT,   

@@ -42,6 +42,8 @@
           justify-content: space-between;
 
           .formInput {
+            display: flex;
+            flex-direction: column;   
             width: 40%;
 
             label {
@@ -80,6 +82,7 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            margin: auto;
           }
         }
       }

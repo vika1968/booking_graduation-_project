@@ -12,15 +12,6 @@ const port = process.env.PORT;
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static("client"));
-// import userRouter from "./API/users/usersRoutes";
-// app.use("/api/user", userRouter);
-// import movieRouter from "./API/movies/movieRoutes";
-//  app.use("/api/movie", movieRouter)
-//  import bookingsRouter from "./API/bookings/bookingRoutes";
-//  app.use("/api/booking", bookingsRouter)
-//  import orderRouter from "./API/orders/ordersRoutes";
-//  app.use("/api/orders", orderRouter)
-// app.use("/api/auth", authRoute);
 const adminRoutes_1 = __importDefault(require("./API/admin/adminRoutes"));
 app.use("/api/admin", adminRoutes_1.default);
 const usersRoutes_1 = __importDefault(require("./API/users/usersRoutes"));
@@ -29,7 +20,6 @@ const hotelsRoutes_1 = __importDefault(require("./API/hotels/hotelsRoutes"));
 app.use("/api/hotels", hotelsRoutes_1.default);
 const roomsRoutes_1 = __importDefault(require("./API/rooms/roomsRoutes"));
 app.use("/api/rooms", roomsRoutes_1.default);
-// app.use("/api/rooms", roomsRoute);
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
 });

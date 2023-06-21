@@ -116,7 +116,7 @@ export const createRoom = async (req: Request, res: Response) => {
 };
 
 
-export const deleteRoom = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteRoom = async (req: Request, res: Response) => {
   try {
     console.log('Delete room')
 
@@ -127,7 +127,7 @@ export const deleteRoom = async (req: Request, res: Response, next: NextFunction
 
     connection.query(query, (err, result: OkPacket) => {
       if (err) {
-        next(err);
+        res.status(404).json({ error: 'Room  has not  been delete' });
       } else {
         if (result.affectedRows > 0) {
           console.log(result)
@@ -138,9 +138,10 @@ export const deleteRoom = async (req: Request, res: Response, next: NextFunction
         }
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
   }
 };
+
 
 

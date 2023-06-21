@@ -1,23 +1,15 @@
 import { Link } from "react-router-dom";
-// import { DarkModeContext } from "../../context/darkModeContext";
-// import { useContext } from "react";
-import "./sidebar.scss";
-// import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../app/hooks";
-import { darkModeSelector, toggleDarkMode } from "../../features/darkMode/darkModeSlicve";
 import { resetAdmin } from "../../features/admin/adminSlice";
+import Cookies from 'js-cookie';
+import "./sidebar.scss";
 
 const Sidebar = () => {
- /// const { dispatch } = useContext(DarkModeContext);
-
- const dispatch = useDispatch();
-const darkModeState = useAppSelector(darkModeSelector);
+  const dispatch = useDispatch();
 
   const logOut = () => {
-   // localStorage.removeItem("user");
-   // document.location.reload();
-   dispatch(resetAdmin());
+   // Cookies.remove('adminId');  
+    dispatch(resetAdmin());  
   };
 
   const confirmationButton = () => {
@@ -25,7 +17,7 @@ const darkModeState = useAppSelector(darkModeSelector);
       "Are you sure you want to log out from the admin page? Only admins are allowed."
     );
     if (answer) {
-      logOut();
+      logOut();        
     }
   };
 
@@ -33,7 +25,7 @@ const darkModeState = useAppSelector(darkModeSelector);
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">Your Booking Place</span>
+          <span className="logo">Your Booking Place</span>         
         </Link>
       </div>
       <hr />
@@ -61,23 +53,20 @@ const darkModeState = useAppSelector(darkModeSelector);
               <span className="icon">Rooms</span>
             </li>
           </Link>
-          <p className="title">USER</p>
+          <p className="title">ADMIN</p>
           <li onClick={confirmationButton}>
             <span className="icon">Logout</span>
           </li>
         </ul>
       </div>
-      <div className="bottom">
+      <div className="bottom">      
         <div
           className="colorOption"
-        //  onClick={() => dispatch({ type: "LIGHT" })}
-        onClick={() => dispatch({ type: "LIGHT" })}
- 
+          onClick={() => dispatch({ type: "LIGHT" })}
         ></div>
         <div
           className="colorOption"
-        //  onClick={() => dispatch({ type: "DARK" })}
-        onClick={() => dispatch({ type: "DARK" })}
+          onClick={() => dispatch({ type: "DARK" })}
         ></div>
       </div>
     </div>
@@ -85,4 +74,3 @@ const darkModeState = useAppSelector(darkModeSelector);
 };
 
 export default Sidebar;
-

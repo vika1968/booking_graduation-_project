@@ -59,7 +59,6 @@ const Navbar = () => {
        dispatch(resetUser());
        Cookies.remove('userId');
        navigate("/");
-   // localStorage.removeItem("user");
      document.location.reload();
   };
 

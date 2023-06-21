@@ -7,24 +7,14 @@ const express_1 = __importDefault(require("express"));
 const hotelsCtrl_1 = require("./hotelsCtrl");
 const hotelsRouter = express_1.default.Router();
 hotelsRouter
-    //   .get("/:id", getUserByID)
-    //   .get("/retrieve/get-user-by-cookie", getUser)  
-    //   .post("/login", login)
-    //   .post("/register", register)
-    //   .put("/update-user", updateUser)
-    //   .delete("/:id", deleteUser)
-    //CREATE
-    //.post("/", verifyAdmin, createHotel)
     .post("/", hotelsCtrl_1.createHotel)
-    //UPDATE
     .put("/:id", hotelsCtrl_1.updateHotel)
-    //DELETE
     .delete("/:id", hotelsCtrl_1.deleteHotel)
-    //GET
     .get("/find/:id", hotelsCtrl_1.getHotel)
+    .get("/findByID/:id", hotelsCtrl_1.getHotelByID)
+    .get("/findHotelPhoto/:id", hotelsCtrl_1.getHotelPhotoByID)
     .get("/find/:name", hotelsCtrl_1.getHotelByName)
-    //GET ALL
-    .get("/", hotelsCtrl_1.getHotels)
+    .get("/", hotelsCtrl_1.getHotels) // client part
     .get("/countByCity", hotelsCtrl_1.countByCity)
     .get("/countByType", hotelsCtrl_1.countByType)
     .get("/room/:id", hotelsCtrl_1.getHotelRooms);

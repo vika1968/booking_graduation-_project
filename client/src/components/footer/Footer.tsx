@@ -1,18 +1,25 @@
+
+
 import React from "react";
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import "./footer.scss";
-import {FaGithub, FaTwitter, FaLinkedin} from 'react-icons/fa';
 
 const Footer: React.FC = () => {
+  const openLinkInNewTab = (url: string) => {
+    window.open(url, '_blank');
+  };
+
   return (
     <div className="footer">
       <div className="footer__icons">
-        <a href="https://github.com/ornefacciola"><FaGithub className="footer__icon" /></a>
-        <a href="https://twitter.com/orne_dev"><FaTwitter className="footer__icon" /></a>
-        <a href="https://www.linkedin.com/in/ornella-facciola-a43219216/"><FaLinkedin className="footer__icon" /></a>
+        <FaGithub className="footer__icon" onClick={() => openLinkInNewTab("https://github.com/topics/booking-system")} />
+        <FaTwitter className="footer__icon" onClick={() => openLinkInNewTab("https://twitter.com/bookingcom")} />
+        <FaLinkedin className="footer__icon" onClick={() => openLinkInNewTab("https://www.linkedin.com/company/booking.com/jobs/")} />
       </div>
-      <div className="footer__text">  Your Booking .</div>
+      <div className="footer__text">Your Booking</div>
     </div>
   );
 };
 
 export default Footer;
+

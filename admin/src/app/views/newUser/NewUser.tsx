@@ -1,11 +1,11 @@
-import "./newUser.scss";
+
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import axios from "axios";
 import { UserInterface } from "../../../helpers/userInterface";
-
+import "./newUser.scss";
 interface Input {
   id: string;
   label: string;

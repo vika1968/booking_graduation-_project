@@ -34,7 +34,7 @@ export async function createHotel(req: express.Request, res: express.Response) {
       VALUES ("${name}", "${type}", "${req.body.newHotel.city}", "${req.body.newHotel.address}", "${req.body.newHotel.distance}", "${req.body.newHotel.title}", "${req.body.newHotel.description}", "0", "${req.body.newHotel.cheapestPrice}", ${newFeatured});
     `; 
     
-    console.log(hotelsQuery)
+    //console.log(hotelsQuery)
     connection.query(hotelsQuery, (error, hotelsResults: any) => {
       if (error) {
         return res.status(500).send({
@@ -51,17 +51,15 @@ export async function createHotel(req: express.Request, res: express.Response) {
       `;
 
       const photoValues = photos.map((photo: string) => `(${hotelId}, "${photo}")`).join(", ");
-       console.log(photosQuery + photoValues)
+      // console.log(photosQuery + photoValues)
       connection.query(photosQuery + photoValues, (error, photosResults) => {
         if (error) {
           return res.status(500).send({
             success: false,
             error: "Failed to insert hotel photos data into the database.",
           });
-        }
+        }     
       
-      
-
         // const roomsQuery = `
         //   INSERT INTO \`hotel-booking\`.\`room_types\` (hotelID, roomType)
         //   VALUES
@@ -86,10 +84,10 @@ export async function createHotel(req: express.Request, res: express.Response) {
   }
 }
 
-export const updateHotel = async (req: Request, res: Response, next: NextFunction) => {
+export const updateHotel = async (req: Request, res: Response) => {
     try {
 
-      console.log('updateHotel')
+      console.log('update Hotel')
       const { id } = req.params;
       console.log(id)
       // const { name, type, city, address, distance, title, description, rating, cheapestPrice, featured } = req.body;
@@ -102,43 +100,47 @@ export const updateHotel = async (req: Request, res: Response, next: NextFunctio
 
       const { name, type, title, city} = req.body;
       console.log(name)
+      console.log(type)
+      console.log(title)
+      console.log(city)
+
       const query = `
         UPDATE \`hotel-booking\`.hotels
         SET name = "${name}", type = "${type}", title = "${title}", city = "${city}"
         WHERE hotelID =${id}
       `;
-    //  const values = [name, type, title, city, id];
+  
       console.log(query)
       connection.query(query, (err, result: OkPacket) => {
         if (err) {
-          next(err);
+          res.status(404).json({ error: 'Something wrong with updating hotel' });
         } else {
           if (result.affectedRows > 0) {
-            res.status(200).json({  success: true,  message: 'Hotel has been updated.' });
+            res.status(200).json({  success: true,  message: 'Hotel has been updated!' });
           } else {
             res.status(404).json({  success: false, error: 'Hotel not found' });
           }
         }
       });
-    } catch (err) {
-      next(err);
+    } catch (error: any) {
+      res.status(500).send({ success: false, error: error.message });
     }
   };
 
-export const deleteHotel = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteHotel = async (req: Request, res: Response) => {
   try {
    
     const { id } = req.params;
     const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = '${id}'`; 
 
-    console.log(query)  
+   // console.log(query)  
 
     connection.query(query,  (err, result: OkPacket) => {
       if (err) {
-        next(err);
+        res.status(404).json({ error: 'Hotel has not been deleted' });
       } else {
         if (result.affectedRows > 0) {
-          console.log(result)
+       //   console.log(result)
           res.status(200).json({ message: 'Hotel has been deleted.' });
 
         } else {
@@ -146,20 +148,23 @@ export const deleteHotel = async (req: Request, res: Response, next: NextFunctio
         }
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
   }
 };
 
-export const getHotel = async (req: Request, res: Response, next: NextFunction) => {
+export const getHotel = async (req: Request, res: Response) => {
   try {
+
+   // console.log(getHotel)
+
     const { id } = req.params;
     const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
     const values = [id];
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        next(err);
+        res.status(404).json({ error: 'Hotel not found' });
       } else {
         if (result.length > 0) {
           res.status(200).json(result[0]);
@@ -168,12 +173,12 @@ export const getHotel = async (req: Request, res: Response, next: NextFunction) 
         }
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
   }
 };
 
-export const getHotelByName = async (req: Request, res: Response, next: NextFunction) => {
+export const getHotelByName = async (req: Request, res: Response) => {
   try {
 
   //  console.log('getHotelByName')
@@ -183,7 +188,7 @@ export const getHotelByName = async (req: Request, res: Response, next: NextFunc
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        next(err);
+        res.status(404).json({ error: 'No hotel found' });
       } else {
         if (result.length > 0) {
           res.status(200).json(result[0]);
@@ -192,29 +197,171 @@ export const getHotelByName = async (req: Request, res: Response, next: NextFunc
         }
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
   }
 };
 
-export const getHotels = async (req: Request, res: Response, next: NextFunction) => {
-  try {    
-    const { min, max, limit } = req.query;
+// export const getHotels = async (req: Request, res: Response) => {
+//   try {  
+    
+//     console.log('getHotels')
+  
+//     const { min, max, limit } = req.query;
+//     console.log(min)
+//     console.log(max)
+//     console.log(limit)
+  
+//     const query = `
+//     SELECT * FROM  \`hotel-booking\`.hotels
+//   `;
+//     const values = [min, max, limit];
 
-    const query = `
-    SELECT * FROM  \`hotel-booking\`.hotels
-  `;
-    const values = [min, max, limit];
 
-    connection.query(query, values, (err, result) => {   
+//     connection.query(query, values, (err, result) => {   
+//       if (err) {
+//         res.status(404).json({ error: 'No hotels found' });
+//       } else {
+//         res.status(200).json(result);
+//       }
+//     });
+//   } catch (error: any) {
+//     res.status(500).send({ success: false, error: error.message });
+//   }
+// };
+
+// export const getHotels = async (req: Request, res: Response) => {
+//   try {
+//     const { city, min, max, limit } = req.query;
+
+    
+//     const query = `
+//       SELECT * FROM \`hotel-booking\`.hotels
+//       WHERE city = ? cheapestPrice > ? AND cheapestPrice < ?
+//       LIMIT ?
+//     `;
+//    // const values = [min || 1, max || 999, limit];
+//    const values = [city, min, max, limit];
+//         console.log(min)
+//     console.log(max)
+//     console.log(limit)
+    
+//     connection.query(query, values, (err, result: RowDataPacket[]) => {
+//       if (err) {
+//         console.error('Error executing MySQL query:', err);
+//         res.status(500).send({ success: false, error: 'Error retrieving hotels' });
+//         return;
+//       }
+      
+//       if (result.length === 0) {
+//         res.status(404).json({ error: 'No hotels found' });
+//       } else {
+//         res.status(200).json(result);
+//       }
+//     });
+//   } catch (error: any) {
+//     res.status(500).send({ success: false, error: error.message });
+//   }
+// };
+
+export const getHotels = async (req: Request, res: Response) => {
+  try {
+    const { city, min, max, limit } = req.query;
+
+    let query = 'SELECT *, (SELECT `photo` FROM `hotel-booking`.`hotel_photos` WHERE `hotel-booking`.`hotel_photos`.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo`  FROM `hotel-booking`.`hotels` WHERE 1=1';
+    const values = [];
+
+    if (city) {
+      query += ' AND city = ?';
+      values.push(city);
+    }
+
+    if (min) {
+      query += ' AND cheapestPrice > ?';
+      values.push(min);
+    }
+
+    if (max) {
+      query += ' AND cheapestPrice < ?';
+      values.push(max);
+    }
+
+    if (limit) {
+      query += ' LIMIT ?';
+      values.push(parseInt(limit.toString(), 10));
+    }
+    console.log(query)
+    console.log(values)
+    connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        next(err);
+        console.error('Error executing MySQL query:', err);
+        res.status(500).send({ success: false, error: 'Error retrieving hotels' });
+        return;
+      }
+
+      if (result.length === 0) {
+        res.status(404).json({ error: 'No hotels found' });
       } else {
         res.status(200).json(result);
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
+  }
+};
+
+export const getHotelByID = async (req: Request, res: Response) => {
+  try {
+
+    console.log(getHotelByID)
+    
+    const { id } = req.params;
+    //const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
+
+    let query = 'SELECT *, (SELECT `photo` FROM `hotel-booking`.`hotel_photos` WHERE `hotel-booking`.`hotel_photos`.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo`  FROM `hotel-booking`.`hotels` WHERE  hotelID = ?';
+
+    const values = [id];
+
+    connection.query(query, values, (err, result: RowDataPacket[]) => {
+      if (err) {
+        res.status(404).json({ error: 'Hotel not found' });
+      } else {
+        if (result.length > 0) {
+          res.status(200).json(result[0]);
+        } else {
+          res.status(404).json({ error: 'Hotel not found' });
+        }
+      }
+    });
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
+  }
+};
+
+export const  getHotelPhotoByID= async (req: Request, res: Response) => {
+  try {
+
+    console.log(getHotelPhotoByID)
+    
+    const { id } = req.params;
+
+    let query = 'SELECT  *  FROM `hotel-booking`.`hotel_photos` WHERE hotelID = ?';
+
+    const values = [id];
+
+    connection.query(query, values, (err, result: RowDataPacket[]) => {
+      if (err) {
+        res.status(404).json({ error: 'Photos not found' });
+      } else {
+        if (result.length > 0) {
+          res.status(200).json(result[0]);
+        } else {
+          res.status(404).json({ error: 'Photos not found' });
+        }
+      }
+    });
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
   }
 };
 

@@ -14,7 +14,6 @@ userRouter
   .delete("/:id", deleteUser)
 
 
-
 export default userRouter;
 
 

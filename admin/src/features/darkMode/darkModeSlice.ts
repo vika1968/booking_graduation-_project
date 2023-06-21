@@ -26,7 +26,7 @@ export const darkModeSlice = createSlice({
     // },
     toggleDarkMode: (state) => {
       state.darkMode = !state.darkMode;
-      console.log('toggleDarkMode')
+    //  console.log('toggleDarkMode')
     },
   },
   extraReducers: (builder) => {

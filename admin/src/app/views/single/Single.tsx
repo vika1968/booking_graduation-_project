@@ -12,7 +12,8 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
+            {/* <div className="editButton">Edit</div> */}
+            <div className="editButton"></div>
             <h1 className="title">Information</h1>
             <div className="item">
               <img

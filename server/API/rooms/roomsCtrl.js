@@ -117,14 +117,14 @@ const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createRoom = createRoom;
-const deleteRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log('Delete room');
         const { id } = req.params;
         const query = `DELETE FROM \`hotel-booking\`.rooms WHERE roomID = '${id}'`;
         database_1.default.query(query, (err, result) => {
             if (err) {
-                next(err);
+                res.status(404).json({ error: 'Room  has not  been delete' });
             }
             else {
                 if (result.affectedRows > 0) {
@@ -137,8 +137,8 @@ const deleteRoom = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             }
         });
     }
-    catch (err) {
-        next(err);
+    catch (error) {
+        res.status(500).send({ success: false, error: error.message });
     }
 });
 exports.deleteRoom = deleteRoom;

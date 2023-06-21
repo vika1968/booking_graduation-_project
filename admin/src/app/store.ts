@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import adminSlice from '../features/admin/adminSlice';
-import  darkModeSlice  from '../features/darkMode/darkModeSlicve';
+import darkModeSlice from '../features/darkMode/darkModeSlice';
 
 export const store = configureStore({
   reducer: {

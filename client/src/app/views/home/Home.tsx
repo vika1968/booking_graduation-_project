@@ -14,10 +14,12 @@ const Home: React.FC = () => {
       <Navbar />
       <Header type="" />
       <div className="home-container">
+      <h1 className="home-title">The most beautiful capitals</h1>
         <Featured />
-        <h1 className="home-title">Browse by property type</h1>
+        {/* <h1 className="home-title">The most beautiful capitals</h1> */}
+        <h1 className="home-title">Guest houses</h1>
         <PropertyList />
-        <h1 className="home-title">Home guests</h1>
+        {/* <h1 className="home-title">Guest houses</h1> */}
         <FeaturedProperties />
         <MailList />
         <Footer />

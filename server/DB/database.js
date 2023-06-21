@@ -12,9 +12,8 @@ const connection = mysql2_1.default.createConnection({
     user: "max",
     password: sqlPassword,
     database: "hotel-booking",
-    multipleStatements: true //-- multiple queries with each connect
+    multipleStatements: true
 });
-//console.log(connection.authorized)
 connection.connect((err) => {
     try {
         if (err)

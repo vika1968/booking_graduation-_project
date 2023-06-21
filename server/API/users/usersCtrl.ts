@@ -17,14 +17,12 @@ export async function getUser(req: express.Request, res: express.Response) {
 
         const decodedUserId = jwt.decode(userId, secret);
         const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = '${decodedUserId.userID}'`;
-        console.log(query)
+      
         connection.query(query, [decodedUserId], (error, results) => {
             if (error) {
                 res.status(500).send({ error: "Error executing SQL query" });
             } else {
-
                 res.send({ sucess: true, userData: results });
-
             }
         });
     } catch (error: any) {
@@ -36,8 +34,6 @@ export async function register(req: express.Request, res: express.Response) {
     try {
         const { username, email, password, country, city, phone } = req.body;
 
-        //    if (!username || !email || !password || !country|| !city || !phone)
-        //       throw new Error("Not all fields are available from req.body");   
         if (!username)
             // throw new Error("No username available from req.body");
             return res.status(500).send({ success: false, error: "No username available." });
@@ -65,12 +61,9 @@ export async function register(req: express.Request, res: express.Response) {
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
 
-        //  const query = `INSERT INTO \`hotel-booking\`.\`users\` (email, password) VALUES ("${email}", "${hash}");`;
         const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
 
-        console.log(query)
-
-        connection.query(query, (error, results: any, fields) => {
+         connection.query(query, (error, results: any, fields) => {
             if (error) {
                 return res.status(500).send({
                     success: false,
@@ -82,9 +75,7 @@ export async function register(req: express.Request, res: express.Response) {
             if (!secret)
                 return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
 
-            const insertId = results.insertId;
-
-            console.log('insertId')
+            const insertId = results.insertId;          
 
             const cookie = { userID: insertId };
             const JWTCookie = jwt.encode(cookie, secret);
@@ -104,8 +95,6 @@ export async function login(req: express.Request, res: express.Response) {
         const { credentials } = req.body;
         const email = credentials.email;
         const password = credentials.password;
-        console.log('email')
-        console.log('password')
 
         if (!email || !password)
             throw new Error("no data from client login in login");
@@ -119,8 +108,7 @@ export async function login(req: express.Request, res: express.Response) {
                 const isMatch = await bcrypt.compare(password, results[0].password);
 
                 const cookie = { userID: results[0].userID };
-
-                console.log('cookie')
+             
                 const secret = process.env.JWT_SECRET;
                 if (!secret) throw new Error("Couldn't load secret key from .env file");
 
@@ -137,7 +125,6 @@ export async function login(req: express.Request, res: express.Response) {
     }
 }
 
-// 
 
 export async function updateUser(req: express.Request, res: express.Response) {
     try {
@@ -200,7 +187,7 @@ export async function deleteUser(req: express.Request, res: express.Response) {
                 return res.status(404).json({ error: "No user found with the specified ID." });
             }
 
-            return res.status(200).json({ success: "The user has been deleted." });
+            return res.status(200).json({ error: "The user has been deleted." });
         });
     } catch (error: any) {
         res.status(500).json({ success: false, error: error.message });
@@ -228,30 +215,18 @@ export async function getUserByID(req: express.Request, res: express.Response) {
     }
 }
 
-// export async function getUsers  (req: express.Request, res: express.Response,next)=>{
-//     try {
-//       const users = await User.find();
-//       res.status(200).json(users);
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-export async function getUsers(req: express.Request, res: express.Response, next: express.NextFunction) {
-    try {   
-        console.log("All admins")   
-        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1`;
+export async function getUsers(req: express.Request, res: express.Response) {
+    try {          
+        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`;       
         console.log(query)
         connection.query(query, (error, results) => {
             if (error) {
-                res.status(500).send({ error: "Error executing SQL query" });
-            } else {
-                console.log(results)
-               res.status(200).json(results);
-              
+                res.status(500).send({ error: "Error executing receive all users ( no admins)" });
+            } else {             
+               res.status(200).json(results);              
             }
         });
-    } catch (error: any) {
-        next(error);
+    } catch (error: any) {      
         res.status(500).send({ success: false, error: error.message });
     }
 }
