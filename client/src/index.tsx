@@ -38,11 +38,11 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <AuthContextProvider> */}
-        {/* <SearchContextProvider> */}
+      <AuthContextProvider>
+        <SearchContextProvider>
           <App />
-        {/* </SearchContextProvider> */}
-      {/* </AuthContextProvider> */}
+        </SearchContextProvider>
+      </AuthContextProvider>
     </Provider>
   </React.StrictMode>
 );

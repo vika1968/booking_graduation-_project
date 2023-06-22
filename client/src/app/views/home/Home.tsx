@@ -15,11 +15,9 @@ const Home: React.FC = () => {
       <Header type="" />
       <div className="home-container">
       <h1 className="home-title">The most beautiful capitals</h1>
-        <Featured />
-        {/* <h1 className="home-title">The most beautiful capitals</h1> */}
+        <Featured />      
         <h1 className="home-title">Guest houses</h1>
-        <PropertyList />
-        {/* <h1 className="home-title">Guest houses</h1> */}
+        <PropertyList />     
         <FeaturedProperties />
         <MailList />
         <Footer />

@@ -1,8 +1,6 @@
 import React from "react";
-
-import "./featuredProperties.scss";
 import useFetch from "../../hooks/useFetch";
-
+import "./featuredProperties.scss";
 interface HotelData {
   hotelID: number;
   photos: string[];

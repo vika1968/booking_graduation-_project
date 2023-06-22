@@ -5,6 +5,7 @@ import "./featured.scss";
 
 const Featured = () => {
   const { data, loading, error } = useFetch<number[]>( "hotels/countByCity?cities=berlin,madrid,london");
+  console.log(data)
 
   return (
     <div className="featured">
@@ -31,7 +32,7 @@ const Featured = () => {
         </div>
         <div className="featured__item">
           <img
-            src="https://www.fodors.com/assets/destinations/2869/tower-bridge-london-england_980x650.jpg"
+            src="https://media.istockphoto.com/id/1400112152/photo/london-red-buses-zooming-through-city-skyscrapers-night-street.jpg?s=2048x2048&w=is&k=20&c=OAZ1EiL1h7I1tuCR6DemQjk1rugsp2iGZAiB-tDBWyw="
             alt=""
             className="featured__img"
           />

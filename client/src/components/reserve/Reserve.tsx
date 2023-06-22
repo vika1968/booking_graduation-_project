@@ -8,6 +8,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import useFetch from "../../hooks/useFetch";
+import { useAppSelector } from "../../app/hooks";
+import SearchItem from './../searchItem/SearchItem';
+import { searchSelector } from "../../features/search/searchSlice";
+// import { useSelector } from 'react-redux';
+
 
 interface Room {
   roomId: number;
@@ -30,10 +35,17 @@ interface ReserveProps {
 const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
   const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
   const { data, loading, error, reFetch } = useFetch<Room[]>(
-    `/hotels/room/${hotelId}`
+    `/api//hotels/room/${hotelId}`
   );
-  const { dates } = useContext(SearchContext);
-
+  //const { dates } = useContext(SearchContext);
+ // const { dates }  = useAppSelector(searchSelector) 
+ 
+ // Inside your component
+ const dates = useAppSelector(searchSelector);
+ console.log('----dates--------')
+ console.log(dates?.dates)
+ console.log('----dates--------')
+  
   const getDatesInRange = (startDate: string, endDate: string): Date[] => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -51,8 +63,8 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
   };
 
   const allDates: Date[] = getDatesInRange(
-    dates[0]?.toString() ?? "",
-    dates[1]?.toString() ?? ""
+    dates?.toString() ?? "",
+    dates?.toString() ?? ""
   );
 
   const isAvailable = (roomNumber: Room["roomNumbers"][0]): boolean => {
@@ -75,22 +87,38 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
 
   const navigate = useNavigate();
 
-  const handleClick = async () => {
-    try {
-      await Promise.all(
-        selectedRooms.map((roomId) =>
-          axios.put(`/rooms/availability/${roomId}`, {
-            dates: allDates,
-          })
-        )
-      );
-      setOpen(false);
-      navigate("/");
-    } catch (err) {
-      // Handle error
-    }
-  };
+  // const handleClick = async () => {
+  //   try {
+  //     await Promise.all(
+  //       selectedRooms.map((roomId) =>
+  //         axios.put(`/api/rooms/availability/${roomId}`, {
+  //           dates: allDates,
+  //         })
+  //       )
+  //     );
+  //     setOpen(false);
+  //     navigate("/");
+  //   } catch (error: any) {
+  //     // console.log(error);    
+  //      alert(error.response.data.error)
+  //    }
+  //  };
 
+  const handleClick = async () => {
+  //  try {
+     for (const roomId of selectedRooms) {
+
+        console.log(roomId)
+        console.log(allDates)
+    //    await axios.put(`/api//rooms/availability/${roomId}`, {dates: allDates});
+     }
+   //   setOpen(false);
+     // navigate("/");
+    // } catch (error: any) {
+    //   alert(error.response.data.error);
+    // }
+  };
+ 
   return (
     <div className="reserve">
       <div className="reserve-container">

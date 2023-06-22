@@ -10,5 +10,6 @@ roomsRouter
     .get("/", roomsCtrl_1.getRooms)
     .get("/room-types", roomsCtrl_1.getRoomTypes)
     .delete("/:id", roomsCtrl_1.deleteRoom)
-    .post("/:hotelID", roomsCtrl_1.createRoom);
+    .post("/:hotelID", roomsCtrl_1.createRoom)
+    .put("/availability/:id", roomsCtrl_1.updateRoomAvailability);
 exports.default = roomsRouter;

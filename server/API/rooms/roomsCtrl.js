@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRoom = exports.createRoom = exports.getRoomTypes = exports.getRooms = void 0;
+exports.updateRoomAvailability = exports.deleteRoom = exports.createRoom = exports.getRoomTypes = exports.getRooms = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
 const getRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -142,3 +142,23 @@ const deleteRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteRoom = deleteRoom;
+const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const { dates } = req.body;
+        const query = 'UPDATE \`hotel-booking\`.rooms SET unavailableDates = JSON_ARRAY_APPEND(unavailableDates, "$", ?) WHERE roomId = ?';
+        const values = [dates, id];
+        database_1.default.query(query, values, (err, result) => {
+            if (err) {
+                res.status(500).json({ error: 'Failed to update room availability' });
+            }
+            else {
+                res.status(200).json("Room status has been updated.");
+            }
+        });
+    }
+    catch (error) {
+        res.status(500).send({ success: false, error: error.message });
+    }
+});
+exports.updateRoomAvailability = updateRoomAvailability;

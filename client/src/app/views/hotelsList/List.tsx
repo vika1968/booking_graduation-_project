@@ -1,44 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { DateRange } from "react-date-range";
 import format from "date-fns/format";
-import "./list.scss";
-import useFetch from "../../../hooks/useFetch";
 import Header from "../../../components/header/Header";
 import Navbar from "../../../components/navbar/Navbar";
 import SearchItem from "../../../components/searchItem/SearchItem";
 import useFetchClient from "../../../hooks/useFetchClient";
 import { HotelInterface } from "../../../helpers/hotelInterface";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks";
+import { addSearch,  searchSelector} from "../../../features/search/searchSlice";
+import "./list.scss";
 
 const List: React.FC = () => {
+
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
-  // const [destination, setDestination] = useState<string>('')
   const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState<number | undefined>(undefined);
   const [max, setMax] = useState<number | undefined>(undefined);
 
+  const { data, loading, error, reFetch } = useFetchClient<HotelInterface[]>(
+    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 10000}&limit=5`
+    );
 
-  let { data, loading, error, reFetch } = useFetchClient<HotelInterface[]>(   
-    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 1000}&limit=5`   
-  );
-
-  console.log("LIST")
-  console.log(destination)
-
-  useEffect(() => {
-    // Perform the reFetch only if destination, min, or max have changed
-    if (destination !== location.state.destination || min !== location.state.min || max !== location.state.max) {
-      reFetch();
-    }
-  }, [destination, min, max, location.state.destination, location.state.min, location.state.max]);
+    // const [openOptions, setOpenOptions] = useState(false);
+    // const [options, setOptions] = useState({
+    //     adult:1,
+    //     children:0,
+    //     room:1,
+    // })
   
+
+  const dispatch = useDispatch();
+  // const search = useAppSelector(searchSelector);
+  // const searchState = useAppSelector((state) => state.search.value);
   const handleClick = () => {
-    if (destination !== location.state.destination || min !== location.state.min || max !== location.state.max) {
-      reFetch();
-    }
+    if (
+      destination !== location.state.destination ||
+      min !== location.state.min ||
+      max !== location.state.max ||
+      options !== location.state.options ||
+      dates!== location.state.dates
+    ) {
+
+    reFetch();
+
+    const formattedDates = dates.map((date: any) => ({
+      startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
+      endDate: format(date.endDate, "dd/MM/yyyy HH:mm:ss"),
+    }));
+    dispatch(
+      addSearch({
+        city: destination,
+        dates: formattedDates,
+        options,
+      })
+    );
+  }
+  };
+
+  const handleOption = (name: keyof typeof options, value: string) => {
+    setOptions((prev: any) => ({
+      ...prev,
+      [name]: parseInt(value),
+    }));
   };
 
   return (
@@ -107,6 +135,7 @@ const List: React.FC = () => {
                     min={1}
                     className="list-search__option-input"
                     placeholder={options.adult}
+                    onChange={(e) => handleOption("adult", e.target.value)}
                   />
                 </div>
                 <div className="list-search__option-item">
@@ -116,6 +145,7 @@ const List: React.FC = () => {
                     min={0}
                     className="list-search__option-input"
                     placeholder={options.children}
+                    onChange={(e) => handleOption("children", e.target.value)}
                   />
                 </div>
                 <div className="list-search__option-item">
@@ -125,6 +155,7 @@ const List: React.FC = () => {
                     min={1}
                     className="list-search__option-input"
                     placeholder={options.room}
+                    onChange={(e) => handleOption("room", e.target.value)}
                   />
                 </div>
               </div>
@@ -134,16 +165,17 @@ const List: React.FC = () => {
             </button>
           </div>
           <div className="list-result">
-  {loading ? (
-    "loading"
-  ) : (
-    <>
-      {data && data.map((item) => (
-        <SearchItem item={item} key={item.hotelID} />
-      ))}
-    </>
-  )}
-</div>
+            {loading ? (
+              "loading"
+            ) : (
+              <>
+                {data &&
+                  data.map((item) => (
+                    <SearchItem item={item} key={item.hotelID} />
+                  ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

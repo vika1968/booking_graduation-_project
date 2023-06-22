@@ -2,7 +2,6 @@
 import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import axios from "axios";
-
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { hotelInputs, roomsType } from "../../../helpers/formSource";
@@ -111,8 +110,7 @@ const NewHotel = () => {
           updatedPlaceholders[input.id] = input.placeholder;
         });
         setPlaceholders(updatedPlaceholders);
-      }
-  
+      }  
    
     } catch (error: any) {
       alert(error.response.data.error);

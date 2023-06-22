@@ -144,4 +144,32 @@ export const deleteRoom = async (req: Request, res: Response) => {
 };
 
 
+export const updateRoomAvailability = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { dates } = req.body;
+    
+    const query = 'UPDATE \`hotel-booking\`.rooms SET unavailableDates = JSON_ARRAY_APPEND(unavailableDates, "$", ?) WHERE roomId = ?';
+    const values = [dates, id];
+    
+    connection.query(query, values, (err, result) => {
+      if (err) {
+        res.status(500).json({ error: 'Failed to update room availability' });
+      } else {
+        res.status(200).json("Room status has been updated.");
+      }
+    });
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
+  }
+};
+
+
+
+
+
+
+
+
+
 

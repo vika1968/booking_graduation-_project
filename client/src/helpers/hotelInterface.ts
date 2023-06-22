@@ -43,7 +43,7 @@ export interface HotelInterface {
   title: string;
   description: string;
   rating: number;
-  cheapestPrice: number;
+  cheapestPrice: number | 0;
   featured: string | number;
   photo:string;
  // photoID:number;
