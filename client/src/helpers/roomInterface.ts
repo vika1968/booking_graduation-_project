@@ -8,6 +8,8 @@ maxPeople: number;
 description: string;
 typeID: number;
 hotelID: number;
+number: number;
+unavailable_dates: string;
 [key: string]: number | string;
 }
     

@@ -5,7 +5,8 @@
   }
   
   .logBody {
-    background: linear-gradient(130deg, #003580, #00c6ff);
+   // background: linear-gradient(130deg, #003580, #00c6ff);
+    background:  linear-gradient(130deg, rgb(118, 62, 170),  rgb(177, 149, 202));
     display: flex;
     height: 100vh;
     justify-content: center;
@@ -44,14 +45,16 @@
         bottom: 0;
         height: 3px;
         width: 30px;
-        background: linear-gradient(130deg, #003580, #00c6ff);
+       // background: linear-gradient(130deg, #003580, #00c6ff);
+        background:  linear-gradient(130deg, rgb(118, 62, 170),  rgb(177, 149, 202));
       }
     }
   
     &__button {
       border: none;
       padding: 10px 20px;
-      background-color: #0071c2;
+     //background-color: #0071c2;
+      background-color:rgb(118, 62, 170);
       color: white;
       font-weight: bold;
       cursor: pointer;

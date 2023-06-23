@@ -35,12 +35,8 @@ const Hotel = () => {
     `/api/hotels/findByID/${id}`
   );
 
-  const {
-    data: photoData,
-    loading: loadingPhoto,
-    error: errorPhoto,
-    reFetch: reFetchPhoto,
-  } = useFetchClient<PhotoInterface[]>(`/api/hotels/findHotelPhoto/${id}`);
+  const { data: photoData,loading: loadingPhoto,error: errorPhoto, reFetch: reFetchPhoto } 
+  = useFetchClient<PhotoInterface[]>(`/api/hotels/findHotelPhoto/${id}`);
 
   const user = useAppSelector(userSelector) as User[] | null;
 

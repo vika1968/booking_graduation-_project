@@ -146,9 +146,15 @@ export const deleteRoom = async (req: Request, res: Response) => {
 
 export const updateRoomAvailability = async (req: Request, res: Response) => {
   try {
+
+    console.log('updateRoomAvailability')
     const { id } = req.params;
     const { dates } = req.body;
-    
+    console.log(id)
+    console.log(dates)
+
+    return
+
     const query = 'UPDATE \`hotel-booking\`.rooms SET unavailableDates = JSON_ARRAY_APPEND(unavailableDates, "$", ?) WHERE roomId = ?';
     const values = [dates, id];
     

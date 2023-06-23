@@ -144,8 +144,12 @@ const deleteRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.deleteRoom = deleteRoom;
 const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log('updateRoomAvailability');
         const { id } = req.params;
         const { dates } = req.body;
+        console.log(id);
+        console.log(dates);
+        return;
         const query = 'UPDATE \`hotel-booking\`.rooms SET unavailableDates = JSON_ARRAY_APPEND(unavailableDates, "$", ?) WHERE roomId = ?';
         const values = [dates, id];
         database_1.default.query(query, values, (err, result) => {

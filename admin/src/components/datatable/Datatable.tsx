@@ -101,7 +101,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
       <div
         contentEditable
         suppressContentEditableWarning
-        // onBlur={(e) => handleUpdate(params.id as string, params.row.name, params.row.type, field as string, e.target.innerText)}
+       //  onBlur={(e) => handleUpdate(params.id as string, params.row.name, params.row.type, field as string, e.target.innerText)}
         onClick={(e) =>
           handleUpdate(
             params.row.id,
@@ -111,6 +111,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
             params.row.city
           )
         }
+        
       >
         {value}
       </div>
@@ -137,7 +138,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
           {path === "hotels" && (
             <div
               className="updateButton"
-              onClick={(e) =>
+              onClick={(e: React.MouseEvent<HTMLDivElement>) =>
                 handleUpdate(
                   params.row.id,
                   params.row.name,
@@ -154,6 +155,24 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
       );
     },
   };
+
+
+  const handleCellEditStop = async (params: GridEditCellProps) => {
+    const { id, field, value } = params;
+  
+    try {
+      await handleUpdate(
+        id,
+        params.row.name,
+        params.row.type,
+        field,
+        value
+      );
+    } catch (error: any) {
+      alert(error.response.data.error);
+    }
+  };
+  
 
   // Add editable property to each column to make them editable
   const editableColumns = columns.map((column) => ({
@@ -181,6 +200,9 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
         pagination
         checkboxSelection
         getRowId={(row) => row.id}
+         // @ts-ignore
+       //  onCellEditStop={handleUpdate}
+    //  onCellEditStop={handleCellEditStop}
       />
     </div>
   );

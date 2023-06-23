@@ -295,7 +295,7 @@ export const getHotels = async (req: Request, res: Response) => {
 export const getHotelByID = async (req: Request, res: Response) => {
   try {
 
-  //  console.log('getHotelByID')
+    console.log('getHotelByID')
    
     const { id } = req.params;
     //const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
@@ -415,7 +415,7 @@ export const countByType = async (req: Request, res: Response, next: NextFunctio
 // };
 
 
-export const getHotelRooms = async (req: Request, res: Response) => {
+export const getHotelRooms_Back = async (req: Request, res: Response) => {
   try {
 
     console.log('getHotelRooms')
@@ -425,18 +425,18 @@ export const getHotelRooms = async (req: Request, res: Response) => {
 
    // let query = 'SELECT *, (SELECT `photo` FROM `hotel-booking`.`hotel_photos` WHERE `hotel-booking`.`hotel_photos`.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo`  FROM `hotel-booking`.`hotels` WHERE  hotelID = ?';
    const query = 'SELECT * FROM \`hotel-booking\`.rooms WHERE hotelID = ?';
-    const values = [id];
+    const values = [id];   
     console.log(values)
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(404).json({ error: 'Romm/s not found' });
+        res.status(404).json({ error: 'Room/s not found' });
       } else {
         console.log(result[0])
         if (result.length > 0) {
           console.log(result[0])
           res.status(200).json(result[0]);
         } else {
-          res.status(404).json({ error: 'Romm/s not found' });
+          res.status(404).json({ error: 'Room/s not found' });
         }
       }
     });
@@ -444,6 +444,36 @@ export const getHotelRooms = async (req: Request, res: Response) => {
     res.status(500).send({ success: false, error: error.message });
   }
 };
+
+export const getHotelRooms = async (req: Request, res: Response) => {
+  try {
+
+    console.log('getHotelRooms')   
+    const { id } = req.params;
+   const query = `SELECT r.*, rd.Number, rd.unavailable_dates FROM \`hotel-booking\`.rooms AS r INNER JOIN \`hotel-booking\`.room_numbers AS rd ON r.roomId = rd.roomId WHERE r.hotelID = ?`;
+   
+    const values = [id];
+   
+    connection.query(query, req.params.id, (err, result: RowDataPacket[]) => {
+         
+      if (err) {
+        res.status(404).json({ error: 'Room/s not found' });
+      } else {
+        console.log(result)
+        if (result.length > 0) {
+          console.log(result)
+          console.log(result)
+          res.status(200).json(result);
+        } else {
+          res.status(404).json({ error: 'Room/s not found' });
+        }
+      }
+    });
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
+  }
+};
+
 
 
 

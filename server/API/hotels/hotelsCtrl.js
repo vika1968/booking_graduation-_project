@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHotelRooms = exports.countByType = exports.countByCity = exports.getHotelPhotoByID = exports.getHotelByID = exports.getHotels = exports.getHotelByName = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
+exports.getHotelRooms = exports.getHotelRooms_Back = exports.countByType = exports.countByCity = exports.getHotelPhotoByID = exports.getHotelByID = exports.getHotels = exports.getHotelByName = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
 function createHotel(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -281,7 +281,7 @@ const getHotels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getHotels = getHotels;
 const getHotelByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        //  console.log('getHotelByID')
+        console.log('getHotelByID');
         const { id } = req.params;
         //const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
         const query = 'SELECT *, (SELECT `photo` FROM `hotel-booking`.`hotel_photos` WHERE `hotel-booking`.`hotel_photos`.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo`  FROM `hotel-booking`.`hotels` WHERE  hotelID = ?';
@@ -396,7 +396,7 @@ exports.countByType = countByType;
 //     next(err);
 //   }
 // };
-const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getHotelRooms_Back = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log('getHotelRooms');
         const { id } = req.params;
@@ -407,7 +407,7 @@ const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.log(values);
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                res.status(404).json({ error: 'Romm/s not found' });
+                res.status(404).json({ error: 'Room/s not found' });
             }
             else {
                 console.log(result[0]);
@@ -416,7 +416,35 @@ const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                     res.status(200).json(result[0]);
                 }
                 else {
-                    res.status(404).json({ error: 'Romm/s not found' });
+                    res.status(404).json({ error: 'Room/s not found' });
+                }
+            }
+        });
+    }
+    catch (error) {
+        res.status(500).send({ success: false, error: error.message });
+    }
+});
+exports.getHotelRooms_Back = getHotelRooms_Back;
+const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log('getHotelRooms');
+        const { id } = req.params;
+        const query = `SELECT r.*, rd.Number, rd.unavailable_dates FROM \`hotel-booking\`.rooms AS r INNER JOIN \`hotel-booking\`.room_numbers AS rd ON r.roomId = rd.roomId WHERE r.hotelID = ?`;
+        const values = [id];
+        database_1.default.query(query, req.params.id, (err, result) => {
+            if (err) {
+                res.status(404).json({ error: 'Room/s not found' });
+            }
+            else {
+                console.log(result);
+                if (result.length > 0) {
+                    console.log(result);
+                    console.log(result);
+                    res.status(200).json(result);
+                }
+                else {
+                    res.status(404).json({ error: 'Room/s not found' });
                 }
             }
         });
