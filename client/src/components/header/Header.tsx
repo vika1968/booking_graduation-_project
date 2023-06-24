@@ -65,6 +65,11 @@ const handleSearch = () => {
         options,
       })
     );  
+
+    console.log(destination)
+    console.log(dates)
+    console.log(options)
+   
     navigate('/hotels', { state: { destination, dates, options } });
   };
   

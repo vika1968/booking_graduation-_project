@@ -1,7 +1,9 @@
+
+
 * {
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    padding: 0;    
   }
   
   .logBody {
@@ -12,13 +14,16 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
+   
   }
   
   .login {
     max-width: 1000px;
-    background: white;
+   // background: white;
+    background:rgb(194, 176, 209);
     padding: 25px 30px;
     border-radius: 5px;
+   
   
     &__container {
       display: flex;
@@ -35,9 +40,8 @@
     &__title {
       color: black;
       justify-content: center;
-      position: relative;
-      font-size: 30px;
-  
+      position: relative;    
+   
       &::before {
         content: "";
         position: absolute;
@@ -61,7 +65,7 @@
       border-radius: 5px;
   
       &:disabled {
-        background-color: #0071c28c;
+        background-color:rgb(167, 145, 187);
         cursor: not-allowed;
       }
     }

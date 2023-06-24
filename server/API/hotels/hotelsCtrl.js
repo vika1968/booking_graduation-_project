@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHotelRooms = exports.getHotelRooms_Back = exports.countByType = exports.countByCity = exports.getHotelPhotoByID = exports.getHotelByID = exports.getHotels = exports.getHotelByName = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
+exports.getHotelRooms = exports.getHotelRooms_Back = exports.countByType = exports.getHotelPhotoByID = exports.getHotelByID = exports.getHotels = exports.getHotelByName = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
 function createHotel(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -91,7 +91,6 @@ const updateHotel = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         SET name = "${name}", type = "${type}", title = "${title}", city = "${city}"
         WHERE hotelID =${id}
       `;
-        console.log(query);
         database_1.default.query(query, (err, result) => {
             if (err) {
                 res.status(404).json({ error: 'Something wrong with updating hotel' });
@@ -258,8 +257,6 @@ const getHotels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             query += ' LIMIT ?';
             values.push(parseInt(limit.toString(), 10));
         }
-        console.log(query);
-        console.log(values);
         database_1.default.query(query, values, (err, result) => {
             if (err) {
                 console.error('Error executing MySQL query:', err);
@@ -281,7 +278,6 @@ const getHotels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getHotels = getHotels;
 const getHotelByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('getHotelByID');
         const { id } = req.params;
         //const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
         const query = 'SELECT *, (SELECT `photo` FROM `hotel-booking`.`hotel_photos` WHERE `hotel-booking`.`hotel_photos`.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo`  FROM `hotel-booking`.`hotels` WHERE  hotelID = ?';
@@ -309,7 +305,7 @@ const getHotelPhotoByID = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         //  console.log('getHotelPhotoByID') 
         const { id } = req.params;
-        const query = 'SELECT  *  FROM `hotel-booking`.`hotel_photos` WHERE hotelID = ?';
+        const query = 'SELECT * FROM `hotel-booking`.`hotel_photos` WHERE hotelID = ?';
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
@@ -317,7 +313,6 @@ const getHotelPhotoByID = (req, res) => __awaiter(void 0, void 0, void 0, functi
             }
             else {
                 if (result.length > 0) {
-                    // console.log(result[0]) 
                     res.status(200).json(result);
                 }
                 else {
@@ -331,32 +326,32 @@ const getHotelPhotoByID = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getHotelPhotoByID = getHotelPhotoByID;
-const countByCity = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { cities } = req.query;
-        const cityList = cities.split(',');
-        const placeholders = cityList.map(() => '?').join(', ');
-        const query = `
-      SELECT city, COUNT(*) AS count
-      FROM \`hotel-booking\`.hotels
-      WHERE city IN (${placeholders})
-      GROUP BY city
-    `;
-        const values = cityList;
-        database_1.default.query(query, values, (err, result) => {
-            if (err) {
-                next(err);
-            }
-            else {
-                res.status(200).json(result);
-            }
-        });
-    }
-    catch (err) {
-        next(err);
-    }
-});
-exports.countByCity = countByCity;
+// export const countByCity = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     console.log('countByCity')
+//     const { cities } = req.query;
+//     const cityList: string[] = (cities as string).split(',');
+//     const placeholders = cityList.map(() => '?').join(', ');
+//     const query = `
+//       SELECT city, COUNT(*) AS count
+//       FROM \`hotel-booking\`.hotels
+//       WHERE city IN (${placeholders})
+//       GROUP BY city
+//     `;
+//     console.log(query)
+//     const values = cityList;
+//     console.log(cityList)
+//     connection.query(query, values, (err, result: RowDataPacket[]) => {
+//       if (err) {
+//         next(err);
+//       } else {
+//         res.status(200).json(result);
+//       }
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 const countByType = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = `
@@ -404,7 +399,6 @@ const getHotelRooms_Back = (req, res) => __awaiter(void 0, void 0, void 0, funct
         // let query = 'SELECT *, (SELECT `photo` FROM `hotel-booking`.`hotel_photos` WHERE `hotel-booking`.`hotel_photos`.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo`  FROM `hotel-booking`.`hotels` WHERE  hotelID = ?';
         const query = 'SELECT * FROM \`hotel-booking\`.rooms WHERE hotelID = ?';
         const values = [id];
-        console.log(values);
         database_1.default.query(query, values, (err, result) => {
             if (err) {
                 res.status(404).json({ error: 'Room/s not found' });
@@ -428,7 +422,6 @@ const getHotelRooms_Back = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.getHotelRooms_Back = getHotelRooms_Back;
 const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('getHotelRooms');
         const { id } = req.params;
         const query = `SELECT r.*, rd.Number, rd.unavailable_dates FROM \`hotel-booking\`.rooms AS r INNER JOIN \`hotel-booking\`.room_numbers AS rd ON r.roomId = rd.roomId WHERE r.hotelID = ?`;
         const values = [id];
@@ -437,10 +430,7 @@ const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 res.status(404).json({ error: 'Room/s not found' });
             }
             else {
-                console.log(result);
                 if (result.length > 0) {
-                    console.log(result);
-                    console.log(result);
                     res.status(200).json(result);
                 }
                 else {

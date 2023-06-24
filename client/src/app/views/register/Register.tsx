@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+
+import { ToastContainer, toast } from "react-toastify"; //npm install react-toastify
+import "react-toastify/dist/ReactToastify.css";
 import "./register.scss";
 
 const Register = () => {
@@ -34,7 +37,7 @@ const Register = () => {
 
   const handleCity = (event: any) => {
     setCity(event.target.value);
-    console.log(city)
+    console.log(city);
     setSubmitted(false);
   };
 
@@ -43,11 +46,10 @@ const Register = () => {
     setSubmitted(false);
   };
 
-  
-  const handleGoHome=() =>{
-    console.log("sadsadasd")
+  const handleGoHome = () => {
+    console.log("sadsadasd");
     window.location.assign("/");
-  }
+  };
 
   const handleClick = async (event: any) => {
     event.preventDefault();
@@ -61,19 +63,39 @@ const Register = () => {
         phone,
       };
 
-      //await axios.post("/auth/register", newUser);
       await axios.post("/api/users/register", newUser);
-      setSubmitted(true);
-      alert("User created!🎉");
-      window.location.assign("/login");
-    } catch (err: any) {
-      console.log(err);   
-      console.log(err.response.data.error);  
+      setSubmitted(true);   
+      toast.success("User created!🎉", {
+        position: toast.POSITION.TOP_CENTER,
+         autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "custom-toast",  
+        onClose: async () => {
+          await new Promise((resolve) => setTimeout(resolve, 3000)); 
+          window.location.assign("/login");
+        },
+      });
+
+
+      // window.location.assign("/login");
+    } catch (err: any) {    
       setError(err.response.data.error);
-      if (error !=="") {
-        alert(error);
+      if (error !== "") {      
+        toast.error(error, {        
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "custom-toast"
+        });
       }
-      
     }
   };
 
@@ -129,24 +151,23 @@ const Register = () => {
           <button onClick={handleClick} type="submit" className="register__btn">
             Register
           </button>
+          <ToastContainer className="toast-container" />
           <button onClick={handleGoHome} className="register__btn home__btn">
             Go Home
           </button>
         </div>
         {submitted && (
-      <div className="submit-success">
-        User created successfully!
-      </div>
-    )}
+          <div className="submit-success">User created successfully!</div>
+        )}
 
-    {error && (
-      <div className="submit-error">
-        Error occurred. Please fill in all the fields.
+        {error && (
+          <div className="submit-error">
+            Error occurred. Please fill in all the fields.
+          </div>
+        )}
       </div>
-    )}
-  </div>
-</div>
-);
+    </div>
+  );
 };
 
 export default Register;

@@ -1,40 +1,28 @@
-import "./navbar.scss";
-import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
-// import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+
+
+import { useEffect,useState } from "react";
+import { useNavigate , Link} from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { resetUser, userSelector } from "../../features/user/userSlice";
-import { User } from "../../features/user/userModel";
 import { getUserByCookieMain } from "../../features/user/userAPI";
 import { useLocation } from "react-router-dom";
-import Cookies from 'js-cookie';
-// interface User {
-//   // Define the properties of your user object
-// }
+import Cookies from "js-cookie";
+import "./navbar.scss";
+import { User } from "../../features/user/userModel";
 
 const Navbar = () => {
- // const { user } = useContext(AuthContext);
- const dispatch = useAppDispatch();
- const user = useAppSelector(userSelector) as User[] | null;
-//  const [emailInStore, setEmailInStore] = useState<string | null>(null);
- const location = useLocation();
-//  const email = location.state?.email || "";
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(userSelector) as User[] | null;
+   const location = useLocation();
+   const email = location.state;
 
- useEffect(() => {
-  dispatch(getUserByCookieMain());  
-}, []);
+  useEffect(() => {
+    dispatch(getUserByCookieMain());
+  }, []);
 
-// useEffect(() => {
-//   if (user !== null) {
-//     setEmailInStore(user[0].email);
-//   } else {
-//     setEmailInStore(email);
-//   }
-// }, [user]);
-
+  // console.log("-------user-----");
+  // console.log(user);
+  // console.log("-------user-----");
 
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
@@ -55,11 +43,11 @@ const Navbar = () => {
 
   const logOut = () => {
     setOpenModal(false);
-       // Dispatch the resetUser action
-       dispatch(resetUser());
-       Cookies.remove('userId');
-       navigate("/");
-     document.location.reload();
+    // Dispatch the resetUser action
+    dispatch(resetUser());
+    Cookies.remove("userId");
+    navigate("/");
+    document.location.reload();
   };
 
   return (
@@ -70,8 +58,9 @@ const Navbar = () => {
         </Link>
         {user ? (
           <button className="navbar__navButton" onClick={logOut}>
-            Log Out
-          </button>
+          Log Out <span>{user ? user[0].email : ''}</span>
+        </button>
+        
         ) : (
           <div className="navbar__navItems">
             <button className="navbar__navButton" onClick={handleRegister}>

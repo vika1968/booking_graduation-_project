@@ -52,7 +52,7 @@ const useFetch = <T>(url: string): FetchResult<T> => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(false);
-
+  console.log(url)
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       setLoading(true);
