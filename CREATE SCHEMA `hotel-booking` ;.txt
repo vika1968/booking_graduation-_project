@@ -49,10 +49,11 @@ CREATE TABLE `hotel-booking`.rooms (
 
 CREATE TABLE `hotel-booking`.room_unavailable_dates (
   ID INT AUTO_INCREMENT PRIMARY KEY,
-  roomId INT,
+  hotelRoomId INT,
+  userID INT,
   unavailableDateStart DATE NOT NULL,
   unavailableDateEnd DATE NOT NULL,
-  FOREIGN KEY (roomId) REFERENCES rooms (roomId)  ON DELETE CASCADE
+  FOREIGN KEY (hotelRoomId) REFERENCES room_numbers (ID)  ON DELETE CASCADE
 );
 
 CREATE TABLE `hotel-booking`.room_types (
@@ -63,11 +64,15 @@ CREATE TABLE `hotel-booking`.room_types (
 CREATE TABLE  `hotel-booking`.`room_numbers` (
   ID INT PRIMARY KEY AUTO_INCREMENT,
   roomId INT NOT NULL,
-  number INT NOT NULL,
-  unavailable_dates JSON,
+  number INT NOT NULL, 
   FOREIGN KEY (roomId) REFERENCES rooms(roomId)  ON DELETE CASCADE
 );
 
+CREATE TABLE  `hotel-booking`.`image_mapping` (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  image_path VARCHAR(255) NOT NULL,
+  file_name VARCHAR(255) NOT NULL
+);
 
 INSERT INTO `hotel-booking`.room_types (roomType)
 VALUES
@@ -76,6 +81,22 @@ VALUES
 ('1 bed room'),
 ('3 bed rooms');
 
+
+INSERT INTO  `hotel-booking`.`image_mapping` (image_path, file_name) 
+VALUES ('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80', 'photo-1611892440504-42a792e24d32.webp'),
+('https://media.istockphoto.com/id/1406314006/photo/modern-hotel-bedroom-interior.jpg?s=2048x2048&w=is&k=20&c=Ce8_PODdg15K2udTFdA-8hi3vZpISZZBqW4gyBKhgJI=','istockphoto-1406314006-2048x2048.jpg'),
+('https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80','photo-1629140727571-9b5c6f6267b4.webp'),
+('https://images.unsplash.com/photo-1591088398332-8a7791972843?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80','photo-1591088398332-8a7791972843.webp'),
+('https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80','photo-1590490360182-c33d57733427.webp'),
+('https://images.unsplash.com/photo-1631049552057-403cdb8f0658?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80','photo-1631049552057-403cdb8f0658.webp'),
+('https://media.istockphoto.com/id/1390233984/photo/modern-luxury-bedroom.jpg?s=2048x2048&w=is&k=20&c=Qr6-TUnCMpsuArE5v8cOuumfxBR41IXi2ht5CW6OtXo=','istockphoto-1390233984-2048x2048.jpg'),
+('https://thumbs.dreamstime.com/z/hotel-room-beautiful-orange-sofa-included-43642330.jpg', 'hotel-room-beautiful-orange-sofa-included-43642330.webp'),
+('https://thumbs.dreamstime.com/z/hotel-room-bright-modern-interior-condominium-37608904.jpg','hotel-room-bright-modern-interior-condominium-37608904.webp'),
+('https://robbreport.com/wp-content/uploads/2023/04/luxuryhotelroom.jpg?w=1000','hotel-room-4780421.webp'),
+('https://thumbs.dreamstime.com/z/hotel-room-4780421.jpg','luxuryhotelroom.webp'),
+('https://media.istockphoto.com/id/1300135335/photo/luxurious-bedroom-interior-at-nigh-with-messy-bed-leather-armchairs-closet-and-garden-view.jpg?s=2048x2048&w=is&k=20&c=l8PTezba-jSdx_JRiNKhZZN5NKJiP7R9d-uzYSRR2Is=','istockphoto-1300135335-2048x2048.jpg'),
+('https://media.istockphoto.com/id/1201397488/photo/hotel-room-with-panoramic-view-of-the-mountains.jpg?s=2048x2048&w=is&k=20&c=fwKa8-VpWeSkA_oYwbw8IUQ6siGsSwNMlp5H6z9zfPU=','istockphoto-1201397488-2048x2048.jpg'),
+('https://media.istockphoto.com/id/1050564510/photo/3d-rendering-beautiful-luxury-bedroom-suite-in-hotel-with-tv.jpg?s=2048x2048&w=is&k=20&c=K8hhGo82zGfHTIKUss-ZaGTvIo2LtNoovffJxmFhaTU=','istockphoto-1050564510-2048x2048.jpg')
 
 
 

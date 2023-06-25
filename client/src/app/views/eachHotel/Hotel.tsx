@@ -9,7 +9,6 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";
 import Header from "../../../components/header/Header";
-import MailList from "../../../components/mailList/MailList";
 import Navbar from "../../../components/navbar/Navbar";
 import Reserve from "../../../components/reserve/Reserve";
 import useFetchClient from "../../../hooks/useFetchClient";
@@ -20,6 +19,7 @@ import { useAppSelector } from "../../hooks";
 import { User } from "../../../features/user/userModel";
 import { searchSelector } from "../../../features/search/searchSlice";
 import moment from "moment"; // JavaScript library for parsing, manipulating, and formatting dates and times.
+import Promotion from "../../../components/promotion/Promotion";
 import "./hotel.scss";
 
 const Hotel = () => {
@@ -35,44 +35,26 @@ const Hotel = () => {
     `/api/hotels/findByID/${id}`
   );
 
-  const { data: photoData,loading: loadingPhoto,error: errorPhoto, reFetch: reFetchPhoto } 
+  const { data: photoData, loading: loadingPhoto, error: errorPhoto, reFetch: reFetchPhoto } 
   = useFetchClient<PhotoInterface[]>(`/api/hotels/findHotelPhoto/${id}`);
+
+
+  const numberOfPhotos: number = photoData ? photoData.length : 0;
+  console.log(`Number of photos: ${numberOfPhotos}`);
 
   const user = useAppSelector(userSelector) as User[] | null;
 
   const navigate = useNavigate();
   const search = useAppSelector(searchSelector);
-
+ 
   const dates = search?.dates;
-
-  if (dates) {
-    console.log(dates[0].startDate);
-    console.log(dates[0].endDate);
-  }
-
   const options = search?.options;
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
-
-  // function dayDifference(date1: Date, date2: Date): number {
-  //   const parsedDate1 = new Date(date1);
-  //   const parsedDate2 = new Date(date2);
-  //   console.log(parsedDate1);
-  //   console.log(parsedDate2);
-  //   const timeDiff = Math.abs(parsedDate2.getTime() - parsedDate1.getTime());
-  //   const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
-  //   console.log(diffDays);
-  // return diffDays;
-  // }
 
   function dayDifference(date1: Date, date2: Date): number {
     const parsedDate1 = moment(date1, "DD/MM/YYYY HH:mm:ss");
     const parsedDate2 = moment(date2, "DD/MM/YYYY HH:mm:ss");
-
-    // if (!parsedDate1.isValid() || !parsedDate2.isValid()) {
-    //   // Handle invalid date strings
-    //   return 1; // Or any other appropriate error handling
-    // }
-
+   
     const timeDiff = Math.abs(parsedDate2.valueOf() - parsedDate1.valueOf());
     const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
 
@@ -90,16 +72,15 @@ const Hotel = () => {
   const handleMove = (direction: string): void => {
     let newSlideNumber;
     if (direction === "l") {
-      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+      newSlideNumber = slideNumber === 0 ? numberOfPhotos-1 : slideNumber - 1;
     } else {
-      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+      newSlideNumber = slideNumber === numberOfPhotos-1 ? 0 : slideNumber + 1;
     }
     setSlideNumber(newSlideNumber);
   };
 
   const handleClick = (): void => {
-    if (user) {
-      //  console.log('setOpenModal')
+    if (user) {  
       setOpenModal(true);
     } else {
       navigate("/login");
@@ -130,7 +111,7 @@ const Hotel = () => {
                 <img
                   src={
                     photoData && photoData[slideNumber]
-                      ? photoData[slideNumber].photo
+                      ? photoData[slideNumber].image_path
                       : ""
                   }
                   alt=""
@@ -166,7 +147,7 @@ const Hotel = () => {
                   <div className="hotelWrapper__imgWrapper" key={i}>
                     <img
                       onClick={() => handleOpen(i)}
-                      src={photo.photo}
+                      src={photo.image_path}
                       alt=""
                       className="hotelWrapper__img"
                     />
@@ -194,7 +175,7 @@ const Hotel = () => {
               </div>
             </div>
           </div>
-          <MailList />
+          <Promotion />
           <Footer />
         </div>
       )}

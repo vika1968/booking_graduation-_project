@@ -18,11 +18,7 @@ const Navbar = () => {
 
   useEffect(() => {
     dispatch(getUserByCookieMain());
-  }, []);
-
-  // console.log("-------user-----");
-  // console.log(user);
-  // console.log("-------user-----");
+  }, []); 
 
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();

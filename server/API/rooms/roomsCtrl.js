@@ -17,9 +17,6 @@ const database_1 = __importDefault(require("../../DB/database"));
 const getRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
-        // console.log('min')
-        // console.log(max)
-        // console.log(limit)
         const query = `
     SELECT * FROM  \`hotel-booking\`.rooms
   `;
@@ -61,7 +58,6 @@ const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const hotelID = req.params.hotelID;
         const { title, price, maxPeople, description, roomNumbers, typeID } = req.body;
-        // Проверка наличия записи в таблице rooms с указанными параметрами
         const checkRoomQuery = `
       SELECT * FROM \`hotel-booking\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ? AND typeID = ?;
     `;
@@ -74,13 +70,11 @@ const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 });
             }
             if (checkRoomResults.length > 0) {
-                // Запись с указанными параметрами уже существует, отправляем ошибку
                 return res.status(500).send({
                     success: false,
                     error: "Room data already exists in the database for the specified hotel.",
                 });
             }
-            // Вставка данных в таблицу rooms
             const roomQuery = `
         INSERT INTO \`hotel-booking\`.\`rooms\` (hotelID, title, price, maxPeople, description, typeID)
         VALUES (?, ?, ?, ?, ?, ?);
@@ -142,26 +136,135 @@ const deleteRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteRoom = deleteRoom;
+// export const updateRoomAvailability = async (req: Request, res: Response) => {
+//   try {
+//     console.log('updateRoomAvailability');
+//     const { id } = req.params;
+//     const { user, dates } = req.body;
+//     const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
+//     const selectValues = [id];
+//     console.log(selectValues);
+//     connection.query(selectQuery, selectValues, (selectError, rows: RowDataPacket[]) => {
+//       if (selectError) {
+//         console.log(selectError);
+//         console.log(user);
+//         res.status(500).json({ error: 'Failed to update room availability' });
+//       } else if (rows.length === 0) {
+//         res.status(404).json({ error: 'Room not found' });
+//       } else {
+//         const hotelRoomId = rows[0].ID;
+//         const checkQuery = `
+//           SELECT * FROM \`hotel-booking\`.\`room_unavailable_dates\`
+//           WHERE hotelRoomId = ? 
+//           AND ((unavailableDateStart <= ? AND unavailableDateEnd >= ?) OR
+//                (unavailableDateStart <= ? AND unavailableDateEnd >= ?) OR
+//                (unavailableDateStart >= ? AND unavailableDateEnd <= ?))
+//           LIMIT 1;
+//         `;
+//         const checkValues = [
+//           hotelRoomId,
+//           new Date(dates[0]),
+//           new Date(dates[0]),
+//           new Date(dates[1]),
+//           new Date(dates[1]),
+//           new Date(dates[0]),
+//           new Date(dates[1])
+//         ];
+//         connection.query(checkQuery, checkValues, (checkError, checkResult: RowDataPacket[]) => {
+//           if (checkError) {
+//             console.log(checkError);
+//             res.status(500).json({ error: 'Failed to update room availability' });
+//           } else if (checkResult.length > 0) {
+//             res.status(400).json({ error: 'Room is already unavailable for the selected dates' });
+//           } else {
+//             const insertQuery = `
+//               INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
+//               VALUES (?, ?, ?, ?);
+//             `;
+//             const insertValues = [hotelRoomId, user, new Date(dates[0]), new Date(dates[1])];
+//             connection.query(insertQuery, insertValues, (insertError, result) => {
+//               if (insertError) {
+//                 console.log(insertError);
+//                 res.status(500).json({ error: 'Failed to update room availability' });
+//               } else {
+//                 console.log(result);
+//                 res.status(200).json("Room status has been updated.");
+//               }
+//             });
+//           }
+//         });
+//       }
+//     });
+//   } catch (error: any) {
+//     console.log(error);
+//     res.status(500).send({ success: false, error: error.message });
+//   }
+// };
 const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log('updateRoomAvailability');
         const { id } = req.params;
-        const { dates } = req.body;
+        const { user, dates } = req.body;
         console.log(id);
-        console.log(dates);
-        return;
-        const query = 'UPDATE \`hotel-booking\`.rooms SET unavailableDates = JSON_ARRAY_APPEND(unavailableDates, "$", ?) WHERE roomId = ?';
-        const values = [dates, id];
-        database_1.default.query(query, values, (err, result) => {
-            if (err) {
+        const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
+        const selectValues = [id];
+        database_1.default.query(selectQuery, selectValues, (selectError, rows) => {
+            if (selectError) {
                 res.status(500).json({ error: 'Failed to update room availability' });
             }
+            else if (rows.length === 0) {
+                res.status(404).json({ error: 'Room not found' });
+            }
             else {
-                res.status(200).json("Room status has been updated.");
+                const hotelRoomId = rows[0].ID;
+                const checkQuery = `
+          SELECT * FROM \`hotel-booking\`.\`room_unavailable_dates\`
+          WHERE hotelRoomId = ? 
+          AND (
+            (YEAR(unavailableDateStart) <= YEAR(?) AND MONTH(unavailableDateStart) <= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?)) OR
+            (YEAR(unavailableDateStart) >= YEAR(?) AND MONTH(unavailableDateStart) >= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?))
+          )
+          LIMIT 1;
+        `;
+                const checkValues = [
+                    hotelRoomId,
+                    dates[0],
+                    dates[0],
+                    dates[1],
+                    dates[1],
+                    dates[0],
+                    dates[1],
+                    dates[0],
+                    dates[1]
+                ];
+                database_1.default.query(checkQuery, checkValues, (checkError, checkResult) => {
+                    if (checkError) {
+                        res.status(500).json({ error: 'Failed to update room availability' });
+                    }
+                    else if (checkResult.length > 0) {
+                        res.status(400).json({ error: `Room ${selectValues} is already unavailable for the selected dates` });
+                    }
+                    else {
+                        const insertQuery = `
+              INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
+              VALUES (?, ?, ?, ?);
+            `;
+                        const insertValues = [hotelRoomId, user, new Date(dates[0]), new Date(dates[1])];
+                        database_1.default.query(insertQuery, insertValues, (insertError, result) => {
+                            if (insertError) {
+                                res.status(500).json({ error: 'Failed to update room availability' });
+                            }
+                            else {
+                                res.status(200).json("Room status has been updated.");
+                            }
+                        });
+                    }
+                });
             }
         });
     }
     catch (error) {
+        console.log(error);
         res.status(500).send({ success: false, error: error.message });
     }
 });

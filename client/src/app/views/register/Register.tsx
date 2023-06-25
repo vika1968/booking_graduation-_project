@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify"; //npm install react-toastify
@@ -36,8 +36,7 @@ const Register = () => {
   };
 
   const handleCity = (event: any) => {
-    setCity(event.target.value);
-    console.log(city);
+    setCity(event.target.value); 
     setSubmitted(false);
   };
 
@@ -46,8 +45,7 @@ const Register = () => {
     setSubmitted(false);
   };
 
-  const handleGoHome = () => {
-    console.log("sadsadasd");
+  const handleGoHome = () => {  
     window.location.assign("/");
   };
 
@@ -67,7 +65,7 @@ const Register = () => {
       setSubmitted(true);   
       toast.success("User created!🎉", {
         position: toast.POSITION.TOP_CENTER,
-         autoClose: 2000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

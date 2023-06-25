@@ -1,5 +1,3 @@
-
-
 export interface RoomInterface {
 roomId: number;
 title: string;
@@ -9,7 +7,7 @@ description: string;
 typeID: number;
 hotelID: number;
 number: number;
-unavailable_dates: string;
+//unavailable_dates: string;
 [key: string]: number | string;
 }
     

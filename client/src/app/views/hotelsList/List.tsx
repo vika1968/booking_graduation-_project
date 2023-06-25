@@ -26,17 +26,8 @@ const List: React.FC = () => {
     `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 10000}&limit=5`
     );
 
-    // const [openOptions, setOpenOptions] = useState(false);
-    // const [options, setOptions] = useState({
-    //     adult:1,
-    //     children:0,
-    //     room:1,
-    // })
-  
-
   const dispatch = useDispatch();
-  // const search = useAppSelector(searchSelector);
-  // const searchState = useAppSelector((state) => state.search.value);
+
   const handleClick = () => {
     if (
       destination !== location.state.destination ||

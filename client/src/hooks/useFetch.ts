@@ -52,15 +52,13 @@ const useFetch = <T>(url: string): FetchResult<T> => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(false);
-  console.log(url)
+
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       setLoading(true);
       try {
-        const res: AxiosResponse<T[]> = await axios.get(url);
-
-        console.log(url)
-
+        const res: AxiosResponse<T[]> = await axios.get(url); 
+        
         setData(res.data);
       } catch (err) {
         setError(err);

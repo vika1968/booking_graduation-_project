@@ -1,0 +1,24 @@
+.mail {
+    width: 100%;
+    margin-top: 40px;
+    background: rgb(118, 62, 170);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 50px;
+  
+    &__title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  
+    &__desc {
+      font-size: 18px;
+      font-weight: 400;
+    }
+  
+    
+  }
+  

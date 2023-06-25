@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./searchItem.scss";
-//import "./../../../../admin/images/istockphoto-457980337-2048x2048.jpg";
+
 interface SearchItemProps {
   item: {
     hotelID: number;
