@@ -1,7 +1,5 @@
-
-
-import { useEffect,useState } from "react";
-import { useNavigate , Link} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { resetUser, userSelector } from "../../features/user/userSlice";
 import { getUserByCookieMain } from "../../features/user/userAPI";
@@ -13,12 +11,12 @@ import { User } from "../../features/user/userModel";
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(userSelector) as User[] | null;
-   const location = useLocation();
-   const email = location.state;
+  const location = useLocation();
+  const email = location.state;
 
   useEffect(() => {
     dispatch(getUserByCookieMain());
-  }, []); 
+  }, []);
 
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
@@ -54,9 +52,8 @@ const Navbar = () => {
         </Link>
         {user ? (
           <button className="navbar__navButton" onClick={logOut}>
-          Log Out <span>{user ? user[0].email : ''}</span>
-        </button>
-        
+            Log Out <span>{user ? user[0].email : ""}</span>
+          </button>
         ) : (
           <div className="navbar__navItems">
             <button className="navbar__navButton" onClick={handleRegister}>

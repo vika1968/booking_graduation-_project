@@ -8,11 +8,16 @@ import SearchItem from "../../../components/searchItem/SearchItem";
 import useFetchClient from "../../../hooks/useFetchClient";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../hooks";
-import { addSearch,  searchSelector} from "../../../features/search/searchSlice";
+import { addSearch} from "../../../features/search/searchSlice";
 import "./list.scss";
+import { DateRangeInterface } from "../../../helpers/dateRange";
 
 const List: React.FC = () => {
+  interface Options {
+    adult: number;
+    children: number;
+    room: number;
+  }
 
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
@@ -39,9 +44,14 @@ const List: React.FC = () => {
 
     reFetch();
 
-    const formattedDates = dates.map((date: any) => ({
-      startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
-      endDate: format(date.endDate, "dd/MM/yyyy HH:mm:ss"),
+    // const formattedDates = dates.map((date: any) => ({
+    //   startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
+    //   endDate: format(date.endDate, "dd/MM/yyyy HH:mm:ss"),
+    // }));
+
+    const formattedDates = dates.map(({ startDate, endDate }: DateRangeInterface) => ({
+      startDate: format(startDate, "dd/MM/yyyy HH:mm:ss"),
+      endDate: format(endDate, "dd/MM/yyyy HH:mm:ss"),
     }));
     dispatch(
       addSearch({

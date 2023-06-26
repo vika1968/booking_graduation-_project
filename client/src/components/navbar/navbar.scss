@@ -4,14 +4,9 @@
   margin: 0;
 }
 
-
-// e: #8ed1fc;
-//     --wp--preset--color--vivid-cyan-blue: #0693e3;
-//     --wp--preset--color--vivid-purple: #9b51e0;
 .navbar {
   height: 50px;
- // background-color: #003580;
- background-color:rgb(118, 62, 170);
+  background-color: rgb(118, 62, 170);
   display: flex;
   justify-content: center;
 
@@ -43,7 +38,8 @@
     border-radius: 5px;
     font-family: "Bebas Neue";
     font-size: 18px;
-    span{
+
+    span {
       color: #003580;
       font-weight: bold;
     }

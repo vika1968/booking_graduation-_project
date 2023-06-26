@@ -9,7 +9,6 @@ import Widget from "../../../components/widget/Widget";
 import "./home.scss";
 
 const Home = () => {
- // console.log('Home')
   return (
     <div className="home">
       <Sidebar />

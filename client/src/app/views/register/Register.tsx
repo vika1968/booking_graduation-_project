@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import  { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify"; //npm install react-toastify
@@ -15,32 +15,32 @@ const Register = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const handleUsername = (event: any) => {
+  const handleUsername = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
     setSubmitted(false);
   };
 
-  const handleEmail = (event: any) => {
+  const handleEmail = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
     setSubmitted(false);
   };
 
-  const handlePassword = (event: any) => {
+  const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
     setSubmitted(false);
   };
 
-  const handleCountry = (event: any) => {
+  const handleCountry = (event: ChangeEvent<HTMLInputElement>) => {
     setCountry(event.target.value);
     setSubmitted(false);
   };
 
-  const handleCity = (event: any) => {
+  const handleCity = (event: ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value); 
     setSubmitted(false);
   };
 
-  const handlePhone = (event: any) => {
+  const handlePhone = (event: ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
     setSubmitted(false);
   };
@@ -49,7 +49,7 @@ const Register = () => {
     window.location.assign("/");
   };
 
-  const handleClick = async (event: any) => {
+  const handleClick = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
       const newUser = {
@@ -77,9 +77,7 @@ const Register = () => {
           window.location.assign("/login");
         },
       });
-
-
-      // window.location.assign("/login");
+    
     } catch (err: any) {    
       setError(err.response.data.error);
       if (error !== "") {      

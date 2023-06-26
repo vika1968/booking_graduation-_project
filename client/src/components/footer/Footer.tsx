@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
         <FaTwitter className="footer__icon" onClick={() => openLinkInNewTab("https://twitter.com/bookingcom")} />
         <FaLinkedin className="footer__icon" onClick={() => openLinkInNewTab("https://www.linkedin.com/company/booking.com/jobs/")} />
       </div>
-      <div className="footer__text">Your Booking</div>
+      <div className="footer__text">Your Booking Place here</div>
     </div>
   );
 };

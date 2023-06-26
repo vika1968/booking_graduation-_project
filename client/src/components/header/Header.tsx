@@ -7,13 +7,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { DateRange, Range } from "react-date-range";
+import { DateRange } from "react-date-range";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { userSelector } from "../../features/user/userSlice";
 import { useAppSelector } from "../../app/hooks";
 import { useDispatch } from "react-redux";
-import { addSearch, searchSelector } from "../../features/search/searchSlice";
+import { addSearch } from "../../features/search/searchSlice";
 import { User } from "../../features/user/userModel";
 import "./header.scss";
 

@@ -13,11 +13,11 @@ interface Row {
   [key: string]: any;
 }
 
-interface DatatableProps {
+interface DataTableProps {
   columns: GridColDef[];
 }
 
-const DataTable: React.FC<DatatableProps> = ({ columns }) => {
+const DataTable: React.FC<DataTableProps> = ({ columns }) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
 
@@ -25,7 +25,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
   const { data, loading, error } = useFetch(`/api/${path}`);
 
   useEffect(() => {
-    if (data && data.length > 0) {   
+    if (data && data.length > 0) {
       let updatedRows: Row[] = [];
 
       if (path === "users") {
@@ -53,9 +53,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
 
   const handleDelete = async (id: string) => {
     try {
-      // console.log(`/api/${path}/${id}`);
       const response = await axios.delete(`/api/${path}/${id}`);
-
       const { message } = response.data;
       alert(message);
 
@@ -65,28 +63,16 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
     }
   };
 
-  const handleUpdate = async (
-    id: string,
-    name: string,
-    type: string,
-    title: string,
-    city: string
-  ) => {
-    try {  
-      const response = await axios.put(`/api/${path}/${id}`, {
-        name,
-        type,
-        title,
-        city,
-      });
-
+  const handleUpdate = async (id: string, updatedFields: any) => {
+    try {
+      const response = await axios.put(`/api/${path}/${id}`, updatedFields);
       const { message } = response.data;
       alert(message);
 
       setList(
         (prevList) =>
           prevList?.map((item) =>
-            item.id === id ? { ...item, name, type, title, city } : item
+            item.id === id ? { ...item, ...updatedFields } : item
           ) ?? null
       );
     } catch (error: any) {
@@ -96,22 +82,16 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
 
   const renderEditableCell = (params: GridEditCellProps) => {
     const { field, value } = params;
-    // console.log(params);
+
+    if (field === "id") {
+      return <div>{value}</div>;
+    }
+
     return (
       <div
         contentEditable
         suppressContentEditableWarning
-       //  onBlur={(e) => handleUpdate(params.id as string, params.row.name, params.row.type, field as string, e.target.innerText)}
-        onClick={(e) =>
-          handleUpdate(
-            params.row.id,
-            params.row.name,
-            params.row.type,
-            params.row.title,
-            params.row.city
-          )
-        }
-        
+        onClick={(e) => e.stopPropagation()}
       >
         {value}
       </div>
@@ -139,13 +119,12 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
             <div
               className="updateButton"
               onClick={(e: React.MouseEvent<HTMLDivElement>) =>
-                handleUpdate(
-                  params.row.id,
-                  params.row.name,
-                  params.row.type,
-                  params.row.title,
-                  params.row.city
-                )
+                handleUpdate(params.row.id, {
+                  name: params.row.name,
+                  type: params.row.type,
+                  title: params.row.title,
+                  city: params.row.city,
+                })
               }
             >
               Update
@@ -156,28 +135,28 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
     },
   };
 
-
   const handleCellEditStop = async (params: GridEditCellProps) => {
     const { id, field, value } = params;
-  
-    try {
-      await handleUpdate(
-        id,
-        params.row.name,
-        params.row.type,
-        field,
-        value
-      );
-    } catch (error: any) {
-      alert(error.response.data.error);
+
+    if (field === "id") {
+      return;
+    }
+
+    // Get the original value from the state
+    const originalValue = list?.find((item) => item.id === id)?.[field];
+
+    if (originalValue !== value) {
+      try {
+        await handleUpdate(id, { [field]: value });
+      } catch (error: any) {
+        alert(error.response.data.error);
+      }
     }
   };
-  
-
   // Add editable property to each column to make them editable
   const editableColumns = columns.map((column) => ({
     ...column,
-    editable: column.field !== "ID", // Set editable to false for the 'ID' column
+    editable: column.field !== "id", // Set editable to false for the 'id' column
     renderCell: renderEditableCell,
   }));
 
@@ -191,7 +170,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={list || []}       
+        rows={list || []}
         columns={
           path === "hotels"
             ? [...editableColumns, actionColumn]
@@ -200,9 +179,7 @@ const DataTable: React.FC<DatatableProps> = ({ columns }) => {
         pagination
         checkboxSelection
         getRowId={(row) => row.id}
-         // @ts-ignore
-       //  onCellEditStop={handleUpdate}
-    //  onCellEditStop={handleCellEditStop}
+        onCellEditStop={handleCellEditStop}
       />
     </div>
   );

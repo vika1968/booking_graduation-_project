@@ -29,8 +29,6 @@ const Hotel = () => {
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
-  console.log("Hotel");
-
   const { data, loading, error, reFetch } = useFetchClient<HotelInterface>(
     `/api/hotels/findByID/${id}`
   );
@@ -38,9 +36,7 @@ const Hotel = () => {
   const { data: photoData, loading: loadingPhoto, error: errorPhoto, reFetch: reFetchPhoto } 
   = useFetchClient<PhotoInterface[]>(`/api/hotels/findHotelPhoto/${id}`);
 
-
   const numberOfPhotos: number = photoData ? photoData.length : 0;
-  console.log(`Number of photos: ${numberOfPhotos}`);
 
   const user = useAppSelector(userSelector) as User[] | null;
 
@@ -58,7 +54,6 @@ const Hotel = () => {
     const timeDiff = Math.abs(parsedDate2.valueOf() - parsedDate1.valueOf());
     const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
 
-    console.log(diffDays);
     return diffDays;
   }
 

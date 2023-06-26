@@ -142,8 +142,7 @@
 *{
     font-family: "Montserrat";
 }
-.header{
-   // background-color: #003580;
+.header{ 
     background-color:rgb(118, 62, 170);
     color: #fff;
     display: flex;
@@ -186,8 +185,7 @@
     margin: 20px 0px;
 }
 
-.headerBtn{
-   // background: #0071c2;
+.headerBtn{ 
    background: rgb(118, 62, 170);
     color: white;
     font-weight: 500;
@@ -199,8 +197,7 @@
 
 .headerSearch{
     height: 50px;
-    background-color: white;
-    //border: 3px solid #febb02;
+    background-color: white;  
     border: 3px solid rgb(118, 62, 170);
     display: flex;
     align-items: center;
@@ -213,8 +210,7 @@
     max-width: 1024px;
 }
 
-.headerIcon{
-   // color: lightgray;
+.headerIcon{  
    color: rgb(65, 17, 17);
 }
 
@@ -229,8 +225,7 @@
     outline: none;
 }
 
-.headerSearchText{
-   // color:lightgray;
+.headerSearchText{  
    color: rgb(65, 17, 17);
     cursor: pointer;
 }
@@ -245,8 +240,7 @@
     z-index: 2;
     position:absolute;
     top: 50px;
-    background-color: white;
-    //color:gray;
+    background-color: white;    
     color: rgb(65, 17, 17);
     border-radius: 5px;
     -webkit-box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.4);
