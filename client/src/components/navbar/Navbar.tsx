@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import "./navbar.scss";
 import { User } from "../../features/user/userModel";
+import { showToast } from "../../helpers/toast";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ const Navbar = () => {
     if (user) {
       setOpenModal(true);
     } else {
-      navigate("/login");
+      navigate("/login");        
     }
   };
 

@@ -1,6 +1,5 @@
 import express from "express";
-import { 
-    countByType,
+import {   
     createHotel,
     deleteHotel,
     getHotel,
@@ -20,8 +19,6 @@ hotelsRouter
 .get("/findHotelPhoto/:id", getHotelPhotoByID)
 .get("/find/:name", getHotelByName)
 .get("/", getHotels)  // client part
-// .get("/countByCity", countByCity)
-.get("/countByType", countByType)
 .get("/room/:id", getHotelRooms)
 
 export default hotelsRouter;

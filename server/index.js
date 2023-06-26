@@ -14,12 +14,12 @@ app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static("client"));
 const adminRoutes_1 = __importDefault(require("./API/admin/adminRoutes"));
 app.use("/api/admin", adminRoutes_1.default);
-const usersRoutes_1 = __importDefault(require("./API/users/usersRoutes"));
-app.use("/api/users", usersRoutes_1.default);
 const hotelsRoutes_1 = __importDefault(require("./API/hotels/hotelsRoutes"));
 app.use("/api/hotels", hotelsRoutes_1.default);
 const roomsRoutes_1 = __importDefault(require("./API/rooms/roomsRoutes"));
 app.use("/api/rooms", roomsRoutes_1.default);
+const usersRoutes_1 = __importDefault(require("./API/users/usersRoutes"));
+app.use("/api/users", usersRoutes_1.default);
 app.listen(port, () => {
-    console.log(`server is running on port ${port}`);
+    console.log(`MySql server is running on port ${port}`);
 });

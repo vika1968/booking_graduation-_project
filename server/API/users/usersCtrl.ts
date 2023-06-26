@@ -197,7 +197,7 @@ export async function deleteUser(req: express.Request, res: express.Response) {
 export async function getUserByID(req: express.Request, res: express.Response) {
     try {
         const id = req.params.id;
-        const query = `SELECT * FROM  \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
+        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
 
         connection.query(query, (err, result: ResultSetHeader) => {
             if (err) {
@@ -218,7 +218,7 @@ export async function getUserByID(req: express.Request, res: express.Response) {
 export async function getUsers(req: express.Request, res: express.Response) {
     try {          
         const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`;       
-        console.log(query)
+       
         connection.query(query, (error, results) => {
             if (error) {
                 res.status(500).send({ error: "Error executing receive all users ( no admins)" });

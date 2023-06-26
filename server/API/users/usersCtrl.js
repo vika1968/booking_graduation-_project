@@ -200,7 +200,7 @@ function getUserByID(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.id;
-            const query = `SELECT * FROM  \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
+            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
             database_1.default.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).json({ error: "Something went wrong." });
@@ -221,7 +221,6 @@ function getUsers(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`;
-            console.log(query);
             database_1.default.query(query, (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing receive all users ( no admins)" });

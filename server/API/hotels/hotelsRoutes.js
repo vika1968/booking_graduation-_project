@@ -15,7 +15,5 @@ hotelsRouter
     .get("/findHotelPhoto/:id", hotelsCtrl_1.getHotelPhotoByID)
     .get("/find/:name", hotelsCtrl_1.getHotelByName)
     .get("/", hotelsCtrl_1.getHotels) // client part
-    // .get("/countByCity", countByCity)
-    .get("/countByType", hotelsCtrl_1.countByType)
     .get("/room/:id", hotelsCtrl_1.getHotelRooms);
 exports.default = hotelsRouter;

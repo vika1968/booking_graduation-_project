@@ -6,6 +6,8 @@ import axios from "axios";
 import { UserInterface } from "../../helpers/userInterface";
 import { HotelInterface } from "../../helpers/hotelInterface";
 import { RoomInterface } from "../../helpers/roomInterface";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./dataTable.scss";
 
 interface Row {
@@ -67,7 +69,18 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
     try {
       const response = await axios.put(`/api/${path}/${id}`, updatedFields);
       const { message } = response.data;
-      alert(message);
+      //alert(message);
+
+      toast.success(message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "custom-toast",
+      });
 
       setList(
         (prevList) =>
@@ -149,7 +162,17 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
       try {
         await handleUpdate(id, { [field]: value });
       } catch (error: any) {
-        alert(error.response.data.error);
+       // alert(error.response.data.error);
+       toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "custom-toast",
+      });
       }
     }
   };
@@ -161,27 +184,30 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
   }));
 
   return (
-    <div className="datatable">
-      <div className="datatableTitle">
-        {path}
-        <Link to={`/${path}/new`} className="link">
-          Add New
-        </Link>
+    <>
+      <ToastContainer />
+      <div className="datatable">
+        <div className="datatableTitle">
+          {path}
+          <Link to={`/${path}/new`} className="link">
+            Add New
+          </Link>
+        </div>
+        <DataGrid
+          className="datagrid"
+          rows={list || []}
+          columns={
+            path === "hotels"
+              ? [...editableColumns, actionColumn]
+              : columns.concat(actionColumn)
+          }
+          pagination
+          checkboxSelection
+          getRowId={(row) => row.id}
+          onCellEditStop={handleCellEditStop}
+        />
       </div>
-      <DataGrid
-        className="datagrid"
-        rows={list || []}
-        columns={
-          path === "hotels"
-            ? [...editableColumns, actionColumn]
-            : columns.concat(actionColumn)
-        }
-        pagination
-        checkboxSelection
-        getRowId={(row) => row.id}
-        onCellEditStop={handleCellEditStop}
-      />
-    </div>
+    </>
   );
 };
 

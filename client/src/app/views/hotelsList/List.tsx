@@ -44,11 +44,6 @@ const List: React.FC = () => {
 
     reFetch();
 
-    // const formattedDates = dates.map((date: any) => ({
-    //   startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
-    //   endDate: format(date.endDate, "dd/MM/yyyy HH:mm:ss"),
-    // }));
-
     const formattedDates = dates.map(({ startDate, endDate }: DateRangeInterface) => ({
       startDate: format(startDate, "dd/MM/yyyy HH:mm:ss"),
       endDate: format(endDate, "dd/MM/yyyy HH:mm:ss"),

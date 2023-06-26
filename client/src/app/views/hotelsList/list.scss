@@ -177,7 +177,7 @@
 //   font-size: 20px;
 //   margin-top: 20px;
 // }
-
+@import  "../../../../../client/src/style/myColors.scss";
 .list-container {
   background-color: #ffffff;
   padding: 20px;
@@ -192,8 +192,8 @@
 }
 
 .list-search {
-   flex: 1;
-  background-color:rgb(204, 168, 238);
+  flex: 1;
+  background-color: rgb(204, 168, 238);
   padding: 10px;
   border-radius: 10px;
   position: sticky;
@@ -269,18 +269,17 @@
     display: block;
     width: 100%;
     padding: 10px;
-    // background-color: #007bff;
-    background-color:rgb(158, 98, 214);
+    background-color: $background-color;
     color: #ffffff;
     font-size: 16px;
     font-weight: 600;
-    border: 2px solid rgb(118, 62, 170);
-    border-radius: 14px ;
+    border: 2px solid $primary-color;
+    border-radius: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
 
     &:hover {
-      background-color:rgb(118, 62, 170);
+      background-color: $primary-color;
     }
   }
 }
@@ -288,10 +287,9 @@
 .list-result {
   width: 70%;
 
-  & > div {
+  &>div {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
   }
 }
-

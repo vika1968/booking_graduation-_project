@@ -1,9 +1,4 @@
 import "./propertyList.scss";
-interface Property {
-  type: string;
-  count: number;
-}
-
 const PropertyList = () => {
   const images = [
     "https://cf.bstatic.com/xdata/images/xphoto/square300/57584488.webp?k=bf724e4e9b9b75480bbe7fc675460a089ba6414fe4693b83ea3fdd8e938832a6&o=",
@@ -14,12 +9,12 @@ const PropertyList = () => {
   ];
 
   return (
-    <div className="pList">
+    <div className="propertyList">
       {images.map((item, i) => {
         return (
-          <div className="pList__item" key={i}>
-            <img src={images[i]} alt="" className="pList__img" />
-            <div className="pList__titles"></div>
+          <div className="propertyList__item" key={i}>
+            <img src={images[i]} alt="" className="propertyList__img" />
+            <div className="propertyList__titles"></div>
           </div>
         );
       })}

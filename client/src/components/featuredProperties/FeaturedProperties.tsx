@@ -17,21 +17,21 @@ const FeaturedProperties: React.FC = () => {
   const hotelData = data as HotelData[];
 
   return (
-    <div className="fp">
+    <div className="Featured-Properties">
       {loading ? (
         "Loading..."
       ) : (
         <>
           {hotelData.map((item) => (
-            <div className="fp__item" key={item.hotelID}>
-              <img src={item.photos[0]} alt="" className="fp__img" />
-              <span className="fp__name">{item.name}</span>
-              <span className="fp__city">{item.city}</span>
-              <span className="fp__price">
+            <div className="Featured-Properties__item" key={item.hotelID}>
+              <img src={item.photos[0]} alt="" className="Featured-Properties__img" />
+              <span className="Featured-Properties__name">{item.name}</span>
+              <span className="Featured-Properties__city">{item.city}</span>
+              <span className="Featured-Properties__price">
                 Starting from ${item.cheapestPrice}
               </span>
               {item.rating && (
-                <div className="fp__rating">
+                <div className="Featured-Properties__rating">
                   <button>{item.rating}</button>
                   <span>Excellent</span>
                 </div>

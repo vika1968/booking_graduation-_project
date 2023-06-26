@@ -1,81 +1,4 @@
-// .reserve {
-//     width: 100vw;
-//     height: 100vh;
-//     background-color: rgba(0, 0, 0, 0.418);
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-  
-//     &-container {
-//       background-color: white;
-//       padding: 20px;
-//       position: relative;
-  
-//       &-close {
-//         position: absolute;
-//         top: 0;
-//         right: 0;
-//         cursor: pointer;
-//       }
-  
-//       &-item {
-//         display: flex;
-//         align-items: center;
-//         gap: 50px;
-//         padding: 20px;
-  
-//         &-info {
-//           display: flex;
-//           flex-direction: column;
-//           gap: 5px;
-  
-//           &-title {
-//             font-weight: 500;
-//           }
-  
-//           &-desc {
-//             font-weight: 300;
-//           }
-  
-//           &-max {
-//             font-size: 12px;
-//           }
-  
-//           &-price {
-//             font-weight: 500;
-//           }
-//         }
-//       }
-  
-//       &-select-rooms {
-//         display: flex;
-//         flex-wrap: wrap;
-//         gap: 5px;
-//         font-style: 8px;
-//         color: gray;
-  
-//         .room {
-//           display: flex;
-//           flex-direction: column;
-//         }
-//       }
-  
-//       &-button {
-//         border: none;
-//         padding: 10px 20px;
-//         background-color: #0071c2;
-//         color: white;
-//         font-weight: bold;
-//         cursor: pointer;
-//         border-radius: 5px;
-//         width: 100%;
-//         margin-top: 20px;
-//       }
-//     }
-//   }
+@import  "../../../../client/src/style/myColors.scss";
 .reserve {
   width: 100vw;
   height: 100vh;
@@ -88,74 +11,88 @@
   justify-content: center;
 }
 
-.reserve-container {
+.reserve__container {
   background-color: white;
   padding: 20px;
   position: relative;
-}
-
-.reserve-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-}
-
-.reserve-item {
-  display: flex;
-  align-items: center;
-  gap: 50px;
-  padding: 20px;
-}
-
-.reserve-item-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+
+  .reserve__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+  }
+
+  .reserve__item {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 20px;
+  }
+
+  .reserve__item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .reserve__item-title {
+    font-weight: 500;
+  }
+
+  .reserve__item-desc {
+    font-weight: 300;
+  }
+
+  .reserve__item-max {
+    font-size: 12px;
+  }
+
+  .reserve__item-price {
+    font-weight: 500;
+  }
+
+  .reserve__select-rooms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-style: 8px;
+    color: gray;
+
+    .reserve__room {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .reserve__button {
+    border: none;
+    padding: 10px 20px;
+    //background-color: #0071c2;   
+    background-color:$primary-color;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    //width: 100%;
+    width: 60%;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+   // background: linear-gradient(to right, $primary-color, $secondary-color);
+    &:hover {
+      background-color: $color-hover;
+      transform: scale(1.05);
+    }
+  }
+
+  .reserve__message {
+    color: $primary-color;
+    font-size: 14px;
+    margin-top: 10px;
+  }
 }
-
-.reserve-item-title {
-  font-weight: 500;
-}
-
-.reserve-item-desc {
-  font-weight: 300;
-}
-
-.reserve-item-max {
-  font-size: 12px;
-}
-
-.reserve-item-price {
-  font-weight: 500;
-}
-
-.reserve-select-rooms{
-  display: flex;
-  flex-wrap: wrap;
-  gap:5px;
-  font-style: 8px;
-  color: gray;
-}
-
-.reserve-room{
-  display: flex;
-  flex-direction: column ;
-}
-
-
-.reserve-button {
-  border:none;
-  padding: 10px 20px;
-  background-color: #0071c2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
-  width:100%;
-  margin-top: 20px;
-}
-
-
-
-

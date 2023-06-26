@@ -33,8 +33,12 @@ const Hotel = () => {
     `/api/hotels/findByID/${id}`
   );
 
-  const { data: photoData, loading: loadingPhoto, error: errorPhoto, reFetch: reFetchPhoto } 
-  = useFetchClient<PhotoInterface[]>(`/api/hotels/findHotelPhoto/${id}`);
+  const {
+    data: photoData,
+    loading: loadingPhoto,
+    error: errorPhoto,
+    reFetch: reFetchPhoto,
+  } = useFetchClient<PhotoInterface[]>(`/api/hotels/findHotelPhoto/${id}`);
 
   const numberOfPhotos: number = photoData ? photoData.length : 0;
 
@@ -42,7 +46,7 @@ const Hotel = () => {
 
   const navigate = useNavigate();
   const search = useAppSelector(searchSelector);
- 
+
   const dates = search?.dates;
   const options = search?.options;
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -50,10 +54,12 @@ const Hotel = () => {
   function dayDifference(date1: Date, date2: Date): number {
     const parsedDate1 = moment(date1, "DD/MM/YYYY HH:mm:ss");
     const parsedDate2 = moment(date2, "DD/MM/YYYY HH:mm:ss");
-   
-    const timeDiff = Math.abs(parsedDate2.valueOf() - parsedDate1.valueOf());
-    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
 
+    const timeDiff = Math.abs(parsedDate2.valueOf() - parsedDate1.valueOf());
+    let diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    if (diffDays === 0) {
+      diffDays = 1;
+    }
     return diffDays;
   }
 
@@ -67,15 +73,15 @@ const Hotel = () => {
   const handleMove = (direction: string): void => {
     let newSlideNumber;
     if (direction === "l") {
-      newSlideNumber = slideNumber === 0 ? numberOfPhotos-1 : slideNumber - 1;
+      newSlideNumber = slideNumber === 0 ? numberOfPhotos - 1 : slideNumber - 1;
     } else {
-      newSlideNumber = slideNumber === numberOfPhotos-1 ? 0 : slideNumber + 1;
+      newSlideNumber = slideNumber === numberOfPhotos - 1 ? 0 : slideNumber + 1;
     }
     setSlideNumber(newSlideNumber);
   };
 
   const handleClick = (): void => {
-    if (user) {  
+    if (user) {
       setOpenModal(true);
     } else {
       navigate("/login");
