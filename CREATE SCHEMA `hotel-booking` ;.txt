@@ -97,6 +97,14 @@ VALUES ('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4
 ('https://media.istockphoto.com/id/1300135335/photo/luxurious-bedroom-interior-at-nigh-with-messy-bed-leather-armchairs-closet-and-garden-view.jpg?s=2048x2048&w=is&k=20&c=l8PTezba-jSdx_JRiNKhZZN5NKJiP7R9d-uzYSRR2Is=','istockphoto-1300135335-2048x2048.jpg'),
 ('https://media.istockphoto.com/id/1201397488/photo/hotel-room-with-panoramic-view-of-the-mountains.jpg?s=2048x2048&w=is&k=20&c=fwKa8-VpWeSkA_oYwbw8IUQ6siGsSwNMlp5H6z9zfPU=','istockphoto-1201397488-2048x2048.jpg'),
 ('https://media.istockphoto.com/id/1050564510/photo/3d-rendering-beautiful-luxury-bedroom-suite-in-hotel-with-tv.jpg?s=2048x2048&w=is&k=20&c=K8hhGo82zGfHTIKUss-ZaGTvIo2LtNoovffJxmFhaTU=','istockphoto-1050564510-2048x2048.jpg')
+('https://media.istockphoto.com/id/1392992509/photo/wooden-tiny-house-interior-with-bed-furniture-and-triangular-window.jpg?s=2048x2048&w=is&k=20&c=PKNC1mtuULdhwDs9HLcG8dItobT8e9P8SliI4pbSomY=','istockphoto-1392992509-2048x2048.jpg'),
+('https://c4.wallpaperflare.com/wallpaper/721/832/884/5-star-hotel-room-wallpaper-preview.jpg','5-star-hotel-room-wallpaper-preview.jpg'),
+('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80','photo-1542314831-068cd1dbfeeb.webp'),
+('https://images.unsplash.com/photo-1579427421635-a0015b804b2e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80','photo-1579427421635-a0015b804b2e.webp') ,   
+('https://images.unsplash.com/photo-1580656155356-c0c1389c5cba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80','photo-1580656155356-c0c1389c5cba.webp'),
+('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80','photo-1566073771259-6a8506099945.webp'),
+('https://images.unsplash.com/photo-1557499305-0af888c3d8ec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80','photo-1557499305-0af888c3d8ec.webp')
+   
 
 
 

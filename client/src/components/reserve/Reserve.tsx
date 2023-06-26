@@ -171,12 +171,9 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
         });
       }
 
-      setOpen(false);
-      showToast(
-        "Your reservation ended successfully.!🎉",
-        "success redirect",
-        "/"
-      );
+      // setOpen(false);
+      showToast("Your reservation ended successfully.!🎉","success redirect","/");
+      //setOpen(false);
     } catch (error: any) {
       showToast(error.response.data.error, "error redirect", "/");
     }

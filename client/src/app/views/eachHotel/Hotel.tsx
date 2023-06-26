@@ -130,6 +130,7 @@ const Hotel = () => {
             <button className="hotelWrapper__bookNow" onClick={handleClick}>
               Reserve or Book Now!
             </button>
+            
             <h1 className="hotelWrapper__title">{data?.name}</h1>
             <div className="hotelWrapper__address">
               <FontAwesomeIcon icon={faLocationDot} />
@@ -138,6 +139,7 @@ const Hotel = () => {
             <span className="hotelWrapper__distance">
               Excellent location – {data?.distance}m from center
             </span>
+            
             <span className="hotelWrapper__priceHighlight">
               Book a stay over ${data?.cheapestPrice} at this property and get a
               free airport taxi
@@ -172,9 +174,11 @@ const Hotel = () => {
                   </b>{" "}
                   ({days} nights)
                 </h2>
-                <button onClick={handleClick}>Reserve or Book Now!</button>
-              </div>
+                <button onClick={handleClick}>Reserve or Book Now!</button>                
+               
+              </div>              
             </div>
+            <button className="hotelWrapper__back" onClick={() => navigate("/")}>Back to global search</button>
           </div>
           <Promotion />
           <Footer />

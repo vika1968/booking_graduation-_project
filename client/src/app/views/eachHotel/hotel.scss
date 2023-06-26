@@ -289,6 +289,24 @@
   }
 }
 
+
+.hotelWrapper__back{
+  border: none;
+  padding: 10px 20px;
+ // background-color: #0071c2;
+  width:70%;
+  background-color:$primary-color;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  &:hover {
+    background-color: $color-hover;
+    transform: scale(1.05);
+  }
+}
 .slider {
   position: sticky;
   top: 0;
