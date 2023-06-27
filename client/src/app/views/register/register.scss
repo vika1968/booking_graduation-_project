@@ -61,8 +61,7 @@
     height: 30px;
     margin-top: 20px;  
     transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-   // background: linear-gradient(to right, $primary-color, $secondary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
     &:hover {
       background-color: $color-hover;
       transform: scale(1.05);

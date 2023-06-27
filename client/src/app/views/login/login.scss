@@ -1,5 +1,5 @@
+@import "../../../../../client/src/style/myColors.scss";
 
-@import  "../../../../../client/src/style/myColors.scss";
 * {
   box-sizing: border-box;
   margin: 0;
@@ -52,7 +52,7 @@
   &__button {
     border: none;
     padding: 10px 20px;
-    background-color:$primary-color;
+    background-color: $primary-color;
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -60,10 +60,12 @@
     margin-top: 20px;
     transition: background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
     &:hover {
       background-color: $color-hover;
       transform: scale(1.05);
     }
+
     &:disabled {
       background-color: rgb(167, 145, 187);
       cursor: not-allowed;

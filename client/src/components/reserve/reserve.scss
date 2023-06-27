@@ -17,8 +17,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
+  align-items: center; 
+  justify-content: center; 
 
   .reserve__close {
     position: absolute;
@@ -71,19 +71,16 @@
 
   .reserve__button {
     border: none;
-    padding: 10px 20px;
-    //background-color: #0071c2;   
+    padding: 10px 20px; 
     background-color:$primary-color;
     color: white;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    //width: 100%;
     width: 60%;
     margin-top: 20px;
     transition: background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-   // background: linear-gradient(to right, $primary-color, $secondary-color);
     &:hover {
       background-color: $color-hover;
       transform: scale(1.05);

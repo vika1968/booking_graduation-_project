@@ -1,4 +1,4 @@
-import  { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify"; //npm install react-toastify
@@ -36,7 +36,7 @@ const Register = () => {
   };
 
   const handleCity = (event: ChangeEvent<HTMLInputElement>) => {
-    setCity(event.target.value); 
+    setCity(event.target.value);
     setSubmitted(false);
   };
 
@@ -45,7 +45,7 @@ const Register = () => {
     setSubmitted(false);
   };
 
-  const handleGoHome = () => {  
+  const handleGoHome = () => {
     window.location.assign("/");
   };
 
@@ -62,7 +62,7 @@ const Register = () => {
       };
 
       await axios.post("/api/users/register", newUser);
-      setSubmitted(true);   
+      setSubmitted(true);
       toast.success("User created!🎉", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
@@ -71,17 +71,16 @@ const Register = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        className: "custom-toast",  
+        className: "custom-toast",
         onClose: async () => {
-          await new Promise((resolve) => setTimeout(resolve, 3000)); 
+          await new Promise((resolve) => setTimeout(resolve, 3000));
           window.location.assign("/login");
         },
       });
-    
-    } catch (err: any) {    
+    } catch (err: any) {
       setError(err.response.data.error);
-      if (error !== "") {      
-        toast.error(error, {        
+      if (error !== "") {
+        toast.error(error, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
           hideProgressBar: false,
@@ -89,7 +88,7 @@ const Register = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          className: "custom-toast"
+          className: "custom-toast",
         });
       }
     }
