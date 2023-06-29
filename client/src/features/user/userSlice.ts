@@ -8,7 +8,6 @@ export enum Status {
   IDLE = "idle",
   FAILED = "failed",
 }
-
 export interface UserState {
   value: User | null;
   status: Status;

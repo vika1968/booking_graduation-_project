@@ -6,7 +6,6 @@ interface DateRange {
     startDate: Date;
     endDate: Date;
 }
-
 interface SearchItem {
     city: string | undefined;
     dates: DateRange[];

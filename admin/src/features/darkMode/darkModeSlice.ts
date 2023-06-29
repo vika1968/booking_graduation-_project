@@ -2,15 +2,9 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-
 interface DarkModeState {
   darkMode: boolean;
 }
-
-// type DarkModeAction =
-//   | { type: "IGHT" }
-//   | { type: "DARK" }
-//   | { type: "TOGGLE" };
 
 const INITIAL_STATE: DarkModeState = {
   darkMode: false,

@@ -1,13 +1,10 @@
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { useDispatch } from "react-redux";
 import { toggleDarkMode} from "../../features/darkMode/darkModeSlice";
-//import { useAppSelector } from "../../app/hooks";
 import "./navbar.scss";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  // const darkModeState = useAppSelector(darkModeSelector);
-
   return (
     <div className="navbar">
       <div className="wrapper">

@@ -34,7 +34,7 @@ const Header = ({ type }: { type: string }) => {
   const navigate = useNavigate();
   const user = useAppSelector(userSelector) as User[] | null;
 
-  const handleOption = (name: keyof typeof options, operation: any) => {
+  const handleOption = (name: keyof typeof options, operation: string) => {
     setOptions((prev) => {
       return {
         ...prev,

@@ -2,7 +2,6 @@ import  { Request, Response, NextFunction } from "express";
 import connection from "../../DB/database";
 import { OkPacket, RowDataPacket } from "mysql2/promise";
 
-
 export const getRooms = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { min, max, limit } = req.query;   

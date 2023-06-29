@@ -1,4 +1,6 @@
-@import  "../../../../client/src/style/myColors.scss";
+
+@import "../../../../client/src/style/myColors.scss";
+
 .reserve {
   width: 100vw;
   height: 100vh;
@@ -9,87 +11,111 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.reserve__container {
-  background-color: white;
-  padding: 20px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  justify-content: center; 
-
-  .reserve__close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
+  &__title {
+    color: $primary-color;
+    font-size: 27px;
+    font-weight: bold;
   }
 
-  .reserve__item {
-    display: flex;
-    align-items: center;
-    gap: 50px;
+  &__container {
+    background-color: white;
     padding: 20px;
-  }
-
-  .reserve__item-info {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-  }
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 
-  .reserve__item-title {
-    font-weight: 500;
-  }
+    .reserve__close {
+      position: absolute;
+      height: 30px;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+      color: $primary-color;
+    }
 
-  .reserve__item-desc {
-    font-weight: 300;
-  }
+    .reserve__item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 20px;   
+      padding: 20px;
+    }
 
-  .reserve__item-max {
-    font-size: 12px;
-  }
-
-  .reserve__item-price {
-    font-weight: 500;
-  }
-
-  .reserve__select-rooms {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    font-style: 8px;
-    color: gray;
-
-    .reserve__room {
+    .reserve__item-info {
+      width: 50%;
       display: flex;
       flex-direction: column;
+      gap: 5px;
     }
-  }
 
-  .reserve__button {
-    border: none;
-    padding: 10px 20px; 
-    background-color:$primary-color;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 60%;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    &:hover {
-      background-color: $color-hover;
-      transform: scale(1.05);
+    .reserve__item-title {
+      font-weight: 500;
     }
-  }
 
-  .reserve__message {
-    color: $primary-color;
-    font-size: 14px;
-    margin-top: 10px;
+    .reserve__item-desc {
+      font-weight: 300;
+    }
+
+    .reserve__item-max {
+      font-size: 12px;
+    }
+    .reserve__room-label{
+      padding: 10px;
+    }
+
+
+    .reserve__item-price {
+      font-weight: 500;
+    }
+
+    .reserve__select-rooms {
+      width: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-style: 8px;
+      color: gray;     
+
+      .reserve__room {
+        display: flex;
+        flex-direction: column;
+         margin: 10px;
+      }
+    }
+
+    .reserve__button {
+      border: none;
+      padding: 10px 20px;
+      background-color: $primary-color;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 60%;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        background-color: $color-hover;
+        transform: scale(1.05);
+      }
+    }
+
+    .reserve__message {
+      color: $primary-color;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 10px;
+    }
   }
 }
+
+

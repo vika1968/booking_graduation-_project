@@ -1,5 +1,3 @@
-
-
 export interface roomTypesInterface {
     typeID: number;
     roomType:string;

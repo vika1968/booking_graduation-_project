@@ -60,9 +60,7 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
     return dates;
   };
 
-  const allDates: Date[] = getDatesInRange(
-    // searchRedux?.dates[0].startDate.toString() ?? "",
-    // searchRedux?.dates[0].endDate.toString() ?? ""
+  const allDates: Date[] = getDatesInRange( 
     searchRedux?.dates[0].startDate.toString() ?? currentDateStr,
     searchRedux?.dates[0].endDate.toString() ?? currentDateStr
   );
@@ -77,64 +75,6 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
         : prevSelectedRooms.filter((item) => item !== value)
     );
   };
-
-  // if (!user) {
-  //   showToast("You are no authorized user!", "error redirect", "/");
-  // }
-
-  // const handleClick = async () => {
-
-  //   if(!searchRedux?.dates[0].startDate || !searchRedux?.dates[0].endDate)
-  //   {
-  //     showToast("Please enter your reservation dates again.", "error redirect", "/");
-  //     return;
-  //   }
-
-  //   if(searchRedux?.dates[0].startDate.toString() === currentDateStr && searchRedux?.dates[0].endDate.toString() === currentDateStr )
-  //   {
-  //     showToast("Please enter your reservation dates again. Your dates look like today to today.", "error redirect", "/");
-  //     return;
-  //   }
-
-  //   try {
-  //     for (const roomId of selectedRooms) {
-  //       await axios.put(`/api/rooms/availability/${roomId}`, {
-  //         user: user ? user[0].userID : null, dates: allDates,
-  //       });
-  //     }
-
-  //     // toast.success("Your reservation ended successfully.!🎉", {
-  //     //   position: toast.POSITION.TOP_CENTER,
-  //     //   autoClose: 2000,
-  //     //   hideProgressBar: false,
-  //     //   closeOnClick: true,
-  //     //   pauseOnHover: true,
-  //     //   draggable: true,
-  //     //   progress: undefined,
-  //     //   className: "custom-toast",
-  //     //   onClose: async () => {
-  //     //     await new Promise((resolve) => setTimeout(resolve, 3000));
-  //     //     window.location.assign("/");
-  //     //   },
-  //     // });
-
-  //     setOpen(false);
-  //     showToast("Your reservation ended successfully.!🎉", "success redirect", "/");
-  //     //navigate("/");
-  //   } catch (error: any) {
-  //     // toast.error(error.response.data.error, {
-  //     //   position: toast.POSITION.TOP_CENTER,
-  //     //   autoClose: 1000,
-  //     //   hideProgressBar: false,
-  //     //   closeOnClick: true,
-  //     //   pauseOnHover: true,
-  //     //   draggable: true,
-  //     //   progress: undefined,
-  //     //   className: "custom-toast",
-  //     // });
-  //     showToast(error.response.data.error, "error redirect", "/");
-  //   }
-  // };
 
   const handleClick = async () => {
     if (!searchRedux?.dates[0].startDate || !searchRedux?.dates[0].endDate) {
@@ -178,74 +118,76 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
   };
 
   const isButtonDisabled = selectedRooms.length === 0;
-  return (
-    <>
-      <ToastContainer />
-      <div className="reserve">
-        <div className="reserve__container">
-          <FontAwesomeIcon
-            icon={faCircleXmark}
-            className="reserve__close"
-            onClick={() => setOpen(false)}
-          />
-          <span className="reserve__title">Select your rooms:</span>
-          {loading ? (
-            <div>Loading...</div>
-          ) : error ? (
-            <div>
-              {" "}
-              {
-                "Unfortunately, this is a new hotel and the administrator has not yet entered the information about the rooms."
-              }
-            </div>
-          ) : (
-            <>
-              {data &&
-                data.map((item: RoomInterface, i: number) => (
-                  <div className="reserve__item" key={i}>
-                    <div className="reserve__item-info">
-                      <div className="reserve__item-title">{item.title}</div>
-                      <div className="reserve__item-desc">
-                        {item.description}
-                      </div>
-                      <div className="reserve__item-max">
-                        Max people: <b>{item.maxPeople}</b>
-                      </div>
-                      <div className="reserve__item-price">
-                        ${item.price} per night
-                      </div>
+
+return (
+  <>
+    <ToastContainer />
+    <div className="reserve">
+      <div className="reserve__container">
+        <FontAwesomeIcon
+          icon={faCircleXmark}
+          className="reserve__close"
+          onClick={() => setOpen(false)}
+        />
+        <span className="reserve__title">Select your rooms:</span>
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>
+            {" "}
+            {
+              "Unfortunately, this is a new hotel and the administrator has not yet entered the information about the rooms."
+            }
+          </div>
+        ) : (
+          <>
+            {data &&
+              data.map((item: RoomInterface, i: number) => (
+                <div className="reserve__item" key={i}>
+                  <div className="reserve__item-info">
+                    <div className="reserve__item-title">{item.title}</div>
+                    <div className="reserve__item-desc">
+                      {item.description}
                     </div>
-                    <div className="reserve__select-rooms">
-                      <div className="reserve__room" key={i}>
-                        <label>Room number: {item.Number}</label>
-                        <input
-                          type="checkbox"
-                          value={item.Number}
-                          onChange={handleSelect}
-                        />
-                      </div>
+                    <div className="reserve__item-max">
+                      Max people: <b>{item.maxPeople}</b>
+                    </div>
+                    <div className="reserve__item-price">
+                      ${item.price} per night
                     </div>
                   </div>
-                ))}
-            </>
-          )}
-          <button
-            className="reserve__button"
-            onClick={handleClick}
-            disabled={isButtonDisabled}
-          >
-            Reserve Now!
-          </button>
+                  <div className="reserve__select-rooms">
+                    <div className="reserve__room" key={i}>
+                      <label className="reserve__room-label">Room number: {item.Number}</label>
+                      <input
+                        className="reserve__room-checkbox"
+                        type="checkbox"
+                        value={item.Number}
+                        onChange={handleSelect}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </>
+        )}
+        <button
+          className="reserve__button"
+          onClick={handleClick}
+          disabled={isButtonDisabled}
+        >
+          Reserve Now!
+        </button>
 
-          {isButtonDisabled && (
-            <div className="reserve__message">
-              Please select at least one room.
-            </div>
-          )}
-        </div>
+        {isButtonDisabled && (
+          <div className="reserve__message">
+            Please select at least one room.
+          </div>
+        )}
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 };
 
 export default Reserve;
