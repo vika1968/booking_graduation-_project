@@ -103,10 +103,12 @@ export async function login(req: express.Request, res: express.Response) {
             try {
                 if (err) throw err;
                 if (!Array.isArray(results) || results.length === 0) {
-                    throw new Error("Email or password doesn't match or user doesn't exists.");
+                    throw new Error("Email doesn't match or user doesn't exists.");
                 }
                 const isMatch = await bcrypt.compare(password, results[0].password);
-
+                if (!isMatch) {
+                    throw new Error("Password doesn't match or user doesn't exists.");
+                }
                 const cookie = { userID: results[0].userID };
              
                 const secret = process.env.JWT_SECRET;

@@ -95,7 +95,7 @@ const Hotel = () => {
       {loading ? (
         "loading"
       ) : (
-        <div className="hotelContainer">
+        <div className="hotel-container">
           {open && (
             <div className="slider">
               <FontAwesomeIcon
@@ -126,43 +126,43 @@ const Hotel = () => {
               />
             </div>
           )}
-          <div className="hotelWrapper">
-            <button className="hotelWrapper__bookNow" onClick={handleClick}>
+          <div className="hotel-wrapper">
+            <button className="hotel-wrapper__bookNow" onClick={handleClick}>
               Reserve or Book Now!
             </button>
             
-            <h1 className="hotelWrapper__title">{data?.name}</h1>
-            <div className="hotelWrapper__address">
+            <h1 className="hotel-wrapper__title">{data?.name}</h1>
+            <div className="hotel-wrapper__address">
               <FontAwesomeIcon icon={faLocationDot} />
               <span>{data?.address}</span>
             </div>
-            <span className="hotelWrapper__distance">
+            <span className="hotel-wrapper__distance">
               Excellent location – {data?.distance}m from center
             </span>
             
-            <span className="hotelWrapper__priceHighlight">
+            <span className="hotel-wrapper__priceHighlight">
               Book a stay over ${data?.cheapestPrice} at this property and get a
               free airport taxi
             </span>
-            <div className="hotelWrapper__images">
+            <div className="hotel-wrapper__images">
               {photoData &&
                 photoData.map((photo: PhotoInterface, i: number) => (
-                  <div className="hotelWrapper__imgWrapper" key={i}>
+                  <div className="hotel-wrapper__imgWrapper" key={i}>
                     <img
                       onClick={() => handleOpen(i)}
                       src={photo.image_path}
                       alt=""
-                      className="hotelWrapper__img"
+                      className="hotel-wrapper__img"
                     />
                   </div>
                 ))}
             </div>
-            <div className="hotelWrapper__details">
-              <div className="hotelWrapper__detailsTexts">
-                <h1 className="hotelWrapper__title">{data?.title}</h1>
-                <p className="hotelWrapper__desc">{data?.description}</p>
+            <div className="hotel-wrapper__details">
+              <div className="hotel-wrapper__detailsTexts">
+                <h1 className="hotel-wrapper__title">{data?.title}</h1>
+                <p className="hotel-wrapper__desc">{data?.description}</p>
               </div>
-              <div className="hotelWrapper__detailsPrice">
+              <div className="hotel-wrapper__detailsPrice">
                 <h1>Perfect for a {days}-night stay!</h1>
                 <span>
                   Located in the real heart of Krakow, this property has an
@@ -178,7 +178,7 @@ const Hotel = () => {
                
               </div>              
             </div>
-            <button className="hotelWrapper__back" onClick={() => navigate("/")}>Back to global search</button>
+            <button className="hotel-wrapper__back" onClick={() => navigate("/")}>Back to global search</button>
           </div>
           <Promotion />
           <Footer />

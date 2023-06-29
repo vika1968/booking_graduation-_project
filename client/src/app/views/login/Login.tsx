@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { showToast } from "../../../helpers/toast";
 import "./login.scss";
 
 const Login = () => {
@@ -20,6 +20,16 @@ const Login = () => {
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+    if (!credentials.email || !credentials.password) {   
+      showToast( "Please enter both email and password.", "error no redirect", "" );
+      return;
+    }
+
+    if (!validateEmail(credentials.email)) { 
+      showToast("Please enter a valid email.", "error no redirect", "");
+      return;
+    }
+
     try {
       const { data } = await axios.post("/api/users/login", { credentials });
       const { success, userArray } = data;
@@ -28,20 +38,18 @@ const Login = () => {
         navigate(`/`, { state: credentials.email });      
       }     
     } catch (error: any) {
-      toast.error(error.response.data.error, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "custom-toast",
-      });
+      showToast(error.response.data.error, "error no redirect", "");
     }
   };
 
-  return (
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  return ( 
+  <>
+    <ToastContainer  className="toast-container"/>
     <div className="logBody">
       <div className="login">
         <h1 className="login__title">Log in</h1>
@@ -60,13 +68,17 @@ const Login = () => {
             onChange={handleChange}
             className="login__input"
           />
-          <button onClick={handleClick} className="login__button">
+          <button 
+            onClick={handleClick} 
+            className="login__button"
+            disabled={!credentials.email || !credentials.password}
+            >
             Login
           </button>
-          <ToastContainer className="toast-container" />
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 @import "../../../../../client/src/style/myColors.scss";
 
-.hotelContainer {
+.hotel-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,7 +47,7 @@
     }
   }
 
-  .hotelWrapper {
+  .hotel-wrapper {
     width: 100%;
     max-width: 1024px;
     display: flex;
@@ -172,7 +172,7 @@
     &__back {
       border: none;
       padding: 10px 20px;
-      width: 70%;
+      width: 100%;
       background-color: $primary-color;
       color: white;
       font-weight: bold;

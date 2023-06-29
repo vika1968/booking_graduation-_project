@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { showToast } from "../../../helpers/toast";
+import { ToastContainer } from "react-toastify";
 import "./login.scss";
-
-
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -19,64 +20,65 @@ const Login = () => {
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!credentials.email || !credentials.password) {
-      alert("Please enter both email and password."); 
+    if (!credentials.email || !credentials.password) {  
+      showToast( "Please enter both email and password.", "error no redirect", "" );
       return;
     }
 
     if (!validateEmail(credentials.email)) {  
-      alert("Please enter a valid email."); 
+      showToast("Please enter a valid email.", "error no redirect", "");
       return;
     }
 
-    try {
+    try {     
       const { data } = await axios.post("/api/admin/login", { credentials });
       const { success, adminArray } = data;
 
-      if (success) {     
-         navigate(`/`)
+      if (success) {
+        navigate(`/`);
       }
     } catch (error: any) {
-     // console.log(error);    
-      alert(error.response.data.error)
+      showToast(error.response.data.error, "error no redirect", "");
     }
   };
 
-  const validateEmail = (email: string) => { 
+  const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   return (
-    <div className="login">
-      <div className="login__container">
-        <input
-          type="email"
-          placeholder="admin email"
-          id="email"
-          onChange={handleChange}
-          className="login__input"
-          required
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-          className="login__input"
-          required
-        />
-        <button
-          onClick={handleClick}
-          className="login__button"
-          disabled={!credentials.email || !credentials.password}
-        >
-          Login
-        </button>
+    <>
+      <ToastContainer className="toast-container"/>
+      <div className="login">
+        <div className="login__container">
+          <input
+            type="email"
+            placeholder="admin email"
+            id="email"
+            onChange={handleChange}
+            className="login__input"
+            required
+          />
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            onChange={handleChange}
+            className="login__input"
+            required
+          />
+          <button
+            onClick={handleClick}
+            className="login__button"
+            disabled={!credentials.email || !credentials.password}
+          >
+            Login
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default Login;
-

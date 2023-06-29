@@ -6,19 +6,18 @@ import { OkPacket, RowDataPacket } from "mysql2/promise";
 
 export async function createHotel(req: express.Request, res: express.Response) {
   try {
-
-    // const name = req.body.newHotel.name;
-    // const type = req.body.newHotel.type;
-    // const city = req.body.newHotel.city;
-    // const address = req.body.newHotel.address;
-    // const distance = req.body.newHotel.distance;
-    // const title = req.body.newHotel.title;
-    // const description = req.body.newHotel.description;
-    // const rating = 0;
-    // const cheapestPrice = req.body.newHotel.cheapestPrice;
+    const name = req.body.newHotel.name;
+    const type = req.body.newHotel.type;
+    const city = req.body.newHotel.city;
+    const address = req.body.newHotel.address;
+    const distance = req.body.newHotel.distance;
+    const title = req.body.newHotel.title;
+    const description = req.body.newHotel.description;
+    const cheapestPrice = req.body.newHotel.cheapestPrice;
     const featured: boolean = req.body.newHotel.featured;
     let newFeatured: number = 0
     const photos: string[] = req.body.newHotel.photos;
+    const rating: number = 9.9
 
     if (featured === false) {
       newFeatured = 0
@@ -27,12 +26,13 @@ export async function createHotel(req: express.Request, res: express.Response) {
       newFeatured = 1
     }
 
-    const hotelsQuery = `
+    const query = `
       INSERT INTO \`hotel-booking\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
-      VALUES ("${req.body.name}", "${req.body.type}", "${req.body.newHotel.city}", "${req.body.newHotel.address}", "${req.body.newHotel.distance}", "${req.body.newHotel.title}", "${req.body.newHotel.description}", "10", "${req.body.newHotel.cheapestPrice}", ${newFeatured});
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
+    const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, featured];
 
-    connection.query(hotelsQuery, (error, hotelsResults: any) => {
+    connection.query(query, values, (error, hotelsResults: any) => {
       if (error) {
         return res.status(500).send({
           success: false,
@@ -69,28 +69,16 @@ export const updateHotel = async (req: Request, res: Response) => {
   try {
 
     const { id } = req.params;
-    // console.log(id)
-    // const { name, type, title, city } = req.body;
-    // const query = `
-    //   UPDATE \`hotel-booking\`.hotels
-    //   SET name = ?, type = ?, title = ?, city = ?
-    //   WHERE hotelID = ?
-    // `;
-    // const values = [name, type, title, city];
-
     const { name, type, title, city } = req.body;
-    // console.log(name)
-    // console.log(type)
-    // console.log(title)
-    // console.log(city)
 
     const query = `
         UPDATE \`hotel-booking\`.hotels
-        SET name = "${name}", type = "${type}", title = "${title}", city = "${city}"
-        WHERE hotelID =${id}
+        SET name = ?, type = ?, title = ?, city = ?
+        WHERE hotelID =?
       `;
 
-    connection.query(query, (err, result: OkPacket) => {
+    const values = [name, type, title, city, id];
+    connection.query(query, values, (err, result: OkPacket) => {
       if (err) {
         res.status(404).json({ error: 'Something wrong with updating hotel' });
       } else {
@@ -110,9 +98,10 @@ export const deleteHotel = async (req: Request, res: Response) => {
   try {
 
     const { id } = req.params;
-    const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = '${id}'`;
+    const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = ?`;
+    const Values = [id];
 
-    connection.query(query, (err, result: OkPacket) => {
+    connection.query(query, Values, (err, result: OkPacket) => {
       if (err) {
         res.status(404).json({ error: 'Hotel has not been deleted' });
       } else {
@@ -200,8 +189,7 @@ export const getHotels = async (req: Request, res: Response) => {
     }
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
-      if (err) {
-        // console.error('Error executing MySQL query:', err);
+      if (err) {       
         res.status(500).send({ success: false, error: 'Error retrieving hotels' });
         return;
       }

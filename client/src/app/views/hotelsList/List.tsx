@@ -13,12 +13,7 @@ import "./list.scss";
 import { DateRangeInterface } from "../../../helpers/dateRange";
 
 const List: React.FC = () => {
-  interface Options {
-    adult: number;
-    children: number;
-    room: number;
-  }
-
+ 
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
   const [dates, setDates] = useState(location.state.dates);

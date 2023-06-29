@@ -10,7 +10,7 @@ import { roomTypesInterface } from "../../../helpers/roomTypesInterface";
 import "./newRoom.scss";
 
 const NewRoom = () => {
-  //метод reduce() для преобразования массива roomInputs в объект initialInfo.
+  //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: RoomInterface = roomInputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),
     { hotelID: 0, typeID: 0 } as RoomInterface

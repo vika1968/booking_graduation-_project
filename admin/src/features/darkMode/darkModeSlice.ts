@@ -7,10 +7,10 @@ interface DarkModeState {
   darkMode: boolean;
 }
 
-type DarkModeAction =
-  | { type: "IGHT" }
-  | { type: "DARK" }
-  | { type: "TOGGLE" };
+// type DarkModeAction =
+//   | { type: "IGHT" }
+//   | { type: "DARK" }
+//   | { type: "TOGGLE" };
 
 const INITIAL_STATE: DarkModeState = {
   darkMode: false,
@@ -20,13 +20,8 @@ export const darkModeSlice = createSlice({
   name: "darkMode",
   initialState: INITIAL_STATE,
   reducers: {
-    // setDarkMode: (state, action: PayloadAction<boolean>) => {
-    //   state.darkMode = action.payload;
-    //   console.log('setDarkMode')
-    // },
     toggleDarkMode: (state) => {
-      state.darkMode = !state.darkMode;
-    //  console.log('toggleDarkMode')
+      state.darkMode = !state.darkMode;    
     },
   },
   extraReducers: (builder) => {

@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <div className="home">
       <Sidebar />
-      <div className="homeContainer">
+      <div className="home-container">
         <Navbar />
         <div className="widgets">
           <Widget type="user" />
@@ -24,8 +24,8 @@ const Home = () => {
           <Featured />
           <Chart title="Last 6 Months (Revenue)" aspect={3 / 1} />
         </div>
-        <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
+        <div className="list-cntainer">
+          <div className="list-title">Latest Transactions</div>
           <Table />
         </div>
       </div>

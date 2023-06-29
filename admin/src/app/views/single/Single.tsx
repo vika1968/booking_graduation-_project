@@ -11,14 +11,11 @@ const Single = () => {
       <div className="singleContainer">
         <Navbar />
         <div className="top">
-          <div className="left">
-            {/* <div className="editButton">Edit</div> */}
+          <div className="left">        
             <div className="editButton"></div>
             <h1 className="title">Information</h1>
             <div className="item">
               <img
-                // src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                // src="https://as1.ftcdn.net/v2/jpg/01/85/04/84/1000_F_185048418_X1kohHSgyAbPJQxPHurs4uXCTmcRSNAp.jpg"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR25wSgGGaOwHY5VR8g5ZzKOhyG0TG_jwB_IQ&usqp=CAU"
                 alt=""
                 className="itemImg"

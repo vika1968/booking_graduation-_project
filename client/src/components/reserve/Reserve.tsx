@@ -159,7 +159,7 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
     }
 
     if (selectedRooms.length === 0) {
-      showToast("Please select at least one room.", "error redirect", "");
+      showToast("Please select at least one room.", "error no redirect", "");
       return;
     }
 
