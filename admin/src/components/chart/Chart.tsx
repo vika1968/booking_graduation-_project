@@ -33,7 +33,7 @@ const Chart: React.FC<ChartProps> = ({ aspect, title }) => {
             </linearGradient>
           </defs>
           <XAxis dataKey="name" stroke="gray" />
-          <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
+          <CartesianGrid strokeDasharray="3 3" className="chart-grid" />
           <Tooltip />
           <Area
             type="monotone"

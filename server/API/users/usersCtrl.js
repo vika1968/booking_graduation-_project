@@ -28,7 +28,7 @@ function getUser(req, res) {
             if (!userId)
                 throw new Error("No authorized user !!!!!!!");
             const decodedUserId = jwt_simple_1.default.decode(userId, secret);
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = '${decodedUserId.userID}'`;
+            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND userID = '${decodedUserId.userID}'`;
             database_1.default.query(query, [decodedUserId], (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing SQL query" });
@@ -49,22 +49,16 @@ function register(req, res) {
         try {
             const { username, email, password, country, city, phone } = req.body;
             if (!username)
-                // throw new Error("No username available from req.body");
                 return res.status(500).send({ success: false, error: "No username available." });
             if (!email)
-                //  throw new Error("No email available from req.body");
                 return res.status(500).send({ success: false, error: "No email available." });
             if (!password)
-                //  throw new Error("No password available from req.body");
                 return res.status(500).send({ success: false, error: "No password available." });
             if (!country)
-                //  throw new Error("No country available from req.body");
                 return res.status(500).send({ success: false, error: "No country available." });
             if (!city)
-                //  throw new Error("No city available from req.body");
                 return res.status(500).send({ success: false, error: "No city available." });
             if (!phone)
-                //  throw new Error("No phone available from req.body");
                 return res.status(500).send({ success: false, error: "No city available." });
             const { error } = userValidator_1.UserValidation.validate({ email, password });
             if (error) {
@@ -73,7 +67,7 @@ function register(req, res) {
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
             const hash = bcrypt_1.default.hashSync(password, salt);
             const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
-            database_1.default.query(query, (error, results, fields) => {
+            database_1.default.query(query, (error, results) => {
                 if (error) {
                     return res.status(500).send({
                         success: false,
@@ -104,8 +98,8 @@ function login(req, res) {
             const password = credentials.password;
             if (!email || !password)
                 throw new Error("no data from client login in login");
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE email='${email}'`;
-            database_1.default.query(query, (err, results, fields) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND email='${email}'`;
+            database_1.default.query(query, (err, results) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     if (err)
                         throw err;
@@ -152,7 +146,7 @@ function updateUser(req, res) {
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
             const hash = bcrypt_1.default.hashSync(password, salt);
             const query = `UPDATE \`hotel-booking\`.\`users\` SET email ='${email}', password ='${hash}' WHERE userID ='${id}';`;
-            database_1.default.query(query, (error, results, fields) => {
+            database_1.default.query(query, (error, results) => {
                 if (error) {
                     return res.status(500).send({
                         success: false,
@@ -182,28 +176,34 @@ function deleteUser(req, res) {
                 return res.status(400).json({ error: "Missing user ID." });
             }
             res.clearCookie('userId');
-            const query = `DELETE FROM \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
-            database_1.default.query(query, (err, result) => {
+            const query = `DELETE FROM \`hotel-booking\`.\`users\` WHERE userID = ?`;
+            const value = [id];
+            database_1.default.query(query, value, (err, result) => {
                 if (err) {
-                    return res.status(500).json({ error: "Something went wrong. Error deleting user from the database." });
+                    res.status(404).json({ error: 'Something went wrong. Error deleting user from the database.' });
                 }
-                if (result.affectedRows === 0) {
-                    return res.status(404).json({ error: "No user found with the specified ID." });
+                else {
+                    if (result.affectedRows > 0) {
+                        res.status(200).json({ message: 'User has been deleted.' });
+                    }
+                    else {
+                        res.status(404).json({ error: 'User not found' });
+                    }
                 }
-                return res.status(200).json({ error: "The user has been deleted." });
             });
         }
         catch (error) {
-            res.status(500).json({ success: false, error: error.message });
+            res.status(500).send({ success: false, error: error.message });
         }
     });
 }
 exports.deleteUser = deleteUser;
+;
 function getUserByID(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.id;
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
+            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND userID = ${id}`;
             database_1.default.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).json({ error: "Something went wrong." });

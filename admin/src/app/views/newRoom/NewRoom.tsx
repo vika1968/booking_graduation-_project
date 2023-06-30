@@ -60,20 +60,28 @@ const NewRoom = () => {
   const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (isNaN(info.price) || info.price.toString() === "") {   
-     showToast("The 'Price' field must be a number.", "error no redirect", "");
+    if (isNaN(info.price) || info.price.toString() === "") {
+      showToast("The 'Price' field must be a number.", "error no redirect", "");
       return;
     }
 
-    if (isNaN(info.maxPeople) || info.maxPeople.toString() === "") {  
-     showToast("The 'Max People' field must be a number.", "error no redirect", "");
-     return;
+    if (isNaN(info.maxPeople) || info.maxPeople.toString() === "") {
+      showToast(
+        "The 'Max People' field must be a number.",
+        "error no redirect",
+        ""
+      );
+      return;
     }
 
     const cleanedRooms = parseInt(rooms.replace(/,/g, ""), 10);
     if (isNaN(cleanedRooms)) {
-      showToast("The 'Rooms' must be a comma-separated numbers or single number.", "error no redirect", "");
-     return;
+      showToast(
+        "The 'Rooms' must be a comma-separated numbers or single number.",
+        "error no redirect",
+        ""
+      );
+      return;
     }
 
     let isValid = true;
@@ -89,12 +97,12 @@ const NewRoom = () => {
       }
     });
 
-    if (!isValid) {   
+    if (!isValid) {
       showToast("Please fill all fields.", "error no redirect", "");
       return;
     }
 
-    if (rooms.length === 0) {   
+    if (rooms.length === 0) {
       showToast("The 'Rooms' field must be chosen.", "error no redirect", "");
       return;
     }
@@ -110,12 +118,12 @@ const NewRoom = () => {
       });
 
     try {
-      if (hotelID === undefined || hotelID === 0) {     
+      if (hotelID === undefined || hotelID === 0) {
         showToast("The 'Hotel' must be chosen.", "error no redirect", "");
         return;
       }
 
-      if (typeID === undefined || typeID === 0) {      
+      if (typeID === undefined || typeID === 0) {
         showToast("The 'Room Type' must be chosen.", "error no redirect", "");
         return;
       }
@@ -128,7 +136,7 @@ const NewRoom = () => {
 
       const { success } = data;
 
-      if (success) {      
+      if (success) {
         showToast(
           "New room(s) successfully added!🎉",
           "success no redirect",
@@ -136,8 +144,8 @@ const NewRoom = () => {
         );
         handleClear();
       }
-    } catch (error: any) {   
-     showToast(error.response.data.error, "error no redirect", "");
+    } catch (error: any) {
+      showToast(error.response.data.error, "error no redirect", "");
     }
   };
 
@@ -146,17 +154,19 @@ const NewRoom = () => {
       <ToastContainer className="toast-container" />
       <div className="new">
         <Sidebar />
-        <div className="newContainer">
+        <div className="new-container">
           <Navbar />
-          <div className="top">
-            <h1>Add New Room</h1>
+          <div className="new-container__top">
+            <h1 className="new-container__title">Add New Room</h1>
           </div>
-          <div className="bottom">
-            <div className="right">
-              <form>
+          <div className="new-container__bottom">
+            <div className="new-container__right">
+              <form className="new-container__form">
                 {roomInputs.map((input) => (
-                  <div className="formInput" key={input.id}>
-                    <label>{input.label}</label>
+                  <div className="new-container__form-input" key={input.id}>
+                    <label className="new-container__form-input-label">
+                      {input.label}
+                    </label>
                     <input
                       id={input.id}
                       type={input.type}
@@ -167,8 +177,10 @@ const NewRoom = () => {
                     />
                   </div>
                 ))}
-                <div className="formInput">
-                  <label>Rooms</label>
+                <div className="new-container__form-input">
+                  <label className="new-container__form-input-label">
+                    Rooms
+                  </label>
                   <textarea
                     value={rooms}
                     onChange={(event) => setRooms(event.target.value)}
@@ -177,8 +189,10 @@ const NewRoom = () => {
                   />
                 </div>
 
-                <div className="formInput">
-                  <label>Choose a hotel</label>
+                <div className="new-container__form-input">
+                  <label className="new-container__form-input-label">
+                    Choose a hotel
+                  </label>
                   <select
                     id="hotelId"
                     value={hotelID}
@@ -198,9 +212,10 @@ const NewRoom = () => {
                   </select>
                 </div>
 
-                <div className="formInput">
-                  <label>Choose a room type</label>
-
+                <div className="new-container__form-input">
+                  <label className="new-container__form-input-label">
+                    Choose a room type
+                  </label>
                   <select
                     id="rooms"
                     onChange={(event) => setTypeID(Number(event.target.value))}
@@ -218,8 +233,13 @@ const NewRoom = () => {
                   </select>
                 </div>
 
-                <div className="formInput">
-                  <button onClick={handleClick}>Send</button>
+                <div className="new-container__form-input">
+                  <button
+                    className="new-container__form-button"
+                    onClick={handleClick}
+                  >
+                    Send
+                  </button>
                 </div>
               </form>
             </div>
@@ -229,5 +249,4 @@ const NewRoom = () => {
     </>
   );
 };
-
 export default NewRoom;

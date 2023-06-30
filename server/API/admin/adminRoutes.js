@@ -8,6 +8,6 @@ const adminCtrl_1 = require("./adminCtrl");
 const adminRouter = express_1.default.Router();
 adminRouter
     .get("/retrieve/get-admin-by-cookie", adminCtrl_1.getAdmin)
-    .post("/login", adminCtrl_1.login)
-    .post("/register", adminCtrl_1.register);
+    .post("/login", adminCtrl_1.login);
+// .post("/register", register)
 exports.default = adminRouter;

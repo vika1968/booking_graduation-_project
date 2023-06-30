@@ -7,7 +7,7 @@ const adminRouter = express.Router();
 adminRouter
   .get("/retrieve/get-admin-by-cookie", getAdmin)  
   .post("/login", login)
-  .post("/register", register)
+  // .post("/register", register)
 export default adminRouter;
 
 

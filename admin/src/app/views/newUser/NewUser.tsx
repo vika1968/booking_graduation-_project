@@ -5,6 +5,8 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import axios from "axios";
 import { UserInterface } from "../../../helpers/userInterface";
+import { showToast } from "../../../helpers/toast";
+import { ToastContainer } from "react-toastify";
 import "./newUser.scss";
 interface Input {
   id: string;
@@ -85,9 +87,9 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
         }
       });
 
-      if (!isValid) {
-        alert("Please fill all fields");
-        return;
+      if (!isValid) {     
+       showToast("Please fill all fields", "error no redirect", "");
+       return;
       }
 
       const newUser = {
@@ -97,9 +99,9 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
 
       const { data } = await axios.post("/api/admin/register", newUser);
       const { success } = data;
-      if (success) {
-        alert("New admin successfully added");
-        handleClear();
+      if (success) {      
+       showToast("New admin successfully added!🎉", "success no redirect", "");
+       handleClear();
 
          // Reset placeholders
          const updatedPlaceholders: { [key: string]: string } = {};
@@ -109,64 +111,67 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
          setPlaceholders(updatedPlaceholders);
        }
      
-    } catch (error: any) {
-      alert(error.response.data.error);
+    } catch (error: any) {   
+     showToast(error.response.data.error, "error no redirect", "");
     }
   };
 
-  return (
-    <div className="new">
-      <Sidebar />
-      <div className="newContainer">
-        <Navbar />
-        <div className="top">
-          <h1>{title}</h1>
+return (
+<>
+  <ToastContainer className="toast-container" />
+  <div className="new">
+    <Sidebar />
+    <div className="new__container">
+      <Navbar />
+      <div className="new__top">
+        <h1>{title}</h1>
+      </div>
+      <div className="new__bottom">
+        <div className="new__left">
+          <img
+            src={
+              selectedFiles.length > 0
+                ? URL.createObjectURL(selectedFiles[0])
+                : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+            }
+            alt=""
+          />
         </div>
-        <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                selectedFiles.length > 0
-                  ? URL.createObjectURL(selectedFiles[0])
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
-          <div className="right">
-            <form>
-              <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
+        <div className="new__right">
+          <form>
+            <div className="form-input">
+              <label htmlFor="file">
+                Image: <DriveFolderUploadOutlinedIcon className="icon" />
+              </label>
+              <input
+                type="file"
+                id="file"
+                onChange={handleFileSelect}
+                style={{ display: "none" }}
+              />
+            </div>
+
+            {inputs.map((input) => (
+              <div className="form-input" key={input.id}>
+                <label>{input.label}</label>
                 <input
-                  type="file"
-                  id="file"
-                  onChange={handleFileSelect}
-                  style={{ display: "none" }}
+                  id={input.id}
+                  type={input.type}
+                  placeholder={placeholders[input.id]}
+                  value={info[input.id] as string}
+                  onChange={handleChange}
+                  className={isFilled ? "input-filled" : "input-placeholder"}
                 />
               </div>
-
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    placeholder={placeholders[input.id]}
-                    value={info[input.id] as string}
-                    onChange={handleChange}
-                    className={isFilled ? "input-filled" : "none"}
-                  />
-                </div>
-              ))}
-              <button onClick={handleClick}>Send</button>
-            </form>
-          </div>
+            ))}
+            <button onClick={handleClick}>Send</button>
+          </form>
         </div>
       </div>
     </div>
-  );
-};
+    </div>
+      </>
+ );
+ }; 
 
 export default NewUser;

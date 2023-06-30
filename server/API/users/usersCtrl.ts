@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
 import { UserValidation } from "./userValidator";
 import connection from "../../DB/database";
-import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
 const saltRounds = 10;
 
@@ -16,7 +16,7 @@ export async function getUser(req: express.Request, res: express.Response) {
         if (!userId) throw new Error("No authorized user !!!!!!!");
 
         const decodedUserId = jwt.decode(userId, secret);
-        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = '${decodedUserId.userID}'`;
+        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND userID = '${decodedUserId.userID}'`;
       
         connection.query(query, [decodedUserId], (error, results) => {
             if (error) {
@@ -34,23 +34,17 @@ export async function register(req: express.Request, res: express.Response) {
     try {
         const { username, email, password, country, city, phone } = req.body;
 
-        if (!username)
-            // throw new Error("No username available from req.body");
+        if (!username)           
             return res.status(500).send({ success: false, error: "No username available." });
-        if (!email)
-            //  throw new Error("No email available from req.body");
+        if (!email)          
             return res.status(500).send({ success: false, error: "No email available." });
-        if (!password)
-            //  throw new Error("No password available from req.body");
+        if (!password)        
             return res.status(500).send({ success: false, error: "No password available." });
-        if (!country)
-            //  throw new Error("No country available from req.body");
+        if (!country)         
             return res.status(500).send({ success: false, error: "No country available." });
-        if (!city)
-            //  throw new Error("No city available from req.body");
+        if (!city)         
             return res.status(500).send({ success: false, error: "No city available." });
-        if (!phone)
-            //  throw new Error("No phone available from req.body");
+        if (!phone)           
             return res.status(500).send({ success: false, error: "No city available." });
 
         const { error } = UserValidation.validate({ email, password });
@@ -63,7 +57,7 @@ export async function register(req: express.Request, res: express.Response) {
 
         const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
 
-         connection.query(query, (error, results: any, fields) => {
+         connection.query(query, (error, results: any) => {
             if (error) {
                 return res.status(500).send({
                     success: false,
@@ -89,7 +83,6 @@ export async function register(req: express.Request, res: express.Response) {
     }
 }
 
-
 export async function login(req: express.Request, res: express.Response) {
     try {
         const { credentials } = req.body;
@@ -98,8 +91,8 @@ export async function login(req: express.Request, res: express.Response) {
 
         if (!email || !password)
             throw new Error("no data from client login in login");
-        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE email='${email}'`;
-        connection.query(query, async (err, results: RowDataPacket[], fields) => {
+        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND email='${email}'`;
+        connection.query(query, async (err, results: RowDataPacket[]) => {
             try {
                 if (err) throw err;
                 if (!Array.isArray(results) || results.length === 0) {
@@ -127,7 +120,6 @@ export async function login(req: express.Request, res: express.Response) {
     }
 }
 
-
 export async function updateUser(req: express.Request, res: express.Response) {
     try {
         const { email, password, id } = req.body;
@@ -146,7 +138,7 @@ export async function updateUser(req: express.Request, res: express.Response) {
 
         const query = `UPDATE \`hotel-booking\`.\`users\` SET email ='${email}', password ='${hash}' WHERE userID ='${id}';`;
 
-        connection.query(query, (error, results, fields) => {
+        connection.query(query, (error, results) => {
             if (error) {
                 return res.status(500).send({
                     success: false,
@@ -173,33 +165,37 @@ export async function updateUser(req: express.Request, res: express.Response) {
 export async function deleteUser(req: express.Request, res: express.Response) {
     try {
         const id = req.params.id;
+      
         if (!id) {
             return res.status(400).json({ error: "Missing user ID." });
         }
 
         res.clearCookie('userId');
 
-        const query = `DELETE FROM \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
-        connection.query(query, (err, result: ResultSetHeader) => {
-            if (err) {
-                return res.status(500).json({ error: "Something went wrong. Error deleting user from the database." });
-            }
+        const query = `DELETE FROM \`hotel-booking\`.\`users\` WHERE userID = ?`;
+        const value = [id];
 
-            if (result.affectedRows === 0) {
-                return res.status(404).json({ error: "No user found with the specified ID." });
-            }
+       connection.query(query, value, (err, result: OkPacket) => {
+      if (err) {
+        res.status(404).json({ error: 'Something went wrong. Error deleting user from the database.' });
+      } else {
+        if (result.affectedRows > 0) {
+          res.status(200).json({ message: 'User has been deleted.' });
 
-            return res.status(200).json({ error: "The user has been deleted." });
-        });
-    } catch (error: any) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-}
+        } else {
+          res.status(404).json({ error: 'User not found' });
+        }
+      }
+    });
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
+  }
+};
 
 export async function getUserByID(req: express.Request, res: express.Response) {
     try {
         const id = req.params.id;
-        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE userID = ${id}`;
+        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND userID = ${id}`;
 
         connection.query(query, (err, result: ResultSetHeader) => {
             if (err) {

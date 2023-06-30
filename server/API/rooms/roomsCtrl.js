@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateRoomAvailability = exports.deleteRoom = exports.createRoom = exports.getRoomTypes = exports.getRooms = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
-const getRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
         const query = `
@@ -22,33 +22,41 @@ const getRooms = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         const values = [min, max, limit];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                next(err);
+                res.status(500).send({ success: false, error: 'Error retrieving hotels' });
+                return;
+            }
+            if (result.length === 0) {
+                res.status(404).json({ error: 'No hotels found' });
             }
             else {
                 res.status(200).json(result);
             }
         });
     }
-    catch (err) {
-        next(err);
+    catch (error) {
+        res.status(500).send({ success: false, error: error.message });
     }
 });
 exports.getRooms = getRooms;
-const getRoomTypes = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getRoomTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = `
     SELECT * FROM \`hotel-booking\`.room_types`;
         database_1.default.query(query, (err, result) => {
             if (err) {
-                next(err);
+                res.status(500).send({ success: false, error: 'Error retrieving room types' });
+                return;
+            }
+            if (result.length === 0) {
+                res.status(404).json({ error: 'No room types found' });
             }
             else {
                 res.status(200).json(result);
             }
         });
     }
-    catch (err) {
-        next(err);
+    catch (error) {
+        res.status(500).send({ success: false, error: error.message });
     }
 });
 exports.getRoomTypes = getRoomTypes;

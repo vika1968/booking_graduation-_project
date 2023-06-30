@@ -2,12 +2,12 @@ import { DataGrid, GridColDef, GridEditCellProps } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import axios from "axios";
 import { UserInterface } from "../../helpers/userInterface";
 import { HotelInterface } from "../../helpers/hotelInterface";
 import { RoomInterface } from "../../helpers/roomInterface";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { showToast } from "../../helpers/toast";
+import { ToastContainer } from "react-toastify";
+import axios from "axios";
 import "./dataTable.scss";
 
 interface Row {
@@ -57,30 +57,20 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
     try {
       const response = await axios.delete(`/api/${path}/${id}`);
       const { message } = response.data;
-      alert(message);
-
+    
+      showToast(message, "success no redirect", "");
+      
       setList((prevList) => prevList?.filter((item) => item.id !== id) ?? null);
-    } catch (error: any) {
-      alert(error.response.data.error);
+    } catch (error: any) {    
+     showToast(error.response.data.error, "error no redirect", "");
     }
   };
 
   const handleUpdate = async (id: string, updatedFields: any) => {
     try {
       const response = await axios.put(`/api/${path}/${id}`, updatedFields);
-      const { message } = response.data;
-      //alert(message);
-
-      toast.success(message, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "custom-toast",
-      });
+      const { message } = response.data;    
+      showToast(message, "success no redirect", "");
 
       setList(
         (prevList) =>
@@ -88,8 +78,8 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
             item.id === id ? { ...item, ...updatedFields } : item
           ) ?? null
       );
-    } catch (error: any) {
-      alert(error.response.data.error);
+    } catch (error: any) { 
+    showToast(error.response.data.error, "error no redirect", "");
     }
   };
 
@@ -114,15 +104,19 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
-    width: 200,
+    width: 400,
     renderCell: (params) => {
       return (
-        <div className="cellAction">
-          <Link to={`/users/test`} style={{ textDecoration: "none" }}>
-            <div className="viewButton">View</div>
-          </Link>
+        <div className="cell-action">
+          {path === "users" ? (
+            <Link to={`/users/test`} style={{ textDecoration: "none" }}>
+              <div className="view-button">View User Transactions</div>
+            </Link>
+          ) : (
+            ""
+          )}
           <div
-            className="deleteButton"
+            className="delete-button"
             onClick={() => handleDelete(params.row.id)}
           >
             Delete
@@ -130,7 +124,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
           {path === "hotels" && (
             <div
-              className="updateButton"
+              className="update-button"
               onClick={(e: React.MouseEvent<HTMLDivElement>) =>
                 handleUpdate(params.row.id, {
                   name: params.row.name,
@@ -161,18 +155,8 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
     if (originalValue !== value) {
       try {
         await handleUpdate(id, { [field]: value });
-      } catch (error: any) {
-       // alert(error.response.data.error);
-       toast.error(error.response.data.error, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "custom-toast",
-      });
+      } catch (error: any) {   
+        showToast(error.response.data.error, "error no redirect", "");
       }
     }
   };
@@ -185,16 +169,16 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
   return (
     <>
-      <ToastContainer />
-      <div className="datatable">
-        <div className="datatableTitle">
+      <ToastContainer className="toast-container"/>
+      <div className="data-table">
+        <div className="data-table__title">
           {path}
           <Link to={`/${path}/new`} className="link">
             Add New
           </Link>
         </div>
         <DataGrid
-          className="datagrid"
+          className="data-grid"
           rows={list || []}
           columns={
             path === "hotels"

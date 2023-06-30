@@ -3,12 +3,12 @@
   width: 100%;
   display: flex;
 
-  .newContainer {
+  .new__container {
     flex: 6;
 
-    .top,
-    .bottom {
-      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    .new__top,
+    .new__bottom {
+     // -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
       box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
       padding: 10px;
       margin: 20px;
@@ -19,7 +19,7 @@
         font-size: 20px;
       }
 
-      .left {
+      .new__left {
         flex: 1;
         text-align: center;
 
@@ -31,7 +31,7 @@
         }
       }
 
-      .right {
+      .new__right {
         flex: 2;
         padding: 0px 20px; 
         
@@ -41,7 +41,7 @@
           gap: 30px;
           justify-content: space-between;
 
-          .formInput {
+          .form-input {
             display: flex;
             flex-direction: column;   
             width: 40%;
@@ -50,7 +50,7 @@
               display: flex;
               align-items: center;
               gap: 10px;
-
+              color: #c01e1e; /* laceholder  color*/
               .icon {
                 cursor: pointer;
               }

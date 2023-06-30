@@ -1,8 +1,7 @@
-
 .table {
-  .cellWrapper {
+  .cell-wrapper {
     display: flex;
-    align-items: center;  
+    align-items: center;
 
     .image {
       width: 32px;
@@ -20,11 +19,18 @@
     &.Approved {
       color: green;
       background-color: rgba(0, 128, 0, 0.151);
+      box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      padding-right: 15px;
+      padding-left: 15px;
     }
+
     &.Pending {
       color: goldenrod;
       background-color: rgba(189, 189, 3, 0.103);
+      box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      padding-right: 20px;
+      padding-left: 20px;
     }
   }
-}
 
+}

@@ -99,11 +99,11 @@ export const deleteHotel = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = ?`;
-    const Values = [id];
+    const value = [id];
 
-    connection.query(query, Values, (err, result: OkPacket) => {
+    connection.query(query, value, (err, result: OkPacket) => {
       if (err) {
-        res.status(404).json({ error: 'Hotel has not been deleted' });
+        res.status(404).json({ error: 'Something went wrong. Error deleting hotel from the database.' });
       } else {
         if (result.affectedRows > 0) {
           res.status(200).json({ message: 'Hotel has been deleted.' });
@@ -208,7 +208,7 @@ export const getHotelByID = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const query = 'SELECT *, (SELECT  im.`image_path`  FROM `hotel-booking`.`image_mapping` AS im INNER JOIN `hotel-booking`.`hotel_photos` hp ON im.`file_name` = hp.`photo` WHERE hp.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1) AS `photo` FROM `hotel-booking`.`hotels` WHERE hotelID = ?';
+    const query = 'SELECT *, (SELECT im.`image_path` FROM `hotel-booking`.`image_mapping` AS im INNER JOIN `hotel-booking`.`hotel_photos` hp ON im.`file_name` = hp.`photo` WHERE hp.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1) AS `photo` FROM `hotel-booking`.`hotels` WHERE hotelID = ?';
     const values = [id];
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {

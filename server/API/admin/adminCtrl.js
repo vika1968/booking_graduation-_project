@@ -48,25 +48,17 @@ function register(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { username, email, password, country, city, phone } = req.body;
-            //    if (!username || !email || !password || !country|| !city || !phone)
-            //       throw new Error("Not all fields are available from req.body");   
             if (!username)
-                // throw new Error("No username available from req.body");
                 return res.status(500).send({ success: false, error: "No admin name available." });
             if (!email)
-                //  throw new Error("No email available from req.body");
                 return res.status(500).send({ success: false, error: "No email available." });
             if (!password)
-                //  throw new Error("No password available from req.body");
                 return res.status(500).send({ success: false, error: "No password available." });
             if (!country)
-                //  throw new Error("No country available from req.body");
                 return res.status(500).send({ success: false, error: "No country available." });
             if (!city)
-                //  throw new Error("No city available from req.body");
                 return res.status(500).send({ success: false, error: "No city available." });
             if (!phone)
-                //  throw new Error("No phone available from req.body");
                 return res.status(500).send({ success: phone, error: "No city available." });
             const { error } = adminValidator_1.AdminValidation.validate({ email, password });
             if (error) {

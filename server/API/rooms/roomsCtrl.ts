@@ -1,41 +1,52 @@
-import  { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import connection from "../../DB/database";
 import { OkPacket, RowDataPacket } from "mysql2/promise";
 
-export const getRooms = async (req: Request, res: Response, next: NextFunction) => {
+export const getRooms = async (req: Request, res: Response,) => {
   try {
-    const { min, max, limit } = req.query;   
+    const { min, max, limit } = req.query;
 
     const query = `
     SELECT * FROM \`hotel-booking\`.rooms`;
+
     const values = [min, max, limit];
-    connection.query(query, values, (err, result) => {
+    connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        next(err);
+        res.status(500).send({ success: false, error: 'Error retrieving hotels' });
+        return;
+      }
+      if (result.length === 0) {
+        res.status(404).json({ error: 'No hotels found' });
       } else {
         res.status(200).json(result);
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
   }
 };
 
-export const getRoomTypes = async (req: Request, res: Response, next: NextFunction) => {
+
+export const getRoomTypes = async (req: Request, res: Response) => {
   try {
     const query = `
     SELECT * FROM \`hotel-booking\`.room_types`;
-    connection.query(query, (err, result) => {
+    
+    connection.query(query, (err, result: RowDataPacket[]) => {
       if (err) {
-        next(err);
+        res.status(500).send({ success: false, error: 'Error retrieving room types' });
+        return;
+      }
+      if (result.length === 0) {
+        res.status(404).json({ error: 'No room types found' });
       } else {
         res.status(200).json(result);
       }
     });
-  } catch (err) {
-    next(err);
+  } catch (error: any) {
+    res.status(500).send({ success: false, error: error.message });
   }
-}
+};
 
 export const createRoom = async (req: Request, res: Response) => {
   try {
@@ -55,12 +66,12 @@ export const createRoom = async (req: Request, res: Response) => {
         });
       }
 
-      if (checkRoomResults.length > 0) {       
+      if (checkRoomResults.length > 0) {
         return res.status(500).send({
           success: false,
           error: "Room data already exists in the database for the specified hotel.",
         });
-      }     
+      }
       const roomQuery = `
         INSERT INTO \`hotel-booking\`.\`rooms\` (hotelID, title, price, maxPeople, description, typeID)
         VALUES (?, ?, ?, ?, ?, ?);
@@ -82,7 +93,7 @@ export const createRoom = async (req: Request, res: Response) => {
           VALUES
         `;
         const roomNumbersValues = roomNumbers.map((room: any) => `(${roomId}, ${room.number})`).join(", ");
-       
+
         connection.query(roomNumbersQuery + roomNumbersValues, (error, roomNumbersResults) => {
           if (error) {
             return res.status(500).send({
@@ -102,7 +113,6 @@ export const createRoom = async (req: Request, res: Response) => {
 
 export const deleteRoom = async (req: Request, res: Response) => {
   try {
-
     const { id } = req.params;
     const query = `DELETE FROM \`hotel-booking\`.rooms WHERE roomID = '${id}'`;
 
@@ -110,7 +120,7 @@ export const deleteRoom = async (req: Request, res: Response) => {
       if (err) {
         res.status(404).json({ error: 'Room  has not  been delete' });
       } else {
-        if (result.affectedRows > 0) {        
+        if (result.affectedRows > 0) {
           res.status(200).json({ message: 'Room has been deleted.' });
         } else {
           res.status(404).json({ error: 'Room not found' });
@@ -124,10 +134,9 @@ export const deleteRoom = async (req: Request, res: Response) => {
 
 export const updateRoomAvailability = async (req: Request, res: Response) => {
   try {
-   
     const { id } = req.params;
     const { user, dates } = req.body;
-    
+
     const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
     const selectValues = [id];
 
@@ -150,7 +159,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
         `;
 
         const checkValues = [
-          hotelRoomId,         
+          hotelRoomId,
           dates[0],
           dates[0],
           dates[1],
@@ -162,7 +171,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
         ];
 
         connection.query(checkQuery, checkValues, (checkError, checkResult: RowDataPacket[]) => {
-          if (checkError) {          
+          if (checkError) {
             res.status(500).json({ error: 'Failed to update room availability' });
           } else if (checkResult.length > 0) {
             res.status(400).json({ error: `Room ${selectValues} is already unavailable for the selected dates` });
@@ -185,7 +194,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
         });
       }
     });
-  } catch (error: any) {   
+  } catch (error: any) {
     res.status(500).send({ success: false, error: error.message });
   }
 };

@@ -2,15 +2,35 @@
   background-color: #111;
   color: rgb(156, 156, 156);
 
-  .chartGrid {
+  .chart-grid {
     stroke: rgba(228, 228, 228, 0.219);
+  }
+
+  .single__left,
+  .chart,
+  .featured,
+  .widget,
+  .single__bottom {
+    box-shadow: 1px 2px 5px 1px rgba(236, 230, 230, 0.47);
   }
 
   .table {
     background-color: #111;
 
-    .tableCell {
+    .table-cell {
       color: gray;
+    }
+
+    .status.Approved {
+      box-shadow: 2px 2px 6px 1px white;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    .status.Pending {
+      box-shadow: 2px 2px 6px 1px white;
+      padding-right: 20px;
+      padding-left: 20px;
     }
   }
 
@@ -32,6 +52,7 @@
         color: #999;
       }
     }
+
     hr {
       border-color: #333;
     }
@@ -42,28 +63,42 @@
           background-color: #333;
         }
 
-        .icon {
-          color: #999;
+        .icon {         
+          color: white;
         }
       }
     }
   }
 
-  .datatable {
-    .datagrid {
+  .data-table {
+    .data-grid {
       color: gray;
       border: none;
 
-      .viewButton,
-      .deleteButton,
       .cellWithStatus {
         color: gray;
         border: none;
+
+      }
+
+      .view-button,
+      .delete-button,
+      .update-button {
+        border: 1px solid white;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .view-button {
+        color: white;
+        border: 1px solid white;
+        padding-left: 15px;
+        padding-right: 15px;
       }
     }
   }
 
-  input{
-      background-color: transparent;
+  input {
+    background-color: transparent;
   }
 }

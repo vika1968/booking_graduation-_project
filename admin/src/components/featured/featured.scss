@@ -3,6 +3,7 @@
   box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   padding: 10px;
   height: 600px;//eto
+ //height: 500px;
 
   .top {
     display: flex;
@@ -15,7 +16,7 @@
       font-weight: 500;
     }
 
-    .moreIcon {
+    .more-icon {
       font-size: 20px;
     }
   }
@@ -28,7 +29,7 @@
     justify-content: center;
     gap: 15px;
 
-    .featuredChart {
+    .featured-chart {
       width: 100px;
       height: 100px;
     }
@@ -58,12 +59,12 @@
       .item {
         text-align: center;
 
-        .itemTitle {
+        .item-title {
           font-size: 14px;
           color: gray;
         }
 
-        .itemResult {
+        .item-result {
           display: flex;
           align-items: center;
           margin-top: 10px;
@@ -77,7 +78,7 @@
             color: red;
           }
 
-          .arrowIcon {
+          .arrow-icon {
             font-size: 16px;
             margin-right: 5px;
           }

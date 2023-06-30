@@ -35,28 +35,19 @@ export async function getAdmin(req: express.Request, res: express.Response) {
 export async function register(req: express.Request, res: express.Response) {
     try {
         const { username, email, password, country, city, phone } = req.body;
-
-        //    if (!username || !email || !password || !country|| !city || !phone)
-        //       throw new Error("Not all fields are available from req.body");   
-        if (!username)
-            // throw new Error("No username available from req.body");
+     
+        if (!username)          
             return res.status(500).send({ success: false, error: "No admin name available." });
-        if (!email)
-            //  throw new Error("No email available from req.body");
+        if (!email)        
             return res.status(500).send({ success: false, error: "No email available." });
-        if (!password)
-            //  throw new Error("No password available from req.body");
+        if (!password)            
             return res.status(500).send({ success: false, error: "No password available." });
-        if (!country)
-            //  throw new Error("No country available from req.body");
+        if (!country)         
             return res.status(500).send({ success: false, error: "No country available." });
-        if (!city)
-            //  throw new Error("No city available from req.body");
+        if (!city)          
             return res.status(500).send({ success: false, error: "No city available." });
-        if (!phone)
-            //  throw new Error("No phone available from req.body");
+        if (!phone)         
             return res.status(500).send({ success: phone, error: "No city available." });
-
         const { error } = AdminValidation.validate({ email, password });
         if (error) {
             return res.status(500).send({ success: false, error: error.message });
@@ -64,9 +55,9 @@ export async function register(req: express.Request, res: express.Response) {
 
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
-       
+
         const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", true);`;
-    
+
         connection.query(query, (error, results: any, fields) => {
             if (error) {
                 return res.status(500).send({
@@ -79,7 +70,7 @@ export async function register(req: express.Request, res: express.Response) {
             if (!secret)
                 return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
 
-            const insertId = results.insertId;          
+            const insertId = results.insertId;
 
             const cookie = { adminID: insertId };
             const JWTCookie = jwt.encode(cookie, secret);
@@ -92,7 +83,6 @@ export async function register(req: express.Request, res: express.Response) {
         res.status(500).send({ success: false, error: error.message });
     }
 }
-
 
 export async function login(req: express.Request, res: express.Response) {
     try {
@@ -114,7 +104,7 @@ export async function login(req: express.Request, res: express.Response) {
                     throw new Error("Password doesn't match or admin doesn't exists.");
                 }
                 const cookie = { adminID: results[0].userID };
-              
+
                 const secret = process.env.JWT_SECRET;
                 if (!secret) throw new Error("Couldn't load secret key from .env file");
 
