@@ -1,10 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faLocationDot,
-  faCircleXmark,
-  faCircleArrowLeft,
-  faCircleArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
+import {faLocationDot, faCircleXmark, faCircleArrowLeft, faCircleArrowRight} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../../components/footer/Footer";

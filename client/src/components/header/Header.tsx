@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faBed,  faCalendarDays,  faPerson,} from "@fortawesome/free-solid-svg-icons";
+import { faBed, faCalendarDays, faPerson} from "@fortawesome/free-solid-svg-icons";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";

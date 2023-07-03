@@ -13,7 +13,6 @@ userRouter
   .put("/update-user", updateUser)
   .delete("/:id", deleteUser)
 
-
 export default userRouter;
 
 

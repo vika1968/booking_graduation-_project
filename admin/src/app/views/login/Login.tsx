@@ -21,7 +21,7 @@ const Login = () => {
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!credentials.email || !credentials.password) {  
-      showToast( "Please enter both email and password.", "error no redirect", "" );
+      showToast("Please enter both email and password.", "error no redirect", "");
       return;
     }
 
@@ -49,7 +49,7 @@ const Login = () => {
 
   return (
     <>
-      <ToastContainer className="toast-container"/>
+      <ToastContainer />
       <div className="login">
         <div className="login__container">
           <input

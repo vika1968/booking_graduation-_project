@@ -125,7 +125,7 @@ const NewHotel = () => {
 
   return (
     <>
-      <ToastContainer className="toast-container" />
+      <ToastContainer />
       <div className="new">
         <Sidebar />
         <div className="new-container">
@@ -196,7 +196,7 @@ const NewHotel = () => {
                     )}
                   </select>
                 </div>
-
+                
                 <button type="submit" onClick={handleClick}>
                   Send
                 </button>

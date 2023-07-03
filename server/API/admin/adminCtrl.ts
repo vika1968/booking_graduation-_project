@@ -1,10 +1,10 @@
+
+import connection from "../../DB/database";
+import { RowDataPacket } from "mysql2";
+import { AdminValidation } from "./adminValidator";
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
-
-import connection from "../../DB/database";
-import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { AdminValidation } from "./adminValidator";
 
 const saltRounds = 10;
 

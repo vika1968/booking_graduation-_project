@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify"; //npm install react-toastify
 import "react-toastify/dist/ReactToastify.css";
 import "./register.scss";
+import { showToast } from "../../../helpers/toast";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -63,34 +64,36 @@ const Register = () => {
 
       await axios.post("/api/users/register", newUser);
       setSubmitted(true);
-      toast.success("User created!🎉", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        className: "custom-toast",
-        onClose: async () => {
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-          window.location.assign("/login");
-        },
-      });
+      // toast.success("User created!🎉", {
+      //   position: toast.POSITION.TOP_CENTER,
+      //   autoClose: 2000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   className: "custom-toast",
+      //   onClose: async () => {
+      //     await new Promise((resolve) => setTimeout(resolve, 3000));
+      //     window.location.assign("/login");
+      //   },
+      // });
+      showToast("User created!🎉", "success redirect", "/login");
     } catch (err: any) {
       setError(err.response.data.error);
-      if (error !== "") {
-        toast.error(error, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "custom-toast",
-        });
-      }
+      showToast(error, "error no redirect", "");
+     // if (error !== "") {
+        // toast.error(error, {
+        //   position: toast.POSITION.TOP_CENTER,
+        //   autoClose: 3000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   className: "custom-toast",
+        // });       
+     // }
     }
   };
 

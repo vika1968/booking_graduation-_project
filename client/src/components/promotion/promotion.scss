@@ -1,7 +1,8 @@
+@import "../../../../client/src/style/myColors.scss";
 .mail {
     width: 100%;
     margin-top: 40px;
-    background: rgb(118, 62, 170);
+    background: $primary-color;
     color: white;
     display: flex;
     flex-direction: column;

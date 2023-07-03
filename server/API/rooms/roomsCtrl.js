@@ -17,8 +17,7 @@ const database_1 = __importDefault(require("../../DB/database"));
 const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
-        const query = `
-    SELECT * FROM \`hotel-booking\`.rooms`;
+        const query = `SELECT * FROM \`hotel-booking\`.rooms`;
         const values = [min, max, limit];
         database_1.default.query(query, values, (err, result) => {
             if (err) {

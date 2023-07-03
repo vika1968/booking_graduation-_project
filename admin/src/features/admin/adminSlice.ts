@@ -8,7 +8,6 @@ export enum Status {
   IDLE = "idle",
   FAILED = "failed",
 }
-
 export interface AdminState {
   value: Admin | null;
   status: Status;
@@ -25,24 +24,21 @@ export const adminSlice = createSlice({
   reducers: {
     resetAdmin: (state) => {
       state.value = null;
-      state.status = Status.IDLE;   
-      //console.log( 'resetAdmin' )  
+      state.status = Status.IDLE;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getAdminByCookieMain.pending, (state) => {
-        state.status = Status.LOADING; 
-     // console.log( 'Status.LOADING' )    
+        state.status = Status.LOADING;
       })
       .addCase(getAdminByCookieMain.fulfilled, (state, action) => {
         state.status = Status.IDLE;
-        state.value = action.payload;    
-     //  console.log( 'Status.IDLE' )   
+        state.value = action.payload;
+
       })
       .addCase(getAdminByCookieMain.rejected, (state) => {
         state.status = Status.FAILED;
-     //  console.log( 'Status.FAILED' )  
       })
   },
 });

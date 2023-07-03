@@ -169,7 +169,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
   return (
     <>
-      <ToastContainer className="toast-container"/>
+      <ToastContainer />
       <div className="data-table">
         <div className="data-table__title">
           {path}

@@ -1,7 +1,6 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-
 interface DateRange {
     startDate: Date;
     endDate: Date;
@@ -15,7 +14,6 @@ interface SearchItem {
         room: number | undefined;
     };
 }
-
 export interface SearchState {
     value: SearchItem | null;
 }

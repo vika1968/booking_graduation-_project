@@ -6,8 +6,8 @@
   padding: 0;
 }
 
-.logBody {
-  background: linear-gradient(130deg, $primary-color, rgb(177, 149, 202));
+.login-body {
+  background: linear-gradient(130deg, $primary-color, $gradient-end-color);
   display: flex;
   height: 100vh;
   justify-content: center;
@@ -17,7 +17,7 @@
 
 .login {
   max-width: 1000px;
-  background: rgb(194, 176, 209);
+  background-color: rgb(194, 176, 209);
   padding: 25px 30px;
   border-radius: 5px;
 
@@ -45,7 +45,7 @@
       bottom: 0;
       height: 3px;
       width: 30px;
-      background: linear-gradient(130deg, $primary-color, rgb(177, 149, 202));
+      background: linear-gradient(130deg, $primary-color, $gradient-end-color);
     }
   }
 
@@ -59,7 +59,7 @@
     border-radius: 5px;
     margin-top: 20px;
     transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px $box-shadow-color;
 
     &:hover {
       background-color: $color-hover;
@@ -67,7 +67,7 @@
     }
 
     &:disabled {
-      background-color: rgb(167, 145, 187);
+      background-color: $disabled-button-color;
       cursor: not-allowed;
     }
   }

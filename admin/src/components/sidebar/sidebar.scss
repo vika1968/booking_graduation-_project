@@ -4,6 +4,7 @@
   min-height: 100vh;
   background-color: white;
   box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+
   .top {
     height: 50px;
     display: flex;
@@ -12,8 +13,7 @@
 
     .logo {
       font-size: 20px;
-      font-weight: bold;
-     // color: #6439ff;
+      font-weight: bold;   
       color: #7159c6;
     }
   }
@@ -33,8 +33,7 @@
 
       .title {
         font-size: 12px;
-        font-weight: bold;
-        //color: #999;
+        font-weight: bold;      
         color: #960d0d;
         margin-top: 15px;
         margin-bottom: 5px;
@@ -51,14 +50,12 @@
         }
 
         .icon {
-          font-size: 18px;
-          // color: #7451f8;
+          font-size: 18px;        
         }
 
         span {
           font-size: 13px;
-          font-weight: 600;
-        //  color: #888;
+          font-weight: 600;       
           margin-left: 10px;
         }
       }

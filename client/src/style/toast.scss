@@ -1,6 +1,7 @@
 
+@import  "./myColors.scss";
 .custom-toast {
-  background-color:rgb(118, 62, 170);
+  background-color: $primary-color;
   color: #ffffff;
 }
 

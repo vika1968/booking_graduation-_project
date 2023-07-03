@@ -6,8 +6,7 @@ export const getRooms = async (req: Request, res: Response,) => {
   try {
     const { min, max, limit } = req.query;
 
-    const query = `
-    SELECT * FROM \`hotel-booking\`.rooms`;
+    const query = `SELECT * FROM \`hotel-booking\`.rooms`;
 
     const values = [min, max, limit];
     connection.query(query, values, (err, result: RowDataPacket[]) => {
@@ -25,7 +24,6 @@ export const getRooms = async (req: Request, res: Response,) => {
     res.status(500).send({ success: false, error: error.message });
   }
 };
-
 
 export const getRoomTypes = async (req: Request, res: Response) => {
   try {

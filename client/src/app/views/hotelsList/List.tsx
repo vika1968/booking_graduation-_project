@@ -9,11 +9,10 @@ import useFetchClient from "../../../hooks/useFetchClient";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { useDispatch } from "react-redux";
 import { addSearch} from "../../../features/search/searchSlice";
-import "./list.scss";
 import { DateRangeInterface } from "../../../helpers/dateRange";
+import "./list.scss";
 
-const List: React.FC = () => {
- 
+const List: React.FC = () => { 
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
   const [dates, setDates] = useState(location.state.dates);
@@ -53,12 +52,16 @@ const List: React.FC = () => {
   }
   };
 
-  const handleOption = (name: keyof typeof options, value: string) => {
-    setOptions((prev: any) => ({
+// keyof typeof options возвращает объединение всех ключей объекта options.
+// В данном случае, typeof options возвращает тип объекта options, а keyof применяется к этому типу, чтобы получить все возможные ключи этого объекта. Результатом будет объединение всех ключей объекта options.
+// Например, если options имеет тип { name: string, age: number, isActive: boolean }, то keyof typeof options будет типом "name" | "age" | "isActive". Это позволяет использовать эти ключи для доступа к соответствующим значениям объекта options.
+
+ const handleOption = (name: keyof typeof options, value: string) => {
+    setOptions((prev: typeof options) => ({
       ...prev,
       [name]: parseInt(value),
     }));
-  };
+ };
 
   return (
     <div>

@@ -49,8 +49,8 @@ const Login = () => {
 
   return ( 
   <>
-    <ToastContainer  className="toast-container"/>
-    <div className="logBody">
+    <ToastContainer className="toast-container"/>
+    <div className="login-body">
       <div className="login">
         <h1 className="login__title">Log in</h1>
         <div className="login__container">
@@ -74,7 +74,7 @@ const Login = () => {
             disabled={!credentials.email || !credentials.password}
             >
             Login
-          </button>
+          </button>          
         </div>
       </div>
     </div>

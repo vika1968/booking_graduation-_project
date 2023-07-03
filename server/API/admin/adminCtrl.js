@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.register = exports.getAdmin = void 0;
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const jwt_simple_1 = __importDefault(require("jwt-simple"));
 const database_1 = __importDefault(require("../../DB/database"));
 const adminValidator_1 = require("./adminValidator");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const jwt_simple_1 = __importDefault(require("jwt-simple"));
 const saltRounds = 10;
 function getAdmin(req, res) {
     return __awaiter(this, void 0, void 0, function* () {

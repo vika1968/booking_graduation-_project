@@ -1,3 +1,4 @@
+@import  "../../../../client/src/style/myColors.scss";
 .footer {
   width: 100%;
   max-width: 1024px;
@@ -19,7 +20,7 @@
   &__icon {
     height: 40px;
     width: 40px;
-    color: rgb(118, 62, 170);
+    color: $primary-color;
 
     &:hover {
       color: #70706e;

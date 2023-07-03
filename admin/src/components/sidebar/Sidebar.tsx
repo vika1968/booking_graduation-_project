@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { resetAdmin } from "../../features/admin/adminSlice";
-import Cookies from 'js-cookie';
+import { ToastContainer, toast } from "react-toastify";
+import { confirmAlert } from 'react-confirm-alert';//npm install react-confirm-alert
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import "./sidebar.scss";
 
 const Sidebar = () => {
@@ -11,15 +13,24 @@ const Sidebar = () => {
    // Cookies.remove('adminId');  
     dispatch(resetAdmin());  
   };
-
+ 
   const confirmationButton = () => {
-    const answer = window.confirm(
-      "Are you sure you want to log out from the admin page? Only admins are allowed."
-    );
-    if (answer) {
-      logOut();        
-    }
+    confirmAlert({
+      title: 'Confirmation',
+      message: 'Are you sure you want to log out from the admin page? Only admins are allowed.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => logOut()
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
+    });
   };
+  
 
   return (
     <div className="sidebar">
@@ -56,6 +67,7 @@ const Sidebar = () => {
           <p className="title">ADMIN</p>
           <li onClick={confirmationButton}>
             <span className="icon">Logout</span>
+            <ToastContainer />
           </li>
         </ul>
       </div>

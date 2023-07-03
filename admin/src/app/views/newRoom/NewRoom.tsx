@@ -151,7 +151,7 @@ const NewRoom = () => {
 
   return (
     <>
-      <ToastContainer className="toast-container" />
+      <ToastContainer />
       <div className="new">
         <Sidebar />
         <div className="new-container">

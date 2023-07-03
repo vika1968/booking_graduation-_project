@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { resetUser, userSelector } from "../../features/user/userSlice";
 import { getUserByCookieMain } from "../../features/user/userAPI";
 import { useLocation } from "react-router-dom";
+import { User } from "../../features/user/userModel";
 import Cookies from "js-cookie";
 import "./navbar.scss";
-import { User } from "../../features/user/userModel";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
