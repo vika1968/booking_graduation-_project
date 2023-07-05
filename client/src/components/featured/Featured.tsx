@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { addSearch } from "../../features/search/searchSlice";
 import { useDispatch } from "react-redux";
+import { format } from "date-fns";
 import "./featured.scss";
 
 const Featured = () => {
@@ -19,23 +20,28 @@ const Featured = () => {
       startDate: new Date(),
       endDate: (() => {
         const endDate = new Date();
-        endDate.setDate(endDate.getDate() + 1); // Add one day to the startDate
+        endDate.setDate(endDate.getDate() + 1); // Add one day to the endDate
         return endDate;
       })(),
     },
   ]);  
 
   const navigate = useNavigate();
-  const goTo = (destination: string) => {   
-    
+
+  const goTo = (destination: string) => {       
+    const formattedDates = dates.map((date) => ({
+      startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
+      endDate: format(date.endDate, "dd/MM/yyyy HH:mm:ss"),
+    }));
     dispatch(
       addSearch({
         city: destination,
-        dates: dates,
-        options
+        dates: formattedDates,
+        options,
       })
     );
-    navigate("/hotels", { state: { destination, dates, options } });
+
+    navigate("/hotels", { state: { destination, dates, options } });  
   }
 
   return (
