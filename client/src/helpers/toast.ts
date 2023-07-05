@@ -6,7 +6,7 @@ export const showToast = (message: string, type: string, redirect: string) => {
      if (type === "error no redirect") {
         toast.error(message, {
             position: toast.POSITION.TOP_CENTER,
-            autoClose: 1000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -18,7 +18,7 @@ export const showToast = (message: string, type: string, redirect: string) => {
     else if (type === "error redirect") {       
         toast.error(message, {
             position: toast.POSITION.TOP_CENTER,
-            autoClose: 1000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

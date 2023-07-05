@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useFetchClient = <T>(url: string, dependencies: any[] = []) => {
+const useFetchClient = <T>(url: string) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
@@ -10,6 +10,7 @@ const useFetchClient = <T>(url: string, dependencies: any[] = []) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        setData(null)
         const res = await axios.get(url);
         setData(res.data);
       } catch (error: any) {
@@ -35,4 +36,3 @@ const useFetchClient = <T>(url: string, dependencies: any[] = []) => {
 };
 
 export default useFetchClient;
-

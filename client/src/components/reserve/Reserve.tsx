@@ -8,30 +8,29 @@ import { RoomInterface } from "../../helpers/roomInterface";
 import useFetchClient from "../../hooks/useFetchClient";
 import { userSelector } from "../../features/user/userSlice";
 import { User } from "../../features/user/userModel";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../helpers/toast";
 import axios from "axios";
 import "./reserve.scss";
+
 interface ReserveProps {
   setOpen: (open: boolean) => void;
   hotelId: string;
 }
 
 const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
+  
   const navigate = useNavigate();
 
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
 
-  const currentDateStr = currentDate.toLocaleString("en-GB", {
+  const currentDateStr = currentDate.toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  });  
 
   const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
   const { data, loading, error, reFetch } = useFetchClient<RoomInterface[]>(
@@ -41,7 +40,8 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
   const searchRedux = useAppSelector(searchSelector);
   const user = useAppSelector(userSelector) as User[] | null;
 
-  const getDatesInRange = (startDate: string, endDate: string): Date[] => {
+
+  const getDatesInRange = (startDate: string, endDate: string): Date[] => {    
     const parseDate = (dateString: string): Date => {
       const [datePart, timePart] = dateString.split(" ");
       const [day, month, year] = datePart.split("/");
@@ -50,6 +50,15 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
       const formattedDateString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
       return new Date(formattedDateString);
     };
+
+    // if (!startDate || !endDate) {
+    //   showToast(
+    //     "Please enter your reservation dates again.",
+    //     "error redirect",
+    //     "/"
+    //   );
+    
+    // }
 
     const start = parseDate(startDate);
     const end = parseDate(endDate);
@@ -60,7 +69,7 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
     return dates;
   };
 
-  const allDates: Date[] = getDatesInRange( 
+  const allDates: Date[] = getDatesInRange(
     searchRedux?.dates[0].startDate.toString() ?? currentDateStr,
     searchRedux?.dates[0].endDate.toString() ?? currentDateStr
   );
@@ -86,16 +95,25 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
       return;
     }
 
-    if (
-      searchRedux?.dates[0].startDate.toString() === currentDateStr &&
-      searchRedux?.dates[0].endDate.toString() === currentDateStr
-    ) {
+    const startDateStr = searchRedux?.dates[0].startDate;
+    const endDateStr = searchRedux?.dates[0].endDate;
+    
+    if (startDateStr && endDateStr) {
+      const startDate = new Date(startDateStr);
+      const endDate = new Date(endDateStr);
+    
+      if (
+        startDate.getDate() === endDate.getDate() &&
+        startDate.getMonth() === endDate.getMonth() &&
+        startDate.getFullYear() === endDate.getFullYear()
+      ) {
       showToast(
-        "Please enter your reservation dates again. Your dates look like today to today.",
+        "Please enter your reservation dates again. Your Start Date and End Date look like the same.",
         "error redirect",
         "/"
       );
       return;
+     }
     }
 
     if (selectedRooms.length === 0) {
@@ -110,84 +128,92 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
           dates: allDates,
         });
       }
-      showToast("Your reservation ended successfully.!🎉","success redirect","/");
+      showToast(
+        "Your reservation ended successfully.!🎉",
+        "success redirect",
+        "/"
+      );
       //setOpen(false);
     } catch (error: any) {
-      showToast(error.response.data.error, "error redirect", "/");
+      // showToast(error.response.data.error, "error redirect", "/");
+      showToast(error.response.data.error, "error no redirect", "");
+     // setOpen(false);
     }
   };
 
   const isButtonDisabled = selectedRooms.length === 0;
 
-return (
-  <>
-    <ToastContainer />
-    <div className="reserve">
-      <div className="reserve__container">
-        <FontAwesomeIcon
-          icon={faCircleXmark}
-          className="reserve__close"
-          onClick={() => setOpen(false)}
-        />
-        <span className="reserve__title">Select your rooms:</span>
-        {loading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          <div>
-            {" "}
-            {
-              "Unfortunately, this is a new hotel and the administrator has not yet entered the information about the rooms."
-            }
-          </div>
-        ) : (
-          <>
-            {data &&
-              data.map((item: RoomInterface, i: number) => (
-                <div className="reserve__item" key={i}>
-                  <div className="reserve__item-info">
-                    <div className="reserve__item-title">{item.title}</div>
-                    <div className="reserve__item-desc">
-                      {item.description}
+  return (
+    <>
+      <ToastContainer />
+      <div className="reserve">
+        <div className="reserve__container">
+          <FontAwesomeIcon
+            icon={faCircleXmark}
+            className="reserve__close"
+            onClick={() => setOpen(false)}
+          />
+          <span className="reserve__title">Select your rooms:</span>
+          {loading ? (
+            <div>Loading...</div>
+          ) : error ? (
+            <div>
+              {" "}
+              {
+                "Unfortunately, this is a new hotel and the administrator has not yet entered the information about the rooms."
+              }
+            </div>
+          ) : (
+            <>
+              {data &&
+                data.map((item: RoomInterface, i: number) => (
+                  <div className="reserve__item" key={i}>
+                    <div className="reserve__item-info">
+                      <div className="reserve__item-title">{item.title}</div>
+                      <div className="reserve__item-desc">
+                        {item.description}
+                      </div>
+                      <div className="reserve__item-max">
+                        Max people: <b>{item.maxPeople}</b>
+                      </div>
+                      <div className="reserve__item-price">
+                        ${item.price} per night
+                      </div>
                     </div>
-                    <div className="reserve__item-max">
-                      Max people: <b>{item.maxPeople}</b>
-                    </div>
-                    <div className="reserve__item-price">
-                      ${item.price} per night
+                    <div className="reserve__select-rooms">
+                      <div className="reserve__room" key={i}>
+                        <label className="reserve__room-label">
+                          Room number: {item.Number}
+                        </label>
+                        <input
+                          className="reserve__room-checkbox"
+                          type="checkbox"
+                          value={item.Number}
+                          onChange={handleSelect}
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="reserve__select-rooms">
-                    <div className="reserve__room" key={i}>
-                      <label className="reserve__room-label">Room number: {item.Number}</label>
-                      <input
-                        className="reserve__room-checkbox"
-                        type="checkbox"
-                        value={item.Number}
-                        onChange={handleSelect}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </>
-        )}
-        <button
-          className="reserve__button"
-          onClick={handleClick}
-          disabled={isButtonDisabled}
-        >
-          Reserve Now!
-        </button>
+                ))}
+            </>
+          )}
+          <button
+            className="reserve__button"
+            onClick={handleClick}
+            disabled={isButtonDisabled}
+          >
+            Reserve Now!
+          </button>
 
-        {isButtonDisabled && (
-          <div className="reserve__message">
-            Please select at least one room.
-          </div>
-        )}
+          {isButtonDisabled && (
+            <div className="reserve__message">
+              Please select at least one room.
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 };
 
 export default Reserve;

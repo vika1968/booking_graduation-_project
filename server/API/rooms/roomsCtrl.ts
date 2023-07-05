@@ -130,13 +130,80 @@ export const deleteRoom = async (req: Request, res: Response) => {
   }
 };
 
+// export const updateRoomAvailability = async (req: Request, res: Response) => {
+//   try {
+//     const { id } = req.params;
+//     const { user, dates } = req.body;
+
+//     const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
+//     const selectValues = [id];    
+
+//     connection.query(selectQuery, selectValues, (selectError, rows: RowDataPacket[]) => {
+//       if (selectError) {
+//         res.status(500).json({ error: 'Failed to update room availability' });
+//       } else if (rows.length === 0) {
+//         res.status(404).json({ error: 'Room not found' });
+//       } else {
+//         const hotelRoomId = rows[0].ID;
+
+//         // const checkQuery = `
+//         //   SELECT * FROM \`hotel-booking\`.\`room_unavailable_dates\`
+//         //   WHERE hotelRoomId = 
+//         //   AND (
+//         //     (YEAR(unavailableDateStart) <= YEAR(?) AND MONTH(unavailableDateStart) <= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?)) OR
+//         //     (YEAR(unavailableDateStart) >= YEAR(?) AND MONTH(unavailableDateStart) >= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?))
+//         //   )
+//         //   LIMIT 1;
+//         // `;
+
+//         const checkValues = [
+//           hotelRoomId,
+//           dates[0],
+//           dates[0],
+//           dates[1],
+//           dates[1],
+//           dates[0],
+//           dates[1],
+//           dates[0],
+//           dates[1]
+//         ];      
+       
+//         connection.query(checkQuery, checkValues, (checkError, checkResult: RowDataPacket[]) => {
+//           if (checkError) {
+//             res.status(500).json({ error: 'Failed to update room availability' });
+//           } else if (checkResult.length > 0) {
+//             res.status(400).json({ error: `Room ${selectValues} is already unavailable for the selected dates` });
+//           } else {
+//             const insertQuery = `
+//               INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
+//               VALUES (?, ?, ?, ?);
+//             `;
+
+//             const insertValues = [hotelRoomId, user, new Date(dates[0]), new Date(dates[1])];
+
+//             connection.query(insertQuery, insertValues, (insertError, result) => {
+//               if (insertError) {
+//                 res.status(500).json({ error: 'Failed to update room availability' });
+//               } else {
+//                 res.status(200).json("Room status has been updated.");
+//               }
+//             });
+//           }
+//         });
+//       }
+//     });
+//   } catch (error: any) {
+//     res.status(500).send({ success: false, error: error.message });
+//   }
+// };
+
 export const updateRoomAvailability = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { user, dates } = req.body;
 
     const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
-    const selectValues = [id];
+    const selectValues = [id];    
 
     connection.query(selectQuery, selectValues, (selectError, rows: RowDataPacket[]) => {
       if (selectError) {
@@ -149,25 +216,25 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
         const checkQuery = `
           SELECT * FROM \`hotel-booking\`.\`room_unavailable_dates\`
           WHERE hotelRoomId = ? 
-          AND (
-            (YEAR(unavailableDateStart) <= YEAR(?) AND MONTH(unavailableDateStart) <= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?)) OR
-            (YEAR(unavailableDateStart) >= YEAR(?) AND MONTH(unavailableDateStart) >= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?))
-          )
+            AND (
+              (unavailableDateStart BETWEEN ? AND ?) OR
+              (unavailableDateEnd BETWEEN ? AND ?) OR
+              (? BETWEEN unavailableDateStart AND unavailableDateEnd) OR
+              (? BETWEEN unavailableDateStart AND unavailableDateEnd)
+            )
           LIMIT 1;
         `;
 
         const checkValues = [
           hotelRoomId,
           dates[0],
-          dates[0],
-          dates[1],
           dates[1],
           dates[0],
           dates[1],
           dates[0],
           dates[1]
-        ];
-
+        ];      
+       
         connection.query(checkQuery, checkValues, (checkError, checkResult: RowDataPacket[]) => {
           if (checkError) {
             res.status(500).json({ error: 'Failed to update room availability' });
@@ -196,6 +263,8 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
     res.status(500).send({ success: false, error: error.message });
   }
 };
+
+
 
 
 

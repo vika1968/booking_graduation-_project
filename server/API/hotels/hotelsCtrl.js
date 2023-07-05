@@ -39,7 +39,7 @@ function createHotel(req, res) {
       INSERT INTO \`hotel-booking\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
-            const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, featured];
+            const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, newFeatured];
             database_1.default.query(query, values, (error, hotelsResults) => {
                 if (error) {
                     return res.status(500).send({
@@ -176,22 +176,23 @@ const getHotels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { city, min, max, limit } = req.query;
         let query = 'SELECT *, (SELECT im.`image_path` FROM `hotel-booking`.`image_mapping` AS im INNER JOIN `hotel-booking`.`hotel_photos` hp ON im.`file_name` = hp.`photo` WHERE hp.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo` FROM `hotel-booking`.`hotels` WHERE 1=1';
         const values = [];
-        if (city) {
+        if (typeof city === 'string' && city.trim()) {
             query += ' AND city = ?';
             values.push(city);
         }
         if (min) {
-            query += ' AND cheapestPrice > ?';
+            query += ' AND cheapestPrice >= ?';
             values.push(min);
         }
         if (max) {
-            query += ' AND cheapestPrice < ?';
+            query += ' AND cheapestPrice <= ?';
             values.push(max);
         }
         if (limit) {
             query += ' LIMIT ?';
             values.push(parseInt(limit.toString(), 10));
         }
+        console.log(query);
         database_1.default.query(query, values, (err, result) => {
             if (err) {
                 res.status(500).send({ success: false, error: 'Error retrieving hotels' });

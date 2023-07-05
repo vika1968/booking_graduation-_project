@@ -9,6 +9,8 @@ interface SearchItem {
     city: string | undefined;
     dates: DateRange[];
     options: {
+        minPrice: number | 0;
+        maxPrice: number | 1000000;
         adult: number | undefined;
         children: number | undefined;
         room: number | undefined;

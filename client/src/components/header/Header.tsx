@@ -26,6 +26,8 @@ const Header = ({ type }: { type: string }) => {
 
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
+    minPrice: 0,
+    maxPrice: 1000000,
     adult: 1,
     children: 0,
     room: 1,

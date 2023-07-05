@@ -1,3 +1,38 @@
+// .featured {
+//   width: 100%;
+//   max-width: 1024px;
+//   display: flex;
+//   justify-content: space-between;
+//   gap: 20px;
+//   z-index: 1;
+
+//   &__item {
+//     position: relative;
+//     color: white;
+//     border-radius: 10px;
+//     overflow: hidden;
+//     height: 250px;
+//     flex: 1
+//   }
+
+//   &__img {
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//     transition: transform 0.3s;
+//     &:hover {
+//       transform: scale(1.1);
+//       cursor: pointer;     
+//     }
+//   }
+
+//   &__titles {
+//     position: absolute;
+//     bottom: 20px;
+//     left: 20px;
+   
+//   }
+// }
 .featured {
   width: 100%;
   max-width: 1024px;
@@ -12,13 +47,19 @@
     border-radius: 10px;
     overflow: hidden;
     height: 250px;
-    flex: 1
+    flex: 1;
   }
 
   &__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Добавляем тень */
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
   }
 
   &__titles {

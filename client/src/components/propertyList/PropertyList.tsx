@@ -9,12 +9,12 @@ const PropertyList = () => {
   ];
 
   return (
-    <div className="propertyList">
+    <div className="property-list">
       {images.map((item, i) => {
         return (
-          <div className="propertyList__item" key={i}>
-            <img src={images[i]} alt="" className="propertyList__img" />
-            <div className="propertyList__titles"></div>
+          <div className="property-list__item" key={i}>
+            <img src={images[i]} alt="" className="property-list__img" />
+            <div className="property-list__titles"></div>
           </div>
         );
       })}

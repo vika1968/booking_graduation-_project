@@ -52,7 +52,9 @@ const Login = () => {
     <ToastContainer className="toast-container"/>
     <div className="login-body">
       <div className="login">
+        
         <h1 className="login__title">Log in</h1>
+        <div className="login__invite">If you are already a <span>registered</span> user,<br/> please enter your data.</div>
         <div className="login__container">
           <input
             type="text"
@@ -74,7 +76,7 @@ const Login = () => {
             disabled={!credentials.email || !credentials.password}
             >
             Login
-          </button>          
+          </button>        
         </div>
       </div>
     </div>

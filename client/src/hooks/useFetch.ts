@@ -6,7 +6,7 @@ interface FetchResult<T> {
   data: T[];
   loading: boolean;
   error: any;
-  reFetch: () => Promise<void>;
+  //reFetch: () => Promise<void>;
 }
 
 const useFetch = <T>(url: string): FetchResult<T> => {
@@ -29,18 +29,20 @@ const useFetch = <T>(url: string): FetchResult<T> => {
     fetchData();
   }, [url]);
 
-  const reFetch = async (): Promise<void> => {
-    setLoading(true);
-    try {
-      const res: AxiosResponse<T[]> = await axios.get(url);
-      setData(res.data);
-    } catch (err) {
-      setError(err);
-    }
-    setLoading(false);
-  };
+//   const reFetch = async (): Promise<void> => {
+//     setLoading(true);
+//     try {
+//       const res: AxiosResponse<T[]> = await axios.get(url);
+//       setData(res.data);
+//     } catch (err) {
+//       setError(err);
+//     }
+//     setLoading(false);
+//   };
 
-  return { data, loading, error, reFetch };
+//   return { data, loading, error, reFetch };
+
+  return { data, loading, error };
 };
 
 export default useFetch;

@@ -101,6 +101,7 @@ const Register = () => {
     <div className="regBody">
       <div className="register">
         <h1 className="register__title">Register</h1>
+        <div className="register__msg">If you are already registered. go to login tab. </div>
         <div className="register__inputs">
           <input
             onChange={handleUsername}
@@ -152,7 +153,8 @@ const Register = () => {
           <ToastContainer className="toast-container" />
           <button onClick={handleGoHome} className="register__btn home__btn">
             Go Home
-          </button>
+          </button>          
+
         </div>
         {submitted && (
           <div className="submit-success">User created successfully!</div>
@@ -164,6 +166,7 @@ const Register = () => {
           </div>
         )}
       </div>
+     
     </div>
   );
 };

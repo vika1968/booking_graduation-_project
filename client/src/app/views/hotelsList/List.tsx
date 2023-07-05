@@ -22,20 +22,21 @@ const List: React.FC = () => {
   const [max, setMax] = useState<number | undefined>(undefined);
 
   const { data, loading, error, reFetch } = useFetchClient<HotelInterface[]>(
-    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 10000}&limit=5`
+    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 1000000}&limit=5`
     );
-
+   
   const dispatch = useDispatch();
 
   const handleClick = () => {
+   
     if (
       destination !== location.state.destination ||
-      min !== location.state.min ||
-      max !== location.state.max ||
+     // min !== location.state.min ||
+    //  max !== location.state.max ||
       options !== location.state.options ||
       dates!== location.state.dates
-    ) {
-
+    ) {   
+      
     reFetch();
 
     const formattedDates = dates.map(({ startDate, endDate }: DateRangeInterface) => ({
@@ -57,6 +58,13 @@ const List: React.FC = () => {
 // Например, если options имеет тип { name: string, age: number, isActive: boolean }, то keyof typeof options будет типом "name" | "age" | "isActive". Это позволяет использовать эти ключи для доступа к соответствующим значениям объекта options.
 
  const handleOption = (name: keyof typeof options, value: string) => {
+    if (name==='minPrice'){
+      setMin(Number(value))
+    }
+    if (name==='maxPrice'){
+      setMax(Number(value))
+    }
+    
     setOptions((prev: typeof options) => ({
       ...prev,
       [name]: parseInt(value),
@@ -108,7 +116,10 @@ const List: React.FC = () => {
                   </span>
                   <input
                     type="number"
-                    onChange={(e) => setMin(Number(e.target.value))}
+                    placeholder={'0'}
+                    min="0"
+                    //onChange={(e) => setMin(Number(e.target.value))}
+                    onChange={(e) => handleOption("minPrice", e.target.value)}
                     className="list-search__option-input"
                   />
                 </div>
@@ -118,8 +129,11 @@ const List: React.FC = () => {
                   </span>
                   <input
                     type="number"
+                    placeholder={'1000000'}
+                    min="0"
                     className="list-search__option-input"
-                    onChange={(e) => setMax(Number(e.target.value))}
+                   // onChange={(e) => setMax(Number(e.target.value))}
+                    onChange={(e) => handleOption("maxPrice", e.target.value === "0" ? "1000000" : e.target.value)}
                   />
                 </div>
                 <div className="list-search__option-item">
