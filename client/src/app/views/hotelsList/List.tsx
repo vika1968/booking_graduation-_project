@@ -40,8 +40,11 @@ const List: React.FC = () => {
     reFetch();
 
     const formattedDates = dates.map(({ startDate, endDate }: DateRangeInterface) => ({
+      // startDate: format(startDate, "dd/MM/yyyy HH:mm:ss"),
+      // endDate: format(endDate, "dd/MM/yyyy HH:mm:ss"),
       startDate: format(startDate, "dd/MM/yyyy HH:mm:ss"),
-      endDate: format(endDate, "dd/MM/yyyy HH:mm:ss"),
+      endDate: startDate.getDate() !== endDate.getDate() ? format(endDate, "dd/MM/yyyy HH:mm:ss") : format(endDate.setDate(endDate.getDate() + 1), "dd/MM/yyyy HH:mm:ss"),
+
     }));
     dispatch(
       addSearch({

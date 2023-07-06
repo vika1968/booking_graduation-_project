@@ -199,11 +199,11 @@ export const deleteRoom = async (req: Request, res: Response) => {
 
 export const updateRoomAvailability = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const { user, dates } = req.body;
+    const { roomNumber } = req.params; 
+    const { user, dates, hotelId, roomID } = req.body; 
 
-    const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
-    const selectValues = [id];    
+    const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ? AND roomId = ?';
+    const selectValues = [roomNumber, roomID];    
 
     connection.query(selectQuery, selectValues, (selectError, rows: RowDataPacket[]) => {
       if (selectError) {
@@ -211,7 +211,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
       } else if (rows.length === 0) {
         res.status(404).json({ error: 'Room not found' });
       } else {
-        const hotelRoomId = rows[0].ID;
+        const hotelRoomId = rows[0].ID;     
 
         const checkQuery = `
           SELECT * FROM \`hotel-booking\`.\`room_unavailable_dates\`
@@ -239,7 +239,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
           if (checkError) {
             res.status(500).json({ error: 'Failed to update room availability' });
           } else if (checkResult.length > 0) {
-            res.status(400).json({ error: `Room ${selectValues} is already unavailable for the selected dates` });
+            res.status(400).json({ error: `Room ${roomNumber} is already unavailable for the selected dates` });
           } else {
             const insertQuery = `
               INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)

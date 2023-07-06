@@ -1,4 +1,4 @@
-import { useState } from "react";
+import  { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faCalendarDays, faPerson} from "@fortawesome/free-solid-svg-icons";
 import "react-date-range/dist/styles.css";
@@ -6,11 +6,8 @@ import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { userSelector } from "../../features/user/userSlice";
-import { useAppSelector } from "../../app/hooks";
 import { useDispatch } from "react-redux";
 import { addSearch } from "../../features/search/searchSlice";
-import { User } from "../../features/user/userModel";
 import "./header.scss";
 
 const Header = ({ type }: { type: string }) => {
@@ -34,7 +31,8 @@ const Header = ({ type }: { type: string }) => {
   });
 
   const navigate = useNavigate();
-  const user = useAppSelector(userSelector) as User[] | null;
+  //const user = useAppSelector(userSelector) as User[] | null;
+  const dispatch = useDispatch();
 
   const handleOption = (name: keyof typeof options, operation: string) => {
     setOptions((prev) => {
@@ -44,13 +42,15 @@ const Header = ({ type }: { type: string }) => {
       };
     });
   };
-
-  const dispatch = useDispatch();
+  // console.log(dates[0].startDate )
+  // console.log(dates[0].endDate )
 
   const handleSearch = () => {
+    console.log(dates[0].startDate.getDate()!==dates[0].endDate.getDate() )
     const formattedDates = dates.map((date) => ({
       startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
-      endDate: format(date.endDate, "dd/MM/yyyy HH:mm:ss"),
+    // endDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
+     endDate: date.startDate.getDate() !== date.endDate.getDate() ? format(date.endDate, "dd/MM/yyyy HH:mm:ss") : format(date.endDate.setDate(date.endDate.getDate() + 1), "dd/MM/yyyy HH:mm:ss"),
     }));
     dispatch(
       addSearch({
@@ -59,9 +59,27 @@ const Header = ({ type }: { type: string }) => {
         options,
       })
     );
-
+    // console.log('--dates From Header----'); 
+    // console.log( dates); 
+    // console.log('--dates From Header----'); 
     navigate("/hotels", { state: { destination, dates, options } });
   };
+
+  useEffect(() => {
+    const formattedDates = dates.map((date) => ({
+      startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
+      endDate: date.startDate.getDate() !== date.endDate.getDate() ? format(date.endDate, "dd/MM/yyyy HH:mm:ss") : format(date.endDate.setDate(date.endDate.getDate() + 1), "dd/MM/yyyy HH:mm:ss"),
+    }));
+    //gobal
+    dispatch(
+      addSearch({
+        city: destination,
+        dates: formattedDates,
+        options,
+      })
+    );
+
+  }, [openOptions, openDate]);
 
   return (
     <div className="header">
@@ -210,3 +228,5 @@ const Header = ({ type }: { type: string }) => {
   );
 };
 export default Header;
+
+

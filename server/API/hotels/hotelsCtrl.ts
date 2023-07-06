@@ -187,7 +187,7 @@ export const getHotels = async (req: Request, res: Response) => {
       query += ' LIMIT ?';
       values.push(parseInt(limit.toString(), 10));
     }
-    console.log(query)
+ 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
         res.status(500).send({ success: false, error: 'Error retrieving hotels' });

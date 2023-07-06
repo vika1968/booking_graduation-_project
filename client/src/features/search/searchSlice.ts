@@ -30,14 +30,19 @@ export const searchSlice = createSlice({
     reducers: {
         addSearch: (state, action) => {
             state.value = action.payload
-        },
+        },  
+        updateSearch: (state, action) => {
+            console.log(action.payload)
+            state.value!.city = action.payload
+            console.log(state.value!.city)
+        },      
         resetSearch: (state) => {
             state.value = null;
         },
     },
 });
 
-export const { addSearch, resetSearch } = searchSlice.actions;
+export const { addSearch, updateSearch, resetSearch } = searchSlice.actions;
 export const searchSelector = (state: RootState) => state.search.value;
 export default searchSlice.reducer;
 

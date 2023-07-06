@@ -192,7 +192,6 @@ const getHotels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             query += ' LIMIT ?';
             values.push(parseInt(limit.toString(), 10));
         }
-        console.log(query);
         database_1.default.query(query, values, (err, result) => {
             if (err) {
                 res.status(500).send({ success: false, error: 'Error retrieving hotels' });

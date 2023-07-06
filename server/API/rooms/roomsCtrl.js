@@ -199,10 +199,10 @@ exports.deleteRoom = deleteRoom;
 // };
 const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id } = req.params;
-        const { user, dates } = req.body;
-        const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
-        const selectValues = [id];
+        const { roomNumber } = req.params;
+        const { user, dates, hotelId, roomID } = req.body;
+        const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ? AND roomId = ?';
+        const selectValues = [roomNumber, roomID];
         database_1.default.query(selectQuery, selectValues, (selectError, rows) => {
             if (selectError) {
                 res.status(500).json({ error: 'Failed to update room availability' });
@@ -237,7 +237,7 @@ const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, f
                         res.status(500).json({ error: 'Failed to update room availability' });
                     }
                     else if (checkResult.length > 0) {
-                        res.status(400).json({ error: `Room ${selectValues} is already unavailable for the selected dates` });
+                        res.status(400).json({ error: `Room ${roomNumber} is already unavailable for the selected dates` });
                     }
                     else {
                         const insertQuery = `

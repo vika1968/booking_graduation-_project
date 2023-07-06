@@ -20,7 +20,7 @@ interface ReserveProps {
 }
 
 const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
-  
+  const [roomID, setRoomID] = useState<number>(0)
   const navigate = useNavigate();
 
   const currentDate = new Date();
@@ -34,12 +34,11 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
 
   const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
   const { data, loading, error, reFetch } = useFetchClient<RoomInterface[]>(
-    `/api/hotels/room/${hotelId}`
-  );
+    `/api/hotels/room/${hotelId}`   
+  ); 
 
   const searchRedux = useAppSelector(searchSelector);
   const user = useAppSelector(userSelector) as User[] | null;
-
 
   const getDatesInRange = (startDate: string, endDate: string): Date[] => {    
     const parseDate = (dateString: string): Date => {
@@ -74,7 +73,8 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
     searchRedux?.dates[0].endDate.toString() ?? currentDateStr
   );
 
-  const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSelect = (e: ChangeEvent<HTMLInputElement>,chosedroomID: number) => {
+    setRoomID(chosedroomID)
     const checked = e.target.checked;
     const value = e.target.value;
 
@@ -122,10 +122,13 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
     }
 
     try {
-      for (const roomId of selectedRooms) {
-        await axios.put(`/api/rooms/availability/${roomId}`, {
+      for (const roomNumber of selectedRooms) {
+        console.log('put')
+        await axios.put(`/api/rooms/availability/${roomNumber}`, {
           user: user ? user[0].userID : null,
           dates: allDates,
+          hotelId,
+          roomID         
         });
       }
       showToast(
@@ -183,14 +186,14 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
                     <div className="reserve__select-rooms">
                       <div className="reserve__room" key={i}>
                         <label className="reserve__room-label">
-                          Room number: {item.Number}
+                          Room number: {item.Number}                         
                         </label>
                         <input
                           className="reserve__room-checkbox"
                           type="checkbox"
                           value={item.Number}
-                          onChange={handleSelect}
-                        />
+                          onChange={(e) => handleSelect(e, item.roomId)} 
+                      />
                       </div>
                     </div>
                   </div>
