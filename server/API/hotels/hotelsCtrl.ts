@@ -3,7 +3,10 @@
 import express, { Request, Response, NextFunction } from "express";
 import connection from "../../DB/database";
 import { OkPacket, RowDataPacket } from "mysql2/promise";
+import dotenv from "dotenv";
+dotenv.config();
 
+const limitCountToShow = process.env.LISTLIMIT; 
 export async function createHotel(req: express.Request, res: express.Response) {
   try {
     const name = req.body.newHotel.name;
@@ -181,8 +184,7 @@ export const getHotels = async (req: Request, res: Response) => {
     if (max) {
       query += ' AND cheapestPrice <= ?';
       values.push(max);
-    }
-
+    }    
     if (limit) {
       query += ' LIMIT ?';
       values.push(parseInt(limit.toString(), 10));

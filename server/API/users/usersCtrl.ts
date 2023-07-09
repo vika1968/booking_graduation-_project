@@ -49,6 +49,7 @@ export async function register(req: express.Request, res: express.Response) {
 
         const { error } = UserValidation.validate({ email, password });
         if (error) {
+            console.log(error)
             return res.status(500).send({ success: false, error: error.message });
         }
 
@@ -59,6 +60,7 @@ export async function register(req: express.Request, res: express.Response) {
 
          connection.query(query, (error, results: any) => {
             if (error) {
+                console.log(error)
                 return res.status(500).send({
                     success: false,
                     error: "Failed to insert user data into database. Check your details. Perhaps you are trying to enter already registered data.",
@@ -79,6 +81,7 @@ export async function register(req: express.Request, res: express.Response) {
         });
 
     } catch (error: any) {
+        console.log(error)
         res.status(500).send({ success: false, error: error.message });
     }
 }

@@ -11,9 +11,9 @@ interface SearchItem {
     options: {
         minPrice: number | 0;
         maxPrice: number | 1000000;
-        adult: number | undefined;
-        children: number | undefined;
-        room: number | undefined;
+        adult: number | 1;
+        children: number | 0;
+        room: number | 1;
     };
 }
 export interface SearchState {
@@ -31,10 +31,8 @@ export const searchSlice = createSlice({
         addSearch: (state, action) => {
             state.value = action.payload
         },  
-        updateSearch: (state, action) => {
-            console.log(action.payload)
-            state.value!.city = action.payload
-            console.log(state.value!.city)
+        updateSearch: (state, action) => {                
+            state.value!.city = action.payload                 
         },      
         resetSearch: (state) => {
             state.value = null;

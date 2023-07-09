@@ -9,7 +9,7 @@ import useFetchClient from "../../../hooks/useFetchClient";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { useDispatch } from "react-redux";
 import { addSearch} from "../../../features/search/searchSlice";
-import { DateRangeInterface } from "../../../helpers/dateRange";
+import { formatDatesToString } from "../../../helpers/transformDateToValidFormat";
 import "./list.scss";
 
 const List: React.FC = () => { 
@@ -19,38 +19,27 @@ const List: React.FC = () => {
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState<number | undefined>(undefined);
-  const [max, setMax] = useState<number | undefined>(undefined);
-
+  const [max, setMax] = useState<number | undefined>(undefined);  
   const { data, loading, error, reFetch } = useFetchClient<HotelInterface[]>(
     `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 1000000}&limit=5`
     );
-   
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch(); 
   const handleClick = () => {
    
     if (
       destination !== location.state.destination ||
-     // min !== location.state.min ||
-    //  max !== location.state.max ||
       options !== location.state.options ||
-      dates!== location.state.dates
+      dates !== location.state.dates
     ) {   
       
     reFetch();
 
-    const formattedDates = dates.map(({ startDate, endDate }: DateRangeInterface) => ({
-      // startDate: format(startDate, "dd/MM/yyyy HH:mm:ss"),
-      // endDate: format(endDate, "dd/MM/yyyy HH:mm:ss"),
-      startDate: format(startDate, "dd/MM/yyyy HH:mm:ss"),
-      endDate: startDate.getDate() !== endDate.getDate() ? format(endDate, "dd/MM/yyyy HH:mm:ss") : format(endDate.setDate(endDate.getDate() + 1), "dd/MM/yyyy HH:mm:ss"),
-
-    }));
     dispatch(
       addSearch({
-        city: destination,
-        dates: formattedDates,
-        options,
+        city: destination,      
+       dates: formatDatesToString(dates),
+       options,
       })
     );
   }
@@ -58,26 +47,26 @@ const List: React.FC = () => {
 
 // keyof typeof options возвращает объединение всех ключей объекта options.
 // В данном случае, typeof options возвращает тип объекта options, а keyof применяется к этому типу, чтобы получить все возможные ключи этого объекта. Результатом будет объединение всех ключей объекта options.
-// Например, если options имеет тип { name: string, age: number, isActive: boolean }, то keyof typeof options будет типом "name" | "age" | "isActive". Это позволяет использовать эти ключи для доступа к соответствующим значениям объекта options.
+// Например, если options имеет тип { optionName: string, age: number, isActive: boolean }, то keyof typeof options будет типом "optionName" | "age" | "isActive". Это позволяет использовать эти ключи для доступа к соответствующим значениям объекта options.
 
- const handleOption = (name: keyof typeof options, value: string) => {
-    if (name==='minPrice'){
+ const handleOption = (optionName: keyof typeof options, value: string) => {
+    if (optionName==='minPrice'){
       setMin(Number(value))
     }
-    if (name==='maxPrice'){
+    if (optionName==='maxPrice'){
       setMax(Number(value))
     }
     
     setOptions((prev: typeof options) => ({
       ...prev,
-      [name]: parseInt(value),
+      [optionName]: parseInt(value),
     }));
  };
 
   return (
     <div>
       <Navbar />
-      <Header type="list" />
+      <Header type="list" city={destination} />
       <div className="list-container">
         <div className="list-wrapper">
           <div className="list-search">

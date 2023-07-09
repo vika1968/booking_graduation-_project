@@ -51,6 +51,16 @@
     padding-top: 15px;
     color: $primary-color;
   }
+
+  &__tologin{
+    color: blue; 
+    text-decoration: underline;
+    font-family: "Bebas Neue";
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+  }
+
   .register__footer{
     display: flex;
   }
@@ -86,9 +96,7 @@
 
   .home__btn{
     margin-left: 20px;
-  } 
-  
- 
+  }   
 }
 
 

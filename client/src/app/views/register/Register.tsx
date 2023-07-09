@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import axios from "axios";
-
-import { ToastContainer, toast } from "react-toastify"; //npm install react-toastify
+import { ToastContainer } from "react-toastify"; //npm install react-toastify
 import "react-toastify/dist/ReactToastify.css";
-import "./register.scss";
 import { showToast } from "../../../helpers/toast";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "./register.scss";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -63,37 +63,11 @@ const Register = () => {
       };
 
       await axios.post("/api/users/register", newUser);
-      setSubmitted(true);
-      // toast.success("User created!🎉", {
-      //   position: toast.POSITION.TOP_CENTER,
-      //   autoClose: 2000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   className: "custom-toast",
-      //   onClose: async () => {
-      //     await new Promise((resolve) => setTimeout(resolve, 3000));
-      //     window.location.assign("/login");
-      //   },
-      // });
+      setSubmitted(true);      
       showToast("User created!🎉", "success redirect", "/login");
-    } catch (err: any) {
+    } catch (err: any) {    
       setError(err.response.data.error);
-      showToast(error, "error no redirect", "");
-     // if (error !== "") {
-        // toast.error(error, {
-        //   position: toast.POSITION.TOP_CENTER,
-        //   autoClose: 3000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   className: "custom-toast",
-        // });       
-     // }
+      showToast(err.response.data.error, "error no redirect", "");     
     }
   };
 
@@ -101,7 +75,7 @@ const Register = () => {
     <div className="regBody">
       <div className="register">
         <h1 className="register__title">Register</h1>
-        <div className="register__msg">If you are already registered. go to login tab. </div>
+        <div className="register__msg">If you are already registered. go to <Link className="register__tologin" to="/login">login</Link> tab. </div>
         <div className="register__inputs">
           <input
             onChange={handleUsername}
@@ -165,8 +139,7 @@ const Register = () => {
             Error occurred. Please fill in all the fields.
           </div>
         )}
-      </div>
-     
+      </div>     
     </div>
   );
 };

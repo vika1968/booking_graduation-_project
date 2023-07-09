@@ -1,85 +1,108 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBed, faCalendarDays, faPerson} from "@fortawesome/free-solid-svg-icons";
+import {
+  faBed,
+  faCalendarDays,
+  faPerson,
+} from "@fortawesome/free-solid-svg-icons";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
-import { addSearch } from "../../features/search/searchSlice";
+import { addSearch, searchSelector } from "../../features/search/searchSlice";
+import {
+  formatDatesToString,
+  transformDate,
+} from "../../helpers/transformDateToValidFormat";
+import { useAppSelector } from "../../app/hooks";
 import "./header.scss";
 
-const Header = ({ type }: { type: string }) => {
+const Header = ({ type, city }: { type: string; city: string }) => {
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
-  const [dates, setDates] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
 
-  const [openOptions, setOpenOptions] = useState(false);
-  const [options, setOptions] = useState({
-    minPrice: 0,
-    maxPrice: 1000000,
-    adult: 1,
-    children: 0,
-    room: 1,
+  const searchRedux = useAppSelector(searchSelector);
+  const [dates, setDates] = useState(() => {
+    if (searchRedux && searchRedux.dates[0]) {
+      const startDate = new Date(transformDate(searchRedux.dates[0].startDate));
+      const endDate = new Date(transformDate(searchRedux.dates[0].endDate));
+      return [
+        {
+          startDate,
+          endDate,
+          key: "selection",
+        },
+      ];
+    } else {
+      return [
+        {
+          startDate: new Date(),
+          endDate: new Date(),
+          key: "selection",
+        },
+      ];
+    }
+  });
+
+  const [openOptions, setOpenOptions] = useState(false); 
+  const [options, setOptions] = useState(() => {
+    if (searchRedux && searchRedux.options) {
+      const { minPrice, maxPrice, adult, children, room } = searchRedux.options;    
+      return {
+        minPrice,
+        maxPrice,
+        adult,
+        children,
+        room,
+      };    
+    } else {
+      return {
+        minPrice: 0,
+        maxPrice: 1000000,
+        adult: 1,
+        children: 0,
+        room: 1,
+      };
+    }
   });
 
   const navigate = useNavigate();
-  //const user = useAppSelector(userSelector) as User[] | null;
   const dispatch = useDispatch();
 
   const handleOption = (name: keyof typeof options, operation: string) => {
     setOptions((prev) => {
       return {
         ...prev,
-        [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
+        [name]: operation === "i" ? options[name] + 1 : options[name] - 1,      
       };
     });
   };
-  // console.log(dates[0].startDate )
-  // console.log(dates[0].endDate )
 
   const handleSearch = () => {
-    console.log(dates[0].startDate.getDate()!==dates[0].endDate.getDate() )
-    const formattedDates = dates.map((date) => ({
-      startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
-    // endDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
-     endDate: date.startDate.getDate() !== date.endDate.getDate() ? format(date.endDate, "dd/MM/yyyy HH:mm:ss") : format(date.endDate.setDate(date.endDate.getDate() + 1), "dd/MM/yyyy HH:mm:ss"),
-    }));
     dispatch(
       addSearch({
         city: destination,
-        dates: formattedDates,
+        dates: formatDatesToString(dates),
         options,
       })
     );
-    // console.log('--dates From Header----'); 
-    // console.log( dates); 
-    // console.log('--dates From Header----'); 
     navigate("/hotels", { state: { destination, dates, options } });
   };
 
   useEffect(() => {
-    const formattedDates = dates.map((date) => ({
-      startDate: format(date.startDate, "dd/MM/yyyy HH:mm:ss"),
-      endDate: date.startDate.getDate() !== date.endDate.getDate() ? format(date.endDate, "dd/MM/yyyy HH:mm:ss") : format(date.endDate.setDate(date.endDate.getDate() + 1), "dd/MM/yyyy HH:mm:ss"),
-    }));
-    //gobal
     dispatch(
       addSearch({
-        city: destination,
-        dates: formattedDates,
-        options,
+        city: city !== "" ? city : destination,
+        dates: formatDatesToString(dates),
+        options: options,
       })
     );
-
-  }, [openOptions, openDate]);
+    //}, [openOptions, openDate, destination]);
+ // }, [openOptions, openDate]);
+  }, [dates, options]);
+  //},[]);
 
   return (
     <div className="header">
@@ -123,13 +146,12 @@ const Header = ({ type }: { type: string }) => {
                 <span
                   onClick={() => setOpenDate(!openDate)}
                   className="header__searchText"
-                >{`${format(
-                  dates[0].startDate,
-                  "dd/MM/yyyy HH:mm:ss"
-                )} to ${format(
-                  dates[0].endDate,
-                  "dd/MM/yyyy HH:mm:ss"
-                )}`}</span>
+                >
+                  {`${format(
+                    dates[0].startDate,
+                    "dd/MM/yyyy HH:mm:ss"
+                  )} to ${format(dates[0].endDate, "dd/MM/yyyy HH:mm:ss")}`}
+                </span>
                 {openDate && (
                   <DateRange
                     editableDateInputs={true}
@@ -228,5 +250,3 @@ const Header = ({ type }: { type: string }) => {
   );
 };
 export default Header;
-
-

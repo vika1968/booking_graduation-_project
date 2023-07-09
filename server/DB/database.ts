@@ -2,14 +2,16 @@
 
 import mysql from "mysql2";
 
-require("dotenv").config();
+//require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 const sqlPassword = process.env.SQLPASSWORD; 
-
+const sqlUser = process.env.SQLUSER; 
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
-  user: "max",
+  user: sqlUser,
   password: sqlPassword,
   database: "hotel-booking",
   multipleStatements: true 

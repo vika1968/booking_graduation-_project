@@ -41,6 +41,7 @@ const Hotel = () => {
 
   const navigate = useNavigate();
   const search = useAppSelector(searchSelector);
+ 
 
   const dates = search?.dates;
   const options = search?.options;
@@ -86,7 +87,7 @@ const Hotel = () => {
   return (
     <div>
       <Navbar />
-      <Header type="list" />
+      <Header type="list" city=''/>
       {loading ? (
         "loading"
       ) : (

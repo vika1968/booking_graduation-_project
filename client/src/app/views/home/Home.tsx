@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <Header type="" />
+      <Header type='' city='' />
       <div className="home-container">
         <h1 className="home-title">The most beautiful capitals</h1>
         <Featured />

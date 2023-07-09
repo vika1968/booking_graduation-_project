@@ -1,0 +1,11 @@
+export interface OptionsInterface {  
+      minPrice: number;
+      maxPrice: number;
+      adult: number;
+      children: number;
+      room: number;
+    };
+
+
+    
+  

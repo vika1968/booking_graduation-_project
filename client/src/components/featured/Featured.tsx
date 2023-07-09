@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import {
-  searchSelector,
-  updateSearch,
-} from "../../features/search/searchSlice";
+import { useState } from "react";
+import { searchSelector, updateSearch} from "../../features/search/searchSlice";
 import { useDispatch } from "react-redux";
 import { format } from "date-fns";
 import { useAppSelector } from "../../app/hooks";
@@ -14,34 +11,38 @@ import "./featured.scss";
 const Featured = () => {
   const dispatch = useDispatch();
   const searchRedux = useAppSelector(searchSelector);
-  const [options, setOptions] = useState({
-    minPrice: 0,
-    maxPrice: 1000000,
-    adult: 1,
-    children: 0,
-    room: 1,
-  });
 
-  // useEffect(() => {
-  //   if (searchRedux && searchRedux.dates[0]) {
-  //    // console.log("Data is available");
-  //     // Perform additional operations or set state if needed
-  //   } else {
-  //   //  console.log("Data is not available yet");
-  //   }
-  // }, [searchRedux]);
+  const [options, setOptions] = useState(() => {
+    if (searchRedux && searchRedux.options) {
+      const { minPrice, maxPrice, adult, children, room } = searchRedux.options;    
+      return {
+        minPrice,
+        maxPrice,
+        adult,
+        children,
+        room,
+      };    
+    } else {
+      return {
+        minPrice: 0,
+        maxPrice: 1000000,
+        adult: 1,
+        children: 0,
+        room: 1,
+      };
+    }
+  });
 
   const navigate = useNavigate();
 
-  const goToHotels = (destination: string) => {
-    console.log(destination)
+  const goToHotels = (destination: string) => {   
+  
     dispatch(
       updateSearch({
         city: destination,
       })
     );
-    if (searchRedux && searchRedux.dates[0]) {
-      //console.log(searchRedux);
+    if (searchRedux && searchRedux.dates[0]) {      
       setOptions({
         minPrice: searchRedux.options.minPrice
           ? searchRedux.options.minPrice
@@ -59,35 +60,19 @@ const Featured = () => {
       const startDateString = transformDate(searchRedux.dates[0].startDate);
       const endDateString = transformDate(searchRedux.dates[0].endDate);
 
-      const formattedStartDate = format(
-        new Date(startDateString),
-        "yyyy-MM-dd'T'HH:mm:ss"
-      );
+      const formattedStartDate = format( new Date(startDateString),"yyyy-MM-dd'T'HH:mm:ss");
       const startDate = parseISO(formattedStartDate);
 
-      const formattedEndDate = format(
-        new Date(endDateString),
-        "yyyy-MM-dd'T'HH:mm:ss"
-      );
+      const formattedEndDate = format( new Date(endDateString), "yyyy-MM-dd'T'HH:mm:ss");
       const endDate = parseISO(formattedEndDate);
 
-      const formattedDates = [
-        {
-          startDate: startDate,
-          // endDate: endDate,
-          endDate: startDate.getDate() !== endDate.getDate()
-              ? endDate
-              : endDate.setDate(endDate.getDate() + 1),
-
-          key: "selection",
+      const formattedDates = 
+      [{ startDate: startDate, 
+         endDate: startDate.getDate() !== endDate.getDate() ? endDate : endDate.setDate(endDate.getDate() + 1),
+         key: "selection",
         },
       ];   
-
-      // console.log("--dates From Featured----");
-      // console.log(startDate);
-      // console.log("--dates From Featured----");
-      navigate("/hotels", {state: { destination, dates: formattedDates, options },
-      });
+      navigate("/hotels", {state: { destination, dates: formattedDates, options }});
     }
   };
 

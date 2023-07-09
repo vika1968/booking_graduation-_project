@@ -62,6 +62,7 @@ function register(req, res) {
                 return res.status(500).send({ success: false, error: "No city available." });
             const { error } = userValidator_1.UserValidation.validate({ email, password });
             if (error) {
+                console.log(error);
                 return res.status(500).send({ success: false, error: error.message });
             }
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
@@ -69,6 +70,7 @@ function register(req, res) {
             const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
             database_1.default.query(query, (error, results) => {
                 if (error) {
+                    console.log(error);
                     return res.status(500).send({
                         success: false,
                         error: "Failed to insert user data into database. Check your details. Perhaps you are trying to enter already registered data.",
@@ -85,6 +87,7 @@ function register(req, res) {
             });
         }
         catch (error) {
+            console.log(error);
             res.status(500).send({ success: false, error: error.message });
         }
     });
