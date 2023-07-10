@@ -109,9 +109,9 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
       return (
         <div className="cell-action">
           {path === "users" ? (
-            // <Link to={`/users/test`} style={{ textDecoration: "none" }}>
+             <Link to={`/users/test`} style={{ textDecoration: "none" }}>
               <div className="view-button">View User Transactions</div>
-            // </Link>
+             </Link>
           ) : (
             ""
           )}

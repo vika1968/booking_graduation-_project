@@ -232,6 +232,8 @@ const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, f
                     dates[0],
                     dates[1]
                 ];
+                console.log(checkQuery);
+                console.log(checkValues);
                 database_1.default.query(checkQuery, checkValues, (checkError, checkResult) => {
                     if (checkError) {
                         res.status(500).json({ error: 'Failed to update room availability' });

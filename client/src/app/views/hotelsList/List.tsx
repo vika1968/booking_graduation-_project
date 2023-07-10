@@ -21,7 +21,7 @@ const List: React.FC = () => {
   const [min, setMin] = useState<number | undefined>(undefined);
   const [max, setMax] = useState<number | undefined>(undefined);  
   const { data, loading, error, reFetch } = useFetchClient<HotelInterface[]>(
-    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 1000000}&limit=5`
+    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 1000000}&limit=10`
     );
 
   const dispatch = useDispatch(); 

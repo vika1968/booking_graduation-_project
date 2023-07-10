@@ -234,7 +234,8 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
           dates[0],
           dates[1]
         ];      
-       
+       console.log(checkQuery)
+       console.log(checkValues)
         connection.query(checkQuery, checkValues, (checkError, checkResult: RowDataPacket[]) => {
           if (checkError) {
             res.status(500).json({ error: 'Failed to update room availability' });
