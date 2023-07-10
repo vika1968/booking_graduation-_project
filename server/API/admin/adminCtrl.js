@@ -23,7 +23,7 @@ function getAdmin(req, res) {
         try {
             const secret = process.env.JWT_SECRET;
             if (!secret)
-                throw new Error("Couldn't load secret code from .env");
+                throw new Error("Couldn't load secret code from .env file.");
             const { adminId } = req.cookies;
             if (!adminId)
                 throw new Error("No authorized admin !!!!!!!");
@@ -31,7 +31,7 @@ function getAdmin(req, res) {
             const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND  userID = '${decodedAdminId.adminID}'`;
             database_1.default.query(query, [decodedAdminId], (error, results) => {
                 if (error) {
-                    res.status(500).send({ error: "Error executing SQL query" });
+                    res.status(500).send({ error: "Error executing SQL query." });
                 }
                 else {
                     res.send({ sucess: true, adminData: results });
@@ -76,7 +76,7 @@ function register(req, res) {
                 }
                 const secret = process.env.JWT_SECRET;
                 if (!secret)
-                    return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
+                    return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
                 const insertId = results.insertId;
                 const cookie = { adminID: insertId };
                 const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
@@ -113,7 +113,7 @@ function login(req, res) {
                     const cookie = { adminID: results[0].userID };
                     const secret = process.env.JWT_SECRET;
                     if (!secret)
-                        throw new Error("Couldn't load secret key from .env file");
+                        throw new Error("Couldn't load secret key from .env file.");
                     const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
                     res.cookie("adminId", JWTCookie);
                     res.send({ success: true, adminArray: results });

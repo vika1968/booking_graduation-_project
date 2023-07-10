@@ -48,16 +48,7 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
 
       const formattedDateString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
       return new Date(formattedDateString);
-    };
-
-    // if (!startDate || !endDate) {
-    //   showToast(
-    //     "Please enter your reservation dates again.",
-    //     "error redirect",
-    //     "/"
-    //   );
-    
-    // }
+    }; 
 
     const start = parseDate(startDate);
     const end = parseDate(endDate);
@@ -122,13 +113,11 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
     }
 
     try {
-      for (const roomNumber of selectedRooms) {
-        console.log('put')
-        await axios.put(`/api/rooms/availability/${roomNumber}`, {
+      for (const roomNumber of selectedRooms) {     
+         await axios.put(`/api/rooms/availability/${roomNumber}`, {
           user: user ? user[0].userID : null,
           dates: allDates,
-          hotelId,
-          roomID         
+          hotelId,             
         });
       }
       showToast(

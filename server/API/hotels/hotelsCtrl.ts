@@ -83,12 +83,12 @@ export const updateHotel = async (req: Request, res: Response) => {
     const values = [name, type, title, city, id];
     connection.query(query, values, (err, result: OkPacket) => {
       if (err) {
-        res.status(404).json({ error: 'Something wrong with updating hotel' });
+        res.status(404).json({ error: 'Something wrong with updating hotel.' });
       } else {
         if (result.affectedRows > 0) {
           res.status(200).json({ success: true, message: 'Hotel has been updated!' });
         } else {
-          res.status(404).json({ success: false, error: 'Hotel not found' });
+          res.status(404).json({ success: false, error: 'Hotel not found.' });
         }
       }
     });
@@ -112,7 +112,7 @@ export const deleteHotel = async (req: Request, res: Response) => {
           res.status(200).json({ message: 'Hotel has been deleted.' });
 
         } else {
-          res.status(404).json({ error: 'Hotel not found' });
+          res.status(404).json({ error: 'Hotel not found.' });
         }
       }
     });
@@ -129,12 +129,12 @@ export const getHotel = async (req: Request, res: Response) => {
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(404).json({ error: 'Hotel not found' });
+        res.status(404).json({ error: 'Hotel not found.' });
       } else {
         if (result.length > 0) {
           res.status(200).json(result[0]);
         } else {
-          res.status(404).json({ error: 'Hotel not found' });
+          res.status(404).json({ error: 'Hotel not found.' });
         }
       }
     });
@@ -151,12 +151,12 @@ export const getHotelByName = async (req: Request, res: Response) => {
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(404).json({ error: 'No hotel found' });
+        res.status(404).json({ error: 'No hotel found.' });
       } else {
         if (result.length > 0) {
           res.status(200).json(result[0]);
         } else {
-          res.status(404).json({ error: 'Hotel not found' });
+          res.status(404).json({ error: 'Hotel not found.' });
         }
       }
     });
@@ -192,12 +192,12 @@ export const getHotels = async (req: Request, res: Response) => {
  
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(500).send({ success: false, error: 'Error retrieving hotels' });
+        res.status(500).send({ success: false, error: 'Error retrieving hotels.' });
         return;
       }
 
       if (result.length === 0) {
-        res.status(404).json({ error: 'No hotels found' });
+        res.status(404).json({ error: 'No hotels found.' });
       } else {
         res.status(200).json(result);
       }
@@ -216,12 +216,12 @@ export const getHotelByID = async (req: Request, res: Response) => {
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(404).json({ error: 'Hotel not found' });
+        res.status(404).json({ error: 'Hotel not found.' });
       } else {
         if (result.length > 0) {
           res.status(200).json(result[0]);
         } else {
-          res.status(404).json({ error: 'Hotel not found' });
+          res.status(404).json({ error: 'Hotel not found.' });
         }
       }
     });
@@ -239,12 +239,12 @@ export const getHotelPhotoByID = async (req: Request, res: Response) => {
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(404).json({ error: 'Photos not found' });
+        res.status(404).json({ error: 'Photos not found.' });
       } else {
         if (result.length > 0) {
           res.status(200).json(result);
         } else {
-          res.status(404).json({ error: 'Photos not found' });
+          res.status(404).json({ error: 'Photos not found.' });
         }
       }
     });
@@ -263,12 +263,12 @@ export const getHotelRooms = async (req: Request, res: Response) => {
     connection.query(query, req.params.id, (err, result: RowDataPacket[]) => {
 
       if (err) {
-        res.status(404).json({ error: 'Room/s not found' });
+        res.status(404).json({ error: 'Room/s not found.' });
       } else {
         if (result.length > 0) {
           res.status(200).json(result);
         } else {
-          res.status(404).json({ error: 'Room/s not found' });
+          res.status(404).json({ error: 'Room/s not found.' });
         }
       }
     });

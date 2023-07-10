@@ -85,14 +85,14 @@ const updateHotel = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const values = [name, type, title, city, id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                res.status(404).json({ error: 'Something wrong with updating hotel' });
+                res.status(404).json({ error: 'Something wrong with updating hotel.' });
             }
             else {
                 if (result.affectedRows > 0) {
                     res.status(200).json({ success: true, message: 'Hotel has been updated!' });
                 }
                 else {
-                    res.status(404).json({ success: false, error: 'Hotel not found' });
+                    res.status(404).json({ success: false, error: 'Hotel not found.' });
                 }
             }
         });
@@ -116,7 +116,7 @@ const deleteHotel = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                     res.status(200).json({ message: 'Hotel has been deleted.' });
                 }
                 else {
-                    res.status(404).json({ error: 'Hotel not found' });
+                    res.status(404).json({ error: 'Hotel not found.' });
                 }
             }
         });
@@ -133,14 +133,14 @@ const getHotel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                res.status(404).json({ error: 'Hotel not found' });
+                res.status(404).json({ error: 'Hotel not found.' });
             }
             else {
                 if (result.length > 0) {
                     res.status(200).json(result[0]);
                 }
                 else {
-                    res.status(404).json({ error: 'Hotel not found' });
+                    res.status(404).json({ error: 'Hotel not found.' });
                 }
             }
         });
@@ -157,14 +157,14 @@ const getHotelByName = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const values = [name];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                res.status(404).json({ error: 'No hotel found' });
+                res.status(404).json({ error: 'No hotel found.' });
             }
             else {
                 if (result.length > 0) {
                     res.status(200).json(result[0]);
                 }
                 else {
-                    res.status(404).json({ error: 'Hotel not found' });
+                    res.status(404).json({ error: 'Hotel not found.' });
                 }
             }
         });
@@ -197,11 +197,11 @@ const getHotels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                res.status(500).send({ success: false, error: 'Error retrieving hotels' });
+                res.status(500).send({ success: false, error: 'Error retrieving hotels.' });
                 return;
             }
             if (result.length === 0) {
-                res.status(404).json({ error: 'No hotels found' });
+                res.status(404).json({ error: 'No hotels found.' });
             }
             else {
                 res.status(200).json(result);
@@ -220,14 +220,14 @@ const getHotelByID = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                res.status(404).json({ error: 'Hotel not found' });
+                res.status(404).json({ error: 'Hotel not found.' });
             }
             else {
                 if (result.length > 0) {
                     res.status(200).json(result[0]);
                 }
                 else {
-                    res.status(404).json({ error: 'Hotel not found' });
+                    res.status(404).json({ error: 'Hotel not found.' });
                 }
             }
         });
@@ -244,14 +244,14 @@ const getHotelPhotoByID = (req, res) => __awaiter(void 0, void 0, void 0, functi
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
-                res.status(404).json({ error: 'Photos not found' });
+                res.status(404).json({ error: 'Photos not found.' });
             }
             else {
                 if (result.length > 0) {
                     res.status(200).json(result);
                 }
                 else {
-                    res.status(404).json({ error: 'Photos not found' });
+                    res.status(404).json({ error: 'Photos not found.' });
                 }
             }
         });
@@ -268,14 +268,14 @@ const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const values = [id];
         database_1.default.query(query, req.params.id, (err, result) => {
             if (err) {
-                res.status(404).json({ error: 'Room/s not found' });
+                res.status(404).json({ error: 'Room/s not found.' });
             }
             else {
                 if (result.length > 0) {
                     res.status(200).json(result);
                 }
                 else {
-                    res.status(404).json({ error: 'Room/s not found' });
+                    res.status(404).json({ error: 'Room/s not found.' });
                 }
             }
         });

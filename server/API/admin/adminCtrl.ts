@@ -11,7 +11,7 @@ const saltRounds = 10;
 export async function getAdmin(req: express.Request, res: express.Response) {
     try {
         const secret: any = process.env.JWT_SECRET;
-        if (!secret) throw new Error("Couldn't load secret code from .env");
+        if (!secret) throw new Error("Couldn't load secret code from .env file.");
 
         const { adminId } = req.cookies;
         if (!adminId) throw new Error("No authorized admin !!!!!!!");
@@ -22,7 +22,7 @@ export async function getAdmin(req: express.Request, res: express.Response) {
 
         connection.query(query, [decodedAdminId], (error, results) => {
             if (error) {
-                res.status(500).send({ error: "Error executing SQL query" });
+                res.status(500).send({ error: "Error executing SQL query." });
             } else {
                 res.send({ sucess: true, adminData: results });
             }
@@ -68,7 +68,7 @@ export async function register(req: express.Request, res: express.Response) {
 
             const secret = process.env.JWT_SECRET;
             if (!secret)
-                return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
+                return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
 
             const insertId = results.insertId;
 
@@ -106,7 +106,7 @@ export async function login(req: express.Request, res: express.Response) {
                 const cookie = { adminID: results[0].userID };
 
                 const secret = process.env.JWT_SECRET;
-                if (!secret) throw new Error("Couldn't load secret key from .env file");
+                if (!secret) throw new Error("Couldn't load secret key from .env file.");
 
                 const JWTCookie = jwt.encode(cookie, secret);
 

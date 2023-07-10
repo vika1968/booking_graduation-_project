@@ -23,7 +23,7 @@ function getUser(req, res) {
         try {
             const secret = process.env.JWT_SECRET;
             if (!secret)
-                throw new Error("Couldn't load secret code from .env");
+                throw new Error("Couldn't load secret code from .env file.");
             const { userId } = req.cookies;
             if (!userId)
                 throw new Error("No authorized user !!!!!!!");
@@ -31,7 +31,7 @@ function getUser(req, res) {
             const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND userID = '${decodedUserId.userID}'`;
             database_1.default.query(query, [decodedUserId], (error, results) => {
                 if (error) {
-                    res.status(500).send({ error: "Error executing SQL query" });
+                    res.status(500).send({ error: "Error executing SQL query." });
                 }
                 else {
                     res.send({ sucess: true, userData: results });
@@ -62,7 +62,6 @@ function register(req, res) {
                 return res.status(500).send({ success: false, error: "No city available." });
             const { error } = userValidator_1.UserValidation.validate({ email, password });
             if (error) {
-                console.log(error);
                 return res.status(500).send({ success: false, error: error.message });
             }
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
@@ -70,7 +69,6 @@ function register(req, res) {
             const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
             database_1.default.query(query, (error, results) => {
                 if (error) {
-                    console.log(error);
                     return res.status(500).send({
                         success: false,
                         error: "Failed to insert user data into database. Check your details. Perhaps you are trying to enter already registered data.",
@@ -78,7 +76,7 @@ function register(req, res) {
                 }
                 const secret = process.env.JWT_SECRET;
                 if (!secret)
-                    return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
+                    return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
                 const insertId = results.insertId;
                 const cookie = { userID: insertId };
                 const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
@@ -87,7 +85,6 @@ function register(req, res) {
             });
         }
         catch (error) {
-            console.log(error);
             res.status(500).send({ success: false, error: error.message });
         }
     });
@@ -116,7 +113,7 @@ function login(req, res) {
                     const cookie = { userID: results[0].userID };
                     const secret = process.env.JWT_SECRET;
                     if (!secret)
-                        throw new Error("Couldn't load secret key from .env file");
+                        throw new Error("Couldn't load secret key from .env file.");
                     const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
                     res.cookie("userId", JWTCookie);
                     res.send({ success: true, userArray: results });
@@ -153,12 +150,12 @@ function updateUser(req, res) {
                 if (error) {
                     return res.status(500).send({
                         success: false,
-                        error: "Failed to update user data",
+                        error: "Failed to update user data.",
                     });
                 }
                 const secret = process.env.JWT_SECRET;
                 if (!secret)
-                    return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
+                    return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
                 const cookie = { userID: id };
                 const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
                 res.cookie("userId", JWTCookie);
@@ -190,7 +187,7 @@ function deleteUser(req, res) {
                         res.status(200).json({ message: 'User has been deleted.' });
                     }
                     else {
-                        res.status(404).json({ error: 'User not found' });
+                        res.status(404).json({ error: 'User not found.' });
                     }
                 }
             });
@@ -229,7 +226,7 @@ function getUsers(req, res) {
             const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`;
             database_1.default.query(query, (error, results) => {
                 if (error) {
-                    res.status(500).send({ error: "Error executing receive all users ( no admins)" });
+                    res.status(500).send({ error: "Error executing receive all users ( no admins )." });
                 }
                 else {
                     res.status(200).json(results);

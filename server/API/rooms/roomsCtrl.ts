@@ -11,11 +11,11 @@ export const getRooms = async (req: Request, res: Response,) => {
     const values = [min, max, limit];
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(500).send({ success: false, error: 'Error retrieving hotels' });
+        res.status(500).send({ success: false, error: 'Error retrieving hotels.' });
         return;
       }
       if (result.length === 0) {
-        res.status(404).json({ error: 'No hotels found' });
+        res.status(404).json({ error: 'No hotels found.' });
       } else {
         res.status(200).json(result);
       }
@@ -29,14 +29,14 @@ export const getRoomTypes = async (req: Request, res: Response) => {
   try {
     const query = `
     SELECT * FROM \`hotel-booking\`.room_types`;
-    
+
     connection.query(query, (err, result: RowDataPacket[]) => {
       if (err) {
-        res.status(500).send({ success: false, error: 'Error retrieving room types' });
+        res.status(500).send({ success: false, error: 'Error retrieving room types.' });
         return;
       }
       if (result.length === 0) {
-        res.status(404).json({ error: 'No room types found' });
+        res.status(404).json({ error: 'No room types found.' });
       } else {
         res.status(200).json(result);
       }
@@ -116,7 +116,7 @@ export const deleteRoom = async (req: Request, res: Response) => {
 
     connection.query(query, (err, result: OkPacket) => {
       if (err) {
-        res.status(404).json({ error: 'Room  has not  been delete' });
+        res.status(404).json({ error: 'Room has not been deleted.' });
       } else {
         if (result.affectedRows > 0) {
           res.status(200).json({ message: 'Room has been deleted.' });
@@ -130,117 +130,48 @@ export const deleteRoom = async (req: Request, res: Response) => {
   }
 };
 
-// export const updateRoomAvailability = async (req: Request, res: Response) => {
-//   try {
-//     const { id } = req.params;
-//     const { user, dates } = req.body;
-
-//     const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ?';
-//     const selectValues = [id];    
-
-//     connection.query(selectQuery, selectValues, (selectError, rows: RowDataPacket[]) => {
-//       if (selectError) {
-//         res.status(500).json({ error: 'Failed to update room availability' });
-//       } else if (rows.length === 0) {
-//         res.status(404).json({ error: 'Room not found' });
-//       } else {
-//         const hotelRoomId = rows[0].ID;
-
-//         // const checkQuery = `
-//         //   SELECT * FROM \`hotel-booking\`.\`room_unavailable_dates\`
-//         //   WHERE hotelRoomId = 
-//         //   AND (
-//         //     (YEAR(unavailableDateStart) <= YEAR(?) AND MONTH(unavailableDateStart) <= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?)) OR
-//         //     (YEAR(unavailableDateStart) >= YEAR(?) AND MONTH(unavailableDateStart) >= MONTH(?) AND YEAR(unavailableDateEnd) >= YEAR(?) AND MONTH(unavailableDateEnd) >= MONTH(?))
-//         //   )
-//         //   LIMIT 1;
-//         // `;
-
-//         const checkValues = [
-//           hotelRoomId,
-//           dates[0],
-//           dates[0],
-//           dates[1],
-//           dates[1],
-//           dates[0],
-//           dates[1],
-//           dates[0],
-//           dates[1]
-//         ];      
-       
-//         connection.query(checkQuery, checkValues, (checkError, checkResult: RowDataPacket[]) => {
-//           if (checkError) {
-//             res.status(500).json({ error: 'Failed to update room availability' });
-//           } else if (checkResult.length > 0) {
-//             res.status(400).json({ error: `Room ${selectValues} is already unavailable for the selected dates` });
-//           } else {
-//             const insertQuery = `
-//               INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
-//               VALUES (?, ?, ?, ?);
-//             `;
-
-//             const insertValues = [hotelRoomId, user, new Date(dates[0]), new Date(dates[1])];
-
-//             connection.query(insertQuery, insertValues, (insertError, result) => {
-//               if (insertError) {
-//                 res.status(500).json({ error: 'Failed to update room availability' });
-//               } else {
-//                 res.status(200).json("Room status has been updated.");
-//               }
-//             });
-//           }
-//         });
-//       }
-//     });
-//   } catch (error: any) {
-//     res.status(500).send({ success: false, error: error.message });
-//   }
-// };
-
 export const updateRoomAvailability = async (req: Request, res: Response) => {
   try {
-    const { roomNumber } = req.params; 
-    const { user, dates, hotelId, roomID } = req.body; 
+    const { roomNumber } = req.params;
+    const { user, dates, hotelId } = req.body;
 
-    const selectQuery = 'SELECT ID FROM `hotel-booking`.`room_numbers` WHERE number = ? AND roomId = ?';
-    const selectValues = [roomNumber, roomID];    
+    const selectQuery = 'SELECT rm.ID FROM `hotel-booking`.`rooms` AS r INNER JOIN `hotel-booking`.`hotels` AS h ON r.HotelID = h.HotelID INNER JOIN `hotel-booking`.`room_numbers`AS rm ON r.roomId = rm.roomId WHERE h.hotelId = ? AND rm.number = ?';
+
+    const selectValues = [hotelId, roomNumber];
 
     connection.query(selectQuery, selectValues, (selectError, rows: RowDataPacket[]) => {
       if (selectError) {
-        res.status(500).json({ error: 'Failed to update room availability' });
+        res.status(500).json({ error: 'Failed to update room availability.' });
       } else if (rows.length === 0) {
-        res.status(404).json({ error: 'Room not found' });
+        res.status(404).json({ error: 'Room not found.' });
       } else {
-        const hotelRoomId = rows[0].ID;     
+        const hotelRoomId = rows[0].ID;
 
         const checkQuery = `
-          SELECT * FROM \`hotel-booking\`.\`room_unavailable_dates\`
-          WHERE hotelRoomId = ? 
-            AND (
-              (unavailableDateStart BETWEEN ? AND ?) OR
-              (unavailableDateEnd BETWEEN ? AND ?) OR
-              (? BETWEEN unavailableDateStart AND unavailableDateEnd) OR
-              (? BETWEEN unavailableDateStart AND unavailableDateEnd)
-            )
-          LIMIT 1;
+        SELECT ID
+        FROM  \`hotel-booking\`.\`room_unavailable_dates\`
+        WHERE hotelRoomId = ?
+        AND (
+          (unavailableDateStart < DATE(DATE_ADD(?, INTERVAL 1 DAY)) AND unavailableDateEnd > DATE(DATE_ADD(?, INTERVAL 1 DAY)))
+          OR
+          (unavailableDateStart < DATE(DATE_ADD(?, INTERVAL 1 DAY)) AND unavailableDateEnd > DATE(DATE_ADD(?, INTERVAL 1 DAY)))
+        )
+        LIMIT 1;
         `;
 
         const checkValues = [
           hotelRoomId,
-          dates[0],
-          dates[1],
-          dates[0],
-          dates[1],
-          dates[0],
-          dates[1]
-        ];      
-       console.log(checkQuery)
-       console.log(checkValues)
+          dates[1], //unavailableDateEnd
+          dates[0], //unavailableDateStart
+          dates[0], //unavailableDateStart
+          dates[1], //unavailableDateEnd             
+        ];
+
         connection.query(checkQuery, checkValues, (checkError, checkResult: RowDataPacket[]) => {
           if (checkError) {
-            res.status(500).json({ error: 'Failed to update room availability' });
+            res.status(500).json({ error: 'Failed to update room availability.' });
           } else if (checkResult.length > 0) {
-            res.status(400).json({ error: `Room ${roomNumber} is already unavailable for the selected dates` });
+            res.status(400).json({ error: `Room ${roomNumber} is already unavailable for the selected dates.` });
           } else {
             const insertQuery = `
               INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
@@ -251,7 +182,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
 
             connection.query(insertQuery, insertValues, (insertError, result) => {
               if (insertError) {
-                res.status(500).json({ error: 'Failed to update room availability' });
+                res.status(500).json({ error: 'Failed to update room availability.' });
               } else {
                 res.status(200).json("Room status has been updated.");
               }

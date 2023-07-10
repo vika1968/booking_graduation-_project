@@ -22,6 +22,9 @@ import "./header.scss";
 const Header = ({ type, city }: { type: string; city: string }) => {
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
+  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const searchRedux = useAppSelector(searchSelector);
   const [dates, setDates] = useState(() => {
@@ -68,9 +71,6 @@ const Header = ({ type, city }: { type: string; city: string }) => {
     }
   });
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const handleOption = (name: keyof typeof options, operation: string) => {
     setOptions((prev) => {
       return {
@@ -99,10 +99,8 @@ const Header = ({ type, city }: { type: string; city: string }) => {
         options: options,
       })
     );
-    //}, [openOptions, openDate, destination]);
- // }, [openOptions, openDate]);
   }, [dates, options]);
-  //},[]);
+  
 
   return (
     <div className="header">

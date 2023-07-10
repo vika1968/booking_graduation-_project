@@ -16,6 +16,8 @@ import { searchSelector } from "../../../features/search/searchSlice";
 import moment from "moment"; // JavaScript library for parsing, manipulating, and formatting dates and times.
 import Promotion from "../../../components/promotion/Promotion";
 import "./hotel.scss";
+import { showToast } from "../../../helpers/toast";
+import { ToastContainer } from "react-toastify";
 
 const Hotel = () => {
   const location = useLocation();
@@ -80,12 +82,13 @@ const Hotel = () => {
     if (user) {
       setOpenModal(true);
     } else {
-      navigate("/login");
-    }
+      showToast("You are an unauthorized user, therefore you cannot reserve on our site. Please login or regoster.", "error redirect", "/login")
+     }
   };
 
   return (
     <div>
+      <ToastContainer />
       <Navbar />
       <Header type="list" city=''/>
       {loading ? (

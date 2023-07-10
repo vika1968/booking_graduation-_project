@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { DateRange } from "react-date-range";
 import format from "date-fns/format";
@@ -25,8 +25,7 @@ const List: React.FC = () => {
     );
 
   const dispatch = useDispatch(); 
-  const handleClick = () => {
-   
+  const handleClick = () => {   
     if (
       destination !== location.state.destination ||
       options !== location.state.options ||
@@ -37,13 +36,23 @@ const List: React.FC = () => {
 
     dispatch(
       addSearch({
-        city: destination,      
+       city: destination,      
        dates: formatDatesToString(dates),
-       options,
+       options: options,
       })
     );
   }
   };
+
+  useEffect(() => {
+    dispatch(
+      addSearch({
+        city:  destination,
+        dates: formatDatesToString(dates),
+        options: options,
+      })
+    );
+  }, [dates, options]);
 
 // keyof typeof options возвращает объединение всех ключей объекта options.
 // В данном случае, typeof options возвращает тип объекта options, а keyof применяется к этому типу, чтобы получить все возможные ключи этого объекта. Результатом будет объединение всех ключей объекта options.
@@ -72,7 +81,7 @@ const List: React.FC = () => {
           <div className="list-search">
             <h1 className="list-search__title">Search</h1>
             <div className="list-search__item">
-              <label className="list-search__label">Destination</label>
+              <label className="list-search__label">Destination</label>            
               <input
                 className="list-search__input"
                 placeholder={destination}

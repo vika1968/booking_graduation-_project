@@ -11,7 +11,7 @@ export async function getUser(req: express.Request, res: express.Response) {
     try {
         const secret: any = process.env.JWT_SECRET;
 
-        if (!secret) throw new Error("Couldn't load secret code from .env");
+        if (!secret) throw new Error("Couldn't load secret code from .env file.");
         const { userId } = req.cookies;
         if (!userId) throw new Error("No authorized user !!!!!!!");
 
@@ -20,7 +20,7 @@ export async function getUser(req: express.Request, res: express.Response) {
       
         connection.query(query, [decodedUserId], (error, results) => {
             if (error) {
-                res.status(500).send({ error: "Error executing SQL query" });
+                res.status(500).send({ error: "Error executing SQL query." });
             } else {
                 res.send({ sucess: true, userData: results });
             }
@@ -48,8 +48,7 @@ export async function register(req: express.Request, res: express.Response) {
             return res.status(500).send({ success: false, error: "No city available." });
 
         const { error } = UserValidation.validate({ email, password });
-        if (error) {
-            console.log(error)
+        if (error) {          
             return res.status(500).send({ success: false, error: error.message });
         }
 
@@ -59,8 +58,7 @@ export async function register(req: express.Request, res: express.Response) {
         const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
 
          connection.query(query, (error, results: any) => {
-            if (error) {
-                console.log(error)
+            if (error) {              
                 return res.status(500).send({
                     success: false,
                     error: "Failed to insert user data into database. Check your details. Perhaps you are trying to enter already registered data.",
@@ -69,7 +67,7 @@ export async function register(req: express.Request, res: express.Response) {
 
             const secret = process.env.JWT_SECRET;
             if (!secret)
-                return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
+                return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
 
             const insertId = results.insertId;          
 
@@ -80,8 +78,7 @@ export async function register(req: express.Request, res: express.Response) {
             res.send({ success: true, userArray: results });
         });
 
-    } catch (error: any) {
-        console.log(error)
+    } catch (error: any) {       
         res.status(500).send({ success: false, error: error.message });
     }
 }
@@ -108,7 +105,7 @@ export async function login(req: express.Request, res: express.Response) {
                 const cookie = { userID: results[0].userID };
              
                 const secret = process.env.JWT_SECRET;
-                if (!secret) throw new Error("Couldn't load secret key from .env file");
+                if (!secret) throw new Error("Couldn't load secret key from .env file.");
 
                 const JWTCookie = jwt.encode(cookie, secret);
 
@@ -145,13 +142,13 @@ export async function updateUser(req: express.Request, res: express.Response) {
             if (error) {
                 return res.status(500).send({
                     success: false,
-                    error: "Failed to update user data",
+                    error: "Failed to update user data.",
                 });
             }
 
             const secret = process.env.JWT_SECRET;
             if (!secret)
-                return res.status(500).send({ success: false, error: "Couldn't load secret code from .env" });
+                return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
 
             const cookie = { userID: id };
             const JWTCookie = jwt.encode(cookie, secret);
@@ -186,7 +183,7 @@ export async function deleteUser(req: express.Request, res: express.Response) {
           res.status(200).json({ message: 'User has been deleted.' });
 
         } else {
-          res.status(404).json({ error: 'User not found' });
+          res.status(404).json({ error: 'User not found.' });
         }
       }
     });
@@ -222,7 +219,7 @@ export async function getUsers(req: express.Request, res: express.Response) {
        
         connection.query(query, (error, results) => {
             if (error) {
-                res.status(500).send({ error: "Error executing receive all users ( no admins)" });
+                res.status(500).send({ error: "Error executing receive all users ( no admins )." });
             } else {             
                res.status(200).json(results);              
             }
