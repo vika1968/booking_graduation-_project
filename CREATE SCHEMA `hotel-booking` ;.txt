@@ -51,8 +51,8 @@ CREATE TABLE `hotel-booking`.room_unavailable_dates (
   ID INT AUTO_INCREMENT PRIMARY KEY,
   hotelRoomId INT,
   userID INT,
-  unavailableDateStart DATE NOT NULL,
-  unavailableDateEnd DATE NOT NULL,
+  unavailableDateStart DATETIME NOT NULL,
+  unavailableDateEnd DATETIME NOT NULL,
   FOREIGN KEY (hotelRoomId) REFERENCES room_numbers (ID)  ON DELETE CASCADE
 );
 

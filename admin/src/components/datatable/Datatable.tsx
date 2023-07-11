@@ -108,8 +108,7 @@ console.log(data)
     renderCell: (params) => {
       return (
         <div className="cell-action">
-          {path === "users" ? (
-            
+          {path === "users" ? (            
              <Link to={`/users/trans`} style={{ textDecoration: "none" }}>
               <div className="view-button">View User Transactions</div>
              </Link>
