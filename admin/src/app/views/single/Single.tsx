@@ -24,7 +24,7 @@ const Single = () => {
                 <h1 className="single__itemTitle caption">Kim Fox</h1>
                 <div className="single__detailItem">
                   <span className="single__itemKey caption">Email:</span>
-                  <span className="single__itemValue">kimfox@gmail.com</span>
+                  <span className="single__itemValue">kimfox@gmail.com</span>                 
                 </div>
                 <div className="single__detailItem">
                   <span className="single__itemKey caption">Phone:</span>
@@ -44,7 +44,7 @@ const Single = () => {
             </div>
           </div>
           <div className="single__right">
-            <Chart aspect={3 / 1} title="User Spending (Last 5 Months)" />
+            <Chart aspect={3 / 1} title="User Spending (Last 6 Months)" />
           </div>
         </div>
         <div className="single__bottom">

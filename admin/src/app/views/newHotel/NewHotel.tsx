@@ -152,7 +152,7 @@ const NewHotel = () => {
                   </label>
                   <input
                     type="file"
-                    id="file"
+                    id="file"                  
                     multiple
                     onChange={handleFileSelect}
                     style={{ display: "none" }}

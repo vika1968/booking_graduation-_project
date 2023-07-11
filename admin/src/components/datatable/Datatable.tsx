@@ -25,7 +25,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
   const [list, setList] = useState<Row[] | null>(null);
   const { data, loading, error } = useFetch(`/api/${path}`);
-
+console.log(data)
   useEffect(() => {
     if (data && data.length > 0) {
       let updatedRows: Row[] = [];
@@ -109,7 +109,8 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
       return (
         <div className="cell-action">
           {path === "users" ? (
-             <Link to={`/users/test`} style={{ textDecoration: "none" }}>
+            
+             <Link to={`/users/trans`} style={{ textDecoration: "none" }}>
               <div className="view-button">View User Transactions</div>
              </Link>
           ) : (

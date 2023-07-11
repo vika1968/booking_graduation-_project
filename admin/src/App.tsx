@@ -13,7 +13,6 @@ import { userInputs } from "./helpers/formSource";
 import ProtectedRoute from "./helpers/ProtectedRoute";
 import "./style/dark.scss";
 
-
 function App() {
   const darkMode = useAppSelector(darkModeSelector);
 
@@ -39,7 +38,7 @@ function App() {
               <Route
                 path=":userId" element={
                   <ProtectedRoute>
-                    <Single />
+                   <Single />
                   </ProtectedRoute>
                 }
               />
@@ -57,12 +56,12 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path=":productId" element={
+              {/* <Route path=":productId" element={
                   <ProtectedRoute>
                     <Single />
                   </ProtectedRoute>
                 }
-              />
+              /> */}
               <Route path="new" element={
                   <ProtectedRoute>
                     <NewHotel />
@@ -76,12 +75,12 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path=":productId" element={
+              {/* <Route path=":productId" element={
                   <ProtectedRoute>
                     <Single />
                   </ProtectedRoute>
                 }
-              />
+              /> */}
               <Route path="new" element={
                   <ProtectedRoute>
                     <NewRoom />
