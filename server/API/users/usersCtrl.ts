@@ -204,7 +204,7 @@ export async function getUserByID(req: express.Request, res: express.Response) {
             if (result.affectedRows === 0) {
                 return res.status(500).json({ error: "No user found with the specified ID." });
             }
-
+            console.log(result)
             return res.status(200).json({ success: "The user has been dedicated.", user: result });
 
         });

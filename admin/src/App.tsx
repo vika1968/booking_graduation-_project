@@ -35,8 +35,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
+              {/* <Route
                 path=":userId" element={
+                  <ProtectedRoute>
+                   <Single />
+                  </ProtectedRoute>
+                }
+              /> */}
+              <Route
+                path=":single" element={
                   <ProtectedRoute>
                    <Single />
                   </ProtectedRoute>
@@ -56,12 +63,12 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/* <Route path=":productId" element={
-                  <ProtectedRoute>
+              <Route path=":productId" element={
+                 <ProtectedRoute>
                     <Single />
-                  </ProtectedRoute>
+                 </ProtectedRoute>
                 }
-              /> */}
+              />                          
               <Route path="new" element={
                   <ProtectedRoute>
                     <NewHotel />

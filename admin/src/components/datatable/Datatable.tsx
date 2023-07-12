@@ -7,6 +7,7 @@ import { HotelInterface } from "../../helpers/hotelInterface";
 import { RoomInterface } from "../../helpers/roomInterface";
 import { showToast } from "../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./dataTable.scss";
 
@@ -20,12 +21,13 @@ interface DataTableProps {
 }
 
 const DataTable: React.FC<DataTableProps> = ({ columns }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname.split("/")[1];
 
   const [list, setList] = useState<Row[] | null>(null);
   const { data, loading, error } = useFetch(`/api/${path}`);
-console.log(data)
+ 
   useEffect(() => {
     if (data && data.length > 0) {
       let updatedRows: Row[] = [];
@@ -52,6 +54,11 @@ console.log(data)
       setList([]);
     }
   }, [data]);
+
+  const handleViewTransactions = (id: string) => {  
+    navigate(`/users/trans?${id}`);
+  };
+  
 
   const handleDelete = async (id: string) => {
     try {
@@ -109,9 +116,10 @@ console.log(data)
       return (
         <div className="cell-action">
           {path === "users" ? (            
-             <Link to={`/users/trans`} style={{ textDecoration: "none" }}>
-              <div className="view-button">View User Transactions</div>
-             </Link>
+            //  <Link to={`/users/trans`} style={{ textDecoration: "none" }}>
+            //   <div className="view-button">View User Transactions</div>
+            //  </Link>
+             <div className="view-button" onClick={() => handleViewTransactions(params.row.id)}>View User Transactions</div>
           ) : (
             ""
           )}

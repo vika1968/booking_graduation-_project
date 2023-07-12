@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
 import "./login.scss";
@@ -54,7 +54,7 @@ const Login = () => {
       <div className="login">
         
         <h1 className="login__title">Log in</h1>
-        <div className="login__invite">If you are already a <span>registered</span> user,<br/> please enter your data.</div>
+        <div className="login__invite">If you are already a <span>registered</span> user,<br/> please enter your details, otherwise proceed to <Link className="login__toregister" to="/register">registration</Link></div>
         <div className="login__container">
           <input
             type="text"

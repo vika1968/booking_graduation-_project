@@ -76,7 +76,7 @@ const Register = () => {
       <div className="register">
         <h1 className="register__title">Register</h1>
         <div className="register__msg">If you are already registered. go to <Link className="register__tologin" to="/login">login</Link> tab. </div>
-        <div className="register__inputs">
+        <div className="register__inputs"> 
           <input
             onChange={handleUsername}
             className="register__input"
