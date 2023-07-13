@@ -14,7 +14,6 @@ const Single = () => {
   const location = useLocation();
   const id = location.search.split("?")[1];
   const [singleUser, setSingleUser] = useState<UserInterface[] | null>(null);
-  // const [lastChar, setLastChar] = useState<string>('')
   const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const Single = () => {
 
 
   if (singleUser === null) {
-    return <div> Loading ...</div>;
+    return <div> Loading ... </div>;
   } else {
     return (
       <>

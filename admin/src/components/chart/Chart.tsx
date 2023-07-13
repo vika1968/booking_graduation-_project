@@ -14,14 +14,14 @@ interface ChartProps {
 }
 
 const data = [
-  // { name: "January", Total: 1200 },
-  // { name: "February", Total: 2100 },
-  // { name: "March", Total: 800 },
-  // { name: "April", Total: 1600 },
-  // { name: "May", Total: 900 },
-  // { name: "June", Total: 1700 },
-  { name: "January", Total: Math.floor(Math.random() * (1200 - 200 + 1)) + 200 },
-  { name: "February",Total: Math.floor(Math.random() * (2100 - 1000 + 1)) + 1000 },
+  {
+    name: "January",
+    Total: Math.floor(Math.random() * (1200 - 1000 + 1)) + 1000,
+  },
+  {
+    name: "February",
+    Total: Math.floor(Math.random() * (2100 - 300 + 1)) + 300,
+  },
   { name: "March", Total: Math.floor(Math.random() * (800 - 300 + 1)) + 300 },
   { name: "April", Total: Math.floor(Math.random() * (1600 - 500 + 1)) + 500 },
   { name: "May", Total: Math.floor(Math.random() * (800 - 400 + 1)) + 400 },

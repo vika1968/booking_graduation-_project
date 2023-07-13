@@ -8,8 +8,10 @@ import { RoomInterface } from "../../helpers/roomInterface";
 import { showToast } from "../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { HotelFieldsToUpdateInterface } from "../../helpers/hotelFieldsToUpdate";
 import axios from "axios";
 import "./dataTable.scss";
+
 
 interface Row {
   id: string;
@@ -73,7 +75,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
     }
   };
 
-  const handleUpdate = async (id: string, updatedFields: any) => {
+  const handleUpdate = async (id: string, updatedFields: HotelFieldsToUpdateInterface) => {
     try {
       const response = await axios.put(`/api/${path}/${id}`, updatedFields);
       const { message } = response.data;    
@@ -115,10 +117,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
     renderCell: (params) => {
       return (
         <div className="cell-action">
-          {path === "users" ? (            
-            //  <Link to={`/users/trans`} style={{ textDecoration: "none" }}>
-            //   <div className="view-button">View User Transactions</div>
-            //  </Link>
+          {path === "users" ? (           
              <div className="view-button" onClick={() => handleViewTransactions(params.row.id)}>View User Transactions</div>
           ) : (
             ""
@@ -162,7 +161,8 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
     if (originalValue !== value) {
       try {
-        await handleUpdate(id, { [field]: value });
+      //  await handleUpdate(id, { [field]: value });
+      await handleUpdate(id, { name: value, type: value, title: value, city: value});
       } catch (error: any) {   
         showToast(error.response.data.error, "error no redirect", "");
       }
