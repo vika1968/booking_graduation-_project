@@ -1,3 +1,11 @@
+//-----Very Importent---------------------
+To import Data Base : Write 
+CREATE DATABASE `hotel-booking`;
+And then Server --> import
+
+Users/ Vika/ Documents/dumps
+//--------------------------
+
 CREATE SCHEMA `hotel-booking` ;
 
 CREATE TABLE `hotel-booking`.users (
