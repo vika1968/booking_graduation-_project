@@ -9,8 +9,7 @@ import "./sidebar.scss";
 const Sidebar = () => {
   const dispatch = useDispatch();
 
-  const logOut = () => {
-   // Cookies.remove('adminId');  
+  const logOut = () => {  
     dispatch(resetAdmin());  
   };
  

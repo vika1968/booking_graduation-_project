@@ -1,7 +1,11 @@
-import "./featured.scss";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
- import { MdMoreVert, MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import {
+  MdMoreVert,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp,
+} from "react-icons/md";
+import "./featured.scss";
 
 const Featured = () => {
   return (

@@ -124,12 +124,9 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
         "Your reservation ended successfully.!🎉",
         "success redirect",
         "/"
-      );
-      //setOpen(false);
-    } catch (error: any) {
-      // showToast(error.response.data.error, "error redirect", "/");
-      showToast(error.response.data.error, "error no redirect", "");
-     // setOpen(false);
+      );     
+    } catch (error: any) {    
+      showToast(error.response.data.error, "error no redirect", "");    
     }
   };
 

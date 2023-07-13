@@ -1,5 +1,4 @@
 export interface SearchItemInterface {
-   // city: string;
     dates: {
       startDate: string;
       endDate: string;

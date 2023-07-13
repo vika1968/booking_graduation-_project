@@ -8,7 +8,6 @@ export const getUserByCookieMain = createAsyncThunk("get-user-by-cookie", async 
     const { userData } = data;  
     return userData;
   } catch (error: any) {
-   // console.error(error.response.data.error);
     return thunkApi.rejectWithValue({
       error: error.response.data.error,
       message: error.response.data.error,

@@ -10,7 +10,6 @@ export const getAdminByCookieMain = createAsyncThunk("get-admin-by-cookie", asyn
     return adminData;
 
   } catch (error: any) {
-   //console.error(error.response.data.error);
     return thunkApi.rejectWithValue({
       error: error.response.data.error,
       message: error.response.data.error,

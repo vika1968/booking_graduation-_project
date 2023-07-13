@@ -3,6 +3,7 @@
 import mysql from "mysql2";
 
 //require("dotenv").config();
+//OR
 import dotenv from "dotenv";
 dotenv.config();
 

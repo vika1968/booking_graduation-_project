@@ -34,14 +34,7 @@ function App() {
                     <List columns={userColumns} />
                   </ProtectedRoute>
                 }
-              />
-              {/* <Route
-                path=":userId" element={
-                  <ProtectedRoute>
-                   <Single />
-                  </ProtectedRoute>
-                }
-              /> */}
+              />             
               <Route
                 path=":single" element={
                   <ProtectedRoute>
@@ -81,13 +74,7 @@ function App() {
                     <List columns={roomColumns} />
                   </ProtectedRoute>
                 }
-              />
-              {/* <Route path=":productId" element={
-                  <ProtectedRoute>
-                    <Single />
-                  </ProtectedRoute>
-                }
-              /> */}
+              />           
               <Route path="new" element={
                   <ProtectedRoute>
                     <NewRoom />

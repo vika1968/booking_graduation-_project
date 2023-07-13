@@ -1,5 +1,0 @@
-export interface DatesInterface {
-    startDate: Date;
-    endDate: Date;
-    key: "selection",
-  }

@@ -54,9 +54,6 @@ const List: React.FC = () => {
     );
   }, [dates, options]);
 
-// keyof typeof options возвращает объединение всех ключей объекта options.
-// В данном случае, typeof options возвращает тип объекта options, а keyof применяется к этому типу, чтобы получить все возможные ключи этого объекта. Результатом будет объединение всех ключей объекта options.
-// Например, если options имеет тип { optionName: string, age: number, isActive: boolean }, то keyof typeof options будет типом "optionName" | "age" | "isActive". Это позволяет использовать эти ключи для доступа к соответствующим значениям объекта options.
 
  const handleOption = (optionName: keyof typeof options, value: string) => {
     if (optionName==='minPrice'){

@@ -12,7 +12,6 @@ import { HotelFieldsToUpdateInterface } from "../../helpers/hotelFieldsToUpdate"
 import axios from "axios";
 import "./dataTable.scss";
 
-
 interface Row {
   id: string;
   [key: string]: any;
@@ -160,8 +159,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
     const originalValue = list?.find((item) => item.id === id)?.[field];
 
     if (originalValue !== value) {
-      try {
-      //  await handleUpdate(id, { [field]: value });
+      try {   
       await handleUpdate(id, { name: value, type: value, title: value, city: value});
       } catch (error: any) {   
         showToast(error.response.data.error, "error no redirect", "");
