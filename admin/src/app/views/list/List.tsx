@@ -1,6 +1,6 @@
 
 
-import DataTable from "../../../components/datatable/DataTable22"
+import DataTable from "../../../components/datatable/DataTable"
 import Navbar from "../../../components/navbar/Navbar"
 import Sidebar from "../../../components/sidebar/Sidebar"
 import "./list.scss"
