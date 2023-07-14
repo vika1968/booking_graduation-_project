@@ -6,7 +6,7 @@ const Page404 = () => {
     <div className="page404">
       <h1>Page404</h1>
       <p>
-        Go back <Link to="/">Home</Link>
+        Go back to  <Link to="/">Admin Login</Link>
       </p>
     </div>
   );
