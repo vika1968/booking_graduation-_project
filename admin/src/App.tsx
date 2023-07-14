@@ -12,6 +12,7 @@ import { darkModeSelector } from "./features/darkMode/darkModeSlice";
 import { userInputs } from "./helpers/formSource";
 import ProtectedRoute from "./helpers/ProtectedRoute";
 import "./style/dark.scss";
+import Page404 from "./app/views/page404/Page404";
 
 function App() {
   const darkMode = useAppSelector(darkModeSelector);
@@ -20,6 +21,7 @@ function App() {
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
+          <Route path="*" element={<Page404 />} />
           <Route path="/">
             <Route path="login" element={<Login />} />
             <Route index element={
