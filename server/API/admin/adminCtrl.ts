@@ -18,7 +18,7 @@ export async function getAdmin(req: express.Request, res: express.Response) {
 
         const decodedAdminId = jwt.decode(adminId, secret);
 
-        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND  userID = '${decodedAdminId.adminID}'`;
+        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND userID = '${decodedAdminId.adminID}'`;
 
         connection.query(query, [decodedAdminId], (error, results) => {
             if (error) {

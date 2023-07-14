@@ -16,11 +16,11 @@ const getOrdersByUserID = (req, res) => {
          ON r.HotelID = h.HotelID 
     INNER JOIN \`hotel-booking\`.\`room_numbers\`AS rm 
          ON r.roomId = rm.roomId
-    Inner JOIN \`hotel-booking\`.\`room_unavailable_dates\` AS rud 
+    INNER JOIN \`hotel-booking\`.\`room_unavailable_dates\` AS rud 
           ON rm.ID=rud.hotelRoomId
     INNER JOIN  \`hotel-booking\`.\`users\` AS u
           ON u.userID = rud.userID
-    Where u.userID=${id};   
+    WHERE u.userID=${id};   
    `;
     database_1.default.query(query, (error, results) => {
         try {

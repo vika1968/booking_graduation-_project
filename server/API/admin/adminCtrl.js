@@ -28,7 +28,7 @@ function getAdmin(req, res) {
             if (!adminId)
                 throw new Error("No authorized admin !!!!!!!");
             const decodedAdminId = jwt_simple_1.default.decode(adminId, secret);
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND  userID = '${decodedAdminId.adminID}'`;
+            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND userID = '${decodedAdminId.adminID}'`;
             database_1.default.query(query, [decodedAdminId], (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing SQL query." });
