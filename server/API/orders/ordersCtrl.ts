@@ -18,12 +18,12 @@ export const getOrdersByUserID = (
   req: express.Request,
   res: express.Response
 ) => {
-  const id = req.params.id;
+  const id = req.params.id;  
 
   const query = `
     SELECT u.userID, u.username, u.email, u.country, u.city,  
          h.name AS hotelname, h.city AS hotelcity, rud.unavailableDateStart AS datestart, 
-         rud.unavailableDateEnd AS dateend, rud.hotelRoomId AS roomnumber, r.Price AS price 
+         rud.unavailableDateEnd AS dateend, rm.number AS roomnumber, r.Price AS price 
     FROM \`hotel-booking\`.\`rooms\` AS r 
     INNER JOIN \`hotel-booking\`.\`hotels\` AS h 
          ON r.HotelID = h.HotelID 
