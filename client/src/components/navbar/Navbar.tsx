@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { resetUser, userSelector } from "../../features/user/userSlice";
 import { getUserByCookieMain } from "../../features/user/userAPI";
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 import { User } from "../../features/user/userModel";
 import Cookies from "js-cookie";
 import "./navbar.scss";
@@ -11,8 +11,9 @@ import "./navbar.scss";
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(userSelector) as User[] | null;
-  const location = useLocation();
-  const email = location.state;
+ // const location = useLocation();
+ // const email = location.state;
+
 
   useEffect(() => {
     dispatch(getUserByCookieMain());
@@ -31,7 +32,7 @@ const Navbar = () => {
     if (user) {
       setOpenModal(true);
     } else {
-      navigate("/login");        
+      navigate("/login");
     }
   };
 
@@ -44,16 +45,26 @@ const Navbar = () => {
     document.location.reload();
   };
 
+  const handleOrders = () => {
+    setOpenModal(false);   
+    navigate("/orders");  
+  };
+
   return (
     <div className="navbar">
       <div className="navbar__navContainer">
         <Link to="/" className="navbar__logo">
           Your Booking place
         </Link>
-        {user ? (
-          <button className="navbar__navButton" onClick={logOut}>
-            Log Out <span>{user ? user[0].email : ""}</span>
-          </button>
+        {user ? (         
+          <>
+            <button className="navbar__navButton" onClick={logOut}>
+              Log Out <span>{user ? user[0].email : ""}</span>
+            </button>
+            <button className="navbar__navButton" onClick={handleOrders}>
+            {user ? "My Orders" : ""} 
+            </button>
+          </>
         ) : (
           <div className="navbar__navItems">
             <button className="navbar__navButton" onClick={handleRegister}>

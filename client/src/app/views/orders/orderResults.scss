@@ -1,0 +1,83 @@
+ @import "../../../../../client/src/style/myColors.scss";
+
+.order-results {
+  padding: 20px;
+  color: $primary-color; 
+
+  &__title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    flex-wrap: wrap;
+    color: black;    
+    gap: 20px; 
+  }
+
+  &__list-item {
+    background-color: $order-background-color;
+    padding: 10px;
+    margin: 0;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 200px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 500px;   
+    box-shadow: 0px 4px 10px rgba(195, 13, 13, 0.1);
+    h4{
+      color:rgb(109, 28, 202);
+    }
+    
+  }
+
+  &__list-item > div {
+    margin-bottom: 5px;
+  }
+
+  &__list-item > div > h5 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 3px;
+    color: black;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+  .button-back {
+    border: none;
+    background-color: $primary-color;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 80px;
+    height: 30px;
+    margin-top: 20px;  
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    width: 200px;
+
+    &:hover {
+      background-color: $color-hover;
+      transform: scale(1.05);
+    }      
+  }
+ 
+}
+

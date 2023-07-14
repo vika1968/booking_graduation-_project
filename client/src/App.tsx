@@ -4,8 +4,10 @@ import Hotel from "./app/views/eachHotel/Hotel";
 import List from "./app/views/hotelsList/List";
 import Login from "./app/views/login/Login";
 import Home from "./app/views/home/Home";
-import "./App.scss";
+import OrderResults from "./app/views/orders/OrderResults";
 import Page404 from "./app/views/page404/Page404";
+import "./App.scss";
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/orders" element={<OrderResults/>}/>
       </Routes>
     </BrowserRouter>
   );
