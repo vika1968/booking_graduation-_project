@@ -113,20 +113,6 @@ VALUES ('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4
 ('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80','photo-1566073771259-6a8506099945.webp'),
 ('https://images.unsplash.com/photo-1557499305-0af888c3d8ec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80','photo-1557499305-0af888c3d8ec.webp')
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  --Remove all foreign keys-------------
 
 SELECT CONCAT('ALTER TABLE `', table_name, '` DROP FOREIGN KEY `', constraint_name, '`;') AS 'SQL'

@@ -50,6 +50,9 @@ const Single = () => {
       const vowels = ["a", "e", "i", "o", "u"];
       const endsWithVowel = vowels.includes(lastCharacter);
 
+      // Gili, I don't know which is better.
+      // Beautiful people, a man or a woman, or an avatar. I chose an avatar
+
       // setImageUrl(endsWithVowel
       //   ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR25wSgGGaOwHY5VR8g5ZzKOhyG0TG_jwB_IQ&usqp=CAU'
       //   : 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'

@@ -15,9 +15,9 @@ import { User } from "../../../features/user/userModel";
 import { searchSelector } from "../../../features/search/searchSlice";
 import moment from "moment"; // JavaScript library for parsing, manipulating, and formatting dates and times.
 import Promotion from "../../../components/promotion/Promotion";
-import "./hotel.scss";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import "./hotel.scss";
 
 const Hotel = () => {
   const location = useLocation();

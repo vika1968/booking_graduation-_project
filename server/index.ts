@@ -28,5 +28,5 @@ import ordersRoutes from "./API/orders/ordersRoutes";
 app.use("/api/orders", ordersRoutes); 
 
 app.listen(port, () => {
-  console.log(`MySql server is running on port ${port}`);
+  console.log(`'MySql' server is running on port ${port}`);
 });

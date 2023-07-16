@@ -3,7 +3,7 @@
 import mysql from "mysql2";
 
 //require("dotenv").config();
-//OR
+//OR another way 
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -21,7 +21,6 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   try {
     if (err) throw err;
-
     console.info("🔥 MySQL is connected 🛢 ");
   } catch (error) {
     console.error(error);

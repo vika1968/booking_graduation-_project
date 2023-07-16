@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { resetUser, userSelector } from "../../features/user/userSlice";
 import { getUserByCookieMain } from "../../features/user/userAPI";
-//import { useLocation } from "react-router-dom";
 import { User } from "../../features/user/userModel";
 import Cookies from "js-cookie";
 import "./navbar.scss";
@@ -11,9 +10,6 @@ import "./navbar.scss";
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(userSelector) as User[] | null;
- // const location = useLocation();
- // const email = location.state;
-
 
   useEffect(() => {
     dispatch(getUserByCookieMain());

@@ -1,5 +1,3 @@
-
-
 import Joi from 'joi';
 import { joiPasswordExtendCore } from 'joi-password';
 

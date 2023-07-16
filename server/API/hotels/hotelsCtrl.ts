@@ -3,10 +3,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import connection from "../../DB/database";
 import { OkPacket, RowDataPacket } from "mysql2/promise";
-import dotenv from "dotenv";
-dotenv.config();
 
-const limitCountToShow = process.env.LISTLIMIT; 
 export async function createHotel(req: express.Request, res: express.Response) {
   try {
     const name = req.body.newHotel.name;

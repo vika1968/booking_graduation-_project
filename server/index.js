@@ -23,5 +23,5 @@ app.use("/api/users", usersRoutes_1.default);
 const ordersRoutes_1 = __importDefault(require("./API/orders/ordersRoutes"));
 app.use("/api/orders", ordersRoutes_1.default);
 app.listen(port, () => {
-    console.log(`MySql server is running on port ${port}`);
+    console.log(`'MySql' server is running on port ${port}`);
 });
