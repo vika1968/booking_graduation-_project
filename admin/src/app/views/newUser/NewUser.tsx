@@ -156,9 +156,7 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
                       placeholder={placeholders[input.id]}
                       value={info[input.id] as string}
                       onChange={handleChange}
-                      className={
-                        isFilled ? "input-filled" : "input-placeholder"
-                      }
+                      className={isFilled ? "input-filled" : "input-placeholder"}                      
                     />
                   </div>
                 ))}

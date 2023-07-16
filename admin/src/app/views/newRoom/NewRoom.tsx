@@ -173,7 +173,7 @@ const NewRoom = () => {
                       placeholder={placeholders[input.id]}
                       value={info[input.id] as string}
                       onChange={handleChange}
-                      className={isFilled ? "input-filled" : "none"}
+                       className={isFilled ? "input-filled" : "none"}                    
                     />
                   </div>
                 ))}
@@ -185,7 +185,7 @@ const NewRoom = () => {
                     value={rooms}
                     onChange={(event) => setRooms(event.target.value)}
                     placeholder="Give comma between room numbers or enter single number!"
-                    className={isFilled ? "input-filled" : "none"}
+                    className={isFilled ? "input-filled textarea-color" : "none"}
                   />
                 </div>
 
