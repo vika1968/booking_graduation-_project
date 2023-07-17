@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 
-# /src/config
+# /src/config  //check may be root gitignore works global
 
 # testing
 /coverage
