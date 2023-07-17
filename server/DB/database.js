@@ -51,6 +51,7 @@ else {
             return;
         }
         console.info("🔥 MySQL is connected 🛢");
+        console.info(connection);
         connection.on("error", (err) => {
             if (err.fatal) {
                 console.trace("Fatal error: " + err.message);

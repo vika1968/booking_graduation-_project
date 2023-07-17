@@ -1,8 +1,9 @@
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 
-let environment = process.env.ENVIRONMENT;
+// let environment = process.env.ENVIRONMENT;
+let environment ="DEV" //"PROD"
 let BACKEND_URL: string;
 
 if (environment === "DEV") {

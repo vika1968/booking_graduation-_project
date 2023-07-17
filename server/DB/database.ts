@@ -30,8 +30,7 @@ if (environment === "DEV") {
   });
 
 }
- else
- 
+ else 
  {
   const sqlPassword_Prod = process.env.SQLPASSWORD_PROD;
   const sqlUser_Prod = process.env.SQLUSER_PROD;
@@ -53,7 +52,7 @@ if (environment === "DEV") {
       return;
     }
     console.info("🔥 MySQL is connected 🛢");
-
+    console.info(connection);
     connection.on("error", (err: { fatal: any; message: string }) => {
       if (err.fatal) {
         console.trace("Fatal error: " + err.message);
