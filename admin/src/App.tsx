@@ -19,7 +19,7 @@ import "./style/dark.scss";
 //Dlya deploy - deaktivaziya  react dev tools
 //npm i @fvilers/disable-react-devtools  - ustanovim
 
-let environment = "DEV"; 'PROD'// menyaetm po neobxodimosti na "PROD"
+let environment = "DEV"; //'PROD'// menyaetm po neobxodimosti na "PROD"
 let BACKEND_URL: string; 
 
 // environment === "DEV" ? BACKEND_URL = SERVER_URL : BACKEND_URL = ""
