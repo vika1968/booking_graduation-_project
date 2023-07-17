@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 let connection: mysql.Connection;
-
-let environment = "PROD"; //"DEV";
+let environment = process.env.ENVIRONMENT
 
 if (environment === "DEV") {
   const sqlPassword_Dev = process.env.SQLPASSWORD_DEV;

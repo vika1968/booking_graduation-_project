@@ -7,7 +7,7 @@ const mysql2_1 = __importDefault(require("mysql2"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let connection;
-let environment = "PROD"; //"DEV";
+let environment = process.env.ENVIRONMENT;
 if (environment === "DEV") {
     const sqlPassword_Dev = process.env.SQLPASSWORD_DEV;
     const sqlUser_Dev = process.env.SQLUSER_DEV;
