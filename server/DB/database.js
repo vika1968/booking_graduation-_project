@@ -37,13 +37,17 @@ else {
     const sqlUser_Prod = process.env.SQLUSER_PROD;
     const sqlDB_Name_Prod = process.env.DATABASE_PROD;
     const sqlHost_Prod = process.env.HOST_PROD;
+    // console.log(sqlPassword_Prod)
+    // console.log(sqlUser_Prod)
+    // console.log(sqlDB_Name_Prod)
+    // console.log(sqlHost_Prod)
     connection = mysql2_1.default.createConnection({
         host: sqlHost_Prod,
         port: 3306,
         user: sqlUser_Prod,
         password: sqlPassword_Prod,
         database: sqlDB_Name_Prod,
-        multipleStatements: true,
+        //multipleStatements: true,
     });
     connection.connect((err) => {
         if (err) {

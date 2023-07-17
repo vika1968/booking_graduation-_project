@@ -37,13 +37,18 @@ if (environment === "DEV") {
   const sqlDB_Name_Prod = process.env.DATABASE_PROD;
   const sqlHost_Prod = process.env.HOST_PROD;
 
+  // console.log(sqlPassword_Prod)
+  // console.log(sqlUser_Prod)
+  // console.log(sqlDB_Name_Prod)
+  // console.log(sqlHost_Prod)
+
   connection = mysql.createConnection({
     host: sqlHost_Prod,
     port: 3306,
     user: sqlUser_Prod,
     password: sqlPassword_Prod,
     database: sqlDB_Name_Prod,
-    multipleStatements: true,
+    //multipleStatements: true,
   });
 
   connection.connect((err) => {
@@ -51,9 +56,8 @@ if (environment === "DEV") {
       console.trace(err);
       return;
     }
-    
-    console.info("🔥 MySQL is connected 🛢");
- 
+
+    console.info("🔥 MySQL is connected 🛢"); 
     connection.on("error", (err: { fatal: any; message: string }) => {
       if (err.fatal) {
         console.trace("Fatal error: " + err.message);
