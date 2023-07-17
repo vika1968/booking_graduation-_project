@@ -12,7 +12,6 @@ import { ToastContainer } from "react-toastify";
 import { SERVER_URL } from "../../../config/config";
 import "./newRoom.scss";
 
-
 const NewRoom = () => {
   //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: RoomInterface = roomInputs.reduce(
@@ -175,7 +174,7 @@ const NewRoom = () => {
                       placeholder={placeholders[input.id]}
                       value={info[input.id] as string}
                       onChange={handleChange}
-                       className={isFilled ? "input-filled" : "none"}                    
+                      className={isFilled ? "input-filled" : "none"}                    
                     />
                   </div>
                 ))}
