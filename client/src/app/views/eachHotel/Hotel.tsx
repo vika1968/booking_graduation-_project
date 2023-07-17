@@ -17,6 +17,7 @@ import moment from "moment"; // JavaScript library for parsing, manipulating, an
 import Promotion from "../../../components/promotion/Promotion";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { SERVER_URL } from "../../../../config/config";
 import "./hotel.scss";
 
 const Hotel = () => {
@@ -27,7 +28,7 @@ const Hotel = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const { data, loading, error, reFetch } = useFetchClient<HotelInterface>(
-    `/api/hotels/findByID/${id}`
+    `${SERVER_URL}/api/hotels/findByID/${id}`
   );
 
   const {
@@ -35,7 +36,7 @@ const Hotel = () => {
     loading: loadingPhoto,
     error: errorPhoto,
     reFetch: reFetchPhoto,
-  } = useFetchClient<PhotoInterface[]>(`/api/hotels/findHotelPhoto/${id}`);
+  } = useFetchClient<PhotoInterface[]>(`${SERVER_URL}/api/hotels/findHotelPhoto/${id}`);
 
   const numberOfPhotos: number = photoData ? photoData.length : 0;
 

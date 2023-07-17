@@ -2,6 +2,8 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import {corsOptions} from "./config/corsOptions"
+import cors from "cors" //npm i cors //npm i @types/cors
 
 dotenv.config();
 
@@ -11,6 +13,7 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("client"));
+app.use(cors(corsOptions))
 
 import adminRoutes from "./API/admin/adminRoutes";
 app.use("/api/admin", adminRoutes);

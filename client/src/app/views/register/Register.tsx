@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify"; //npm install react-toastify
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../../helpers/toast";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../../../config/config";
 import axios from "axios";
 import "./register.scss";
 
@@ -62,7 +63,7 @@ const Register = () => {
         phone,
       };
 
-      await axios.post("/api/users/register", newUser);
+      await axios.post(`${SERVER_URL}/api/users/register`, newUser, { withCredentials: true });
       setSubmitted(true);      
       showToast("User created!🎉", "success redirect", "/login");
     } catch (err: any) {    

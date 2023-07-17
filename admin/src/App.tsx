@@ -11,8 +11,25 @@ import { useAppSelector } from "./app/hooks";
 import { darkModeSelector } from "./features/darkMode/darkModeSlice";
 import { userInputs } from "./helpers/formSource";
 import ProtectedRoute from "./helpers/ProtectedRoute";
-import "./style/dark.scss";
 import Page404 from "./app/views/page404/Page404";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools"//npm i @fvilers/disable-react-devtools
+import { SERVER_URL } from "../config/config";
+import "./style/dark.scss";
+
+//Dlya deploy - deaktivaziya  react dev tools
+//npm i @fvilers/disable-react-devtools  - ustanovim
+
+let environment = "DEV"; 'PROD'// menyaetm po neobxodimosti na "PROD"
+let BACKEND_URL: string; 
+
+// environment === "DEV" ? BACKEND_URL = SERVER_URL : BACKEND_URL = ""
+// environment === "DEV" ? null : disableReactDevTools()
+if (environment === "DEV") {
+  BACKEND_URL = SERVER_URL;
+} else {
+  BACKEND_URL = ""//"https://moovi-booking-back.onrender.com";// suda podstavili
+  disableReactDevTools(); 
+}
 
 function App() {
   const darkMode = useAppSelector(darkModeSelector);

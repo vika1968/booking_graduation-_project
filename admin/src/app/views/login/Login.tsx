@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { SERVER_URL } from "../../../../config/config";
 import "./login.scss";
 
 const Login = () => {
@@ -31,7 +32,7 @@ const Login = () => {
     }
 
     try {     
-      const { data } = await axios.post("/api/admin/login", { credentials });
+      const { data } = await axios.post(`${SERVER_URL}/api/admin/login`, { credentials }, { withCredentials: true });
       const { success, adminArray } = data;
 
       if (success) {

@@ -6,7 +6,9 @@ import axios from "axios";
 import { UserInterface } from "../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { SERVER_URL } from "../../../../config/config";
 import "./newUser.scss";
+
 interface Input {
   id: string;
   label: string;
@@ -94,7 +96,7 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
         img: selectedFiles,
       };
 
-      const { data } = await axios.post("/api/admin/register", newUser);
+      const { data } = await axios.post(`${SERVER_URL}/api/admin/register`, newUser, { withCredentials: true });
       const { success } = data;
       if (success) {
         showToast("New admin successfully added!🎉", "success no redirect", "");

@@ -9,6 +9,7 @@ import { showToast } from "../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { HotelFieldsToUpdateInterface } from "../../helpers/hotelFieldsToUpdate";
+import { SERVER_URL } from "../../../config/config";
 import axios from "axios";
 import "./dataTable.scss";
 
@@ -27,7 +28,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
   const path = location.pathname.split("/")[1];
 
   const [list, setList] = useState<Row[] | null>(null);
-  const { data, loading, error } = useFetch(`/api/${path}`);
+  const { data, loading, error } = useFetch(`${SERVER_URL}/api/${path}`);
  
   useEffect(() => {
     if (data && data.length > 0) {
@@ -63,7 +64,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await axios.delete(`/api/${path}/${id}`);
+      const response = await axios.delete(`${SERVER_URL}/api/${path}/${id}`);
       const { message } = response.data;
     
       showToast(message, "success no redirect", "");
@@ -76,7 +77,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
   const handleUpdate = async (id: string, updatedFields: HotelFieldsToUpdateInterface) => {
     try {
-      const response = await axios.put(`/api/${path}/${id}`, updatedFields);
+      const response = await axios.put(`${SERVER_URL}/api/${path}/${id}`, updatedFields);
       const { message } = response.data;    
       showToast(message, "success no redirect", "");
 

@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
+import { SERVER_URL } from "../../../../config/config";
 import "./login.scss";
+
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -31,7 +33,7 @@ const Login = () => {
     }
 
     try {
-      const { data } = await axios.post("/api/users/login", { credentials });
+      const { data } = await axios.post(`${SERVER_URL}/api/users/login`, { credentials }, { withCredentials: true });
       const { success, userArray } = data;
 
       if (success) {

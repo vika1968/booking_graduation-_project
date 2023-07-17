@@ -8,7 +8,9 @@ import useFetch from "../../../hooks/useFetch";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { SERVER_URL } from "../../../../config/config";
 import "./newHotel.scss";
+
 
 const NewHotel = () => {
   //reduce() method to convert the roomInputs array into an initialInfo object.
@@ -105,7 +107,7 @@ const NewHotel = () => {
         photos: sendFiles,
       };
 
-      const { data } = await axios.post("/api/hotels", { newHotel });
+      const { data } = await axios.post(`${SERVER_URL}/api/hotels`, { newHotel });
       const { success } = data;
       if (success) {      
         showToast("New hotel successfully added!🎉", "success no redirect", "");

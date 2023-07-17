@@ -9,7 +9,9 @@ import { HotelInterface } from "../../../helpers/hotelInterface";
 import { roomTypesInterface } from "../../../helpers/roomTypesInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { SERVER_URL } from "../../../../config/config";
 import "./newRoom.scss";
+
 
 const NewRoom = () => {
   //reduce() method to convert the roomInputs array into an initialInfo object.
@@ -27,7 +29,7 @@ const NewRoom = () => {
     {}
   );
 
-  const { data, loading, error } = useFetch("/api/hotels");
+  const { data, loading, error } = useFetch(`${SERVER_URL}/api/hotels`);
   const {
     data: roomTypesData,
     loading: roomTypesLoading,
@@ -128,7 +130,7 @@ const NewRoom = () => {
         return;
       }
 
-      const { data } = await axios.post(`/api/rooms/${hotelID}`, {
+      const { data } = await axios.post(`${SERVER_URL}/api/rooms/${hotelID}`, {
         ...info,
         roomNumbers,
         typeID,

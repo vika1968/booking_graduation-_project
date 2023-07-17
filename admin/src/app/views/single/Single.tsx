@@ -8,6 +8,7 @@ import { UserInterface } from "./../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
+import { SERVER_URL } from "../../../../config/config";
 import "./single.scss";
 
 const Single = () => {
@@ -19,7 +20,7 @@ const Single = () => {
   useEffect(() => {
     const handleGetUserByID = async () => {
       try {
-        const { data } = await axios.get(`/api/users/${id}`);
+        const { data } = await axios.get(`${SERVER_URL}/api/users/${id}`);
         const { success, user } = data;
 
         if (success) {

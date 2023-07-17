@@ -12,7 +12,9 @@ import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getUserByCookieMain } from "../../../features/user/userAPI";
+import { SERVER_URL } from "../../../../config/config";
 import "./orderResults.scss";
+
 
 const OrderResults = () => {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ const OrderResults = () => {
     const fetchOrderResults = async () => {
       try {       
         if (userStatus === Status.IDLE && user) {
-          const response = await axios.get(`/api/orders/${user[0].userID}`);
+          const response = await axios.get(`${SERVER_URL}/api/orders/${user[0].userID}`);
           setResults(response.data.orders);
           if (response.data.orders.length === 0) {
             setMessage("You don't have any orders yet.");

@@ -11,6 +11,7 @@ import { User } from "../../features/user/userModel";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../helpers/toast";
+import { SERVER_URL } from "../../../config/config";
 import axios from "axios";
 import "./reserve.scss";
 
@@ -34,7 +35,7 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
 
   const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
   const { data, loading, error, reFetch } = useFetchClient<RoomInterface[]>(
-    `/api/hotels/room/${hotelId}`   
+    `${SERVER_URL}/api/hotels/room/${hotelId}`   
   ); 
 
   const searchRedux = useAppSelector(searchSelector);
@@ -114,7 +115,7 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
 
     try {
       for (const roomNumber of selectedRooms) {     
-         await axios.put(`/api/rooms/availability/${roomNumber}`, {
+         await axios.put(`${SERVER_URL}/api/rooms/availability/${roomNumber}`, {
           user: user ? user[0].userID : null,
           dates: allDates,
           hotelId,             
