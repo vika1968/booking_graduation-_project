@@ -51,12 +51,13 @@ if (environment === "DEV") {
       console.trace(err);
       return;
     }
+    
     console.info("🔥 MySQL is connected 🛢");
-    console.info(connection);
+ 
     connection.on("error", (err: { fatal: any; message: string }) => {
       if (err.fatal) {
         console.trace("Fatal error: " + err.message);
-      }
+      }      
     });
   });
 }
