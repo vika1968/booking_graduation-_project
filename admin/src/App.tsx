@@ -13,7 +13,7 @@ import { userInputs } from "./helpers/formSource";
 import ProtectedRoute from "./helpers/ProtectedRoute";
 import Page404 from "./app/views/page404/Page404";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"//npm i @fvilers/disable-react-devtools
-import { SERVER_URL } from "../config/config";
+import { SERVER_URL } from "./config/config";
 import "./style/dark.scss";
 
 //Dlya deploy - deaktivaziya  react dev tools

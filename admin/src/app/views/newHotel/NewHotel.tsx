@@ -8,7 +8,7 @@ import useFetch from "../../../hooks/useFetch";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
-import { SERVER_URL } from "../../../../config/config";
+import { SERVER_URL } from "../../../config/config";
 import "./newHotel.scss";
 
 

@@ -6,7 +6,7 @@ import axios from "axios";
 import { UserInterface } from "../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
-import { SERVER_URL } from "../../../../config/config";
+import { SERVER_URL } from "../../../config/config";
 import "./newUser.scss";
 
 interface Input {

@@ -11,7 +11,7 @@ import { User } from "../../features/user/userModel";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../helpers/toast";
-import { SERVER_URL } from "../../../config/config";
+import { SERVER_URL } from "../../config/config";
 import axios from "axios";
 import "./reserve.scss";
 
@@ -22,7 +22,6 @@ interface ReserveProps {
 
 const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
   const [roomID, setRoomID] = useState<number>(0)
-  const navigate = useNavigate();
 
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);

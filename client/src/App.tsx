@@ -6,11 +6,11 @@ import Login from "./app/views/login/Login";
 import Home from "./app/views/home/Home";
 import OrderResults from "./app/views/orders/OrderResults";
 import Page404 from "./app/views/page404/Page404";
-import { SERVER_URL } from "../config/config";
+import { SERVER_URL } from "./config/config";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"
 import "./App.scss";
 
-let environment = "DEV"; 'PROD'// menyaetm po neobxodimosti na "PROD"
+let environment = "DEV"; //'PROD'// menyaetm po neobxodimosti na "PROD"
 let BACKEND_URL: string; 
 
 // environment === "DEV" ? BACKEND_URL = SERVER_URL : BACKEND_URL = ""

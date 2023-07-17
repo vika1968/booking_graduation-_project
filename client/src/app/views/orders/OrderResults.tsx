@@ -12,9 +12,8 @@ import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getUserByCookieMain } from "../../../features/user/userAPI";
-import { SERVER_URL } from "../../../../config/config";
+import { SERVER_URL } from "../../../config/config";
 import "./orderResults.scss";
-
 
 const OrderResults = () => {
   const navigate = useNavigate();

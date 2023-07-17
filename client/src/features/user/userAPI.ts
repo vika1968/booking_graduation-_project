@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { SERVER_URL } from "../../../config/config";
+
 import axios from "axios";
+import { SERVER_URL } from "../../config/config";
 
 export const getUserByCookieMain = createAsyncThunk("get-user-by-cookie", async (_, thunkApi) => {
  try { 

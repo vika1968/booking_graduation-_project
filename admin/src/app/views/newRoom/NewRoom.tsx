@@ -9,7 +9,7 @@ import { HotelInterface } from "../../../helpers/hotelInterface";
 import { roomTypesInterface } from "../../../helpers/roomTypesInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
-import { SERVER_URL } from "../../../../config/config";
+import { SERVER_URL } from "../../../config/config";
 import "./newRoom.scss";
 
 
