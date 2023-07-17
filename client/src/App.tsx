@@ -6,21 +6,26 @@ import Login from "./app/views/login/Login";
 import Home from "./app/views/home/Home";
 import OrderResults from "./app/views/orders/OrderResults";
 import Page404 from "./app/views/page404/Page404";
-import { SERVER_URL, LOCAL_SERVER_URL } from "./config/config";
+import {environment}  from "./config/config";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"
 import "./App.scss";
 
-let environment = 'PROD'//"DEV"; menyaetm po neobxodimosti na "PROD"
-let SERVER_API_URL: string; 
+// let environment = 'PROD'//"DEV"; menyaetm po neobxodimosti na "PROD"
+// let SERVER_API_URL: string; 
 
 // environment === "DEV" ? BACKEND_URL = SERVER_URL : BACKEND_URL = ""
 // environment === "DEV" ? null : disableReactDevTools()
-if (environment === "DEV") {
-  SERVER_API_URL = LOCAL_SERVER_URL;
-} else {
-  SERVER_API_URL = SERVER_URL;//"https://moovi-booking-back.onrender.com";// suda podstavili
+// if (environment === "DEV") {
+//   SERVER_API_URL = LOCAL_SERVER_URL;
+// } else {
+//   SERVER_API_URL = SERVER_URL;//"https://moovi-booking-back.onrender.com";// suda podstavili
+//   disableReactDevTools(); 
+// }
+
+if (environment === "PROD"){
   disableReactDevTools(); 
 }
+
 function App() {
   return (
     <BrowserRouter>
