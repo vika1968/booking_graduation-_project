@@ -37,8 +37,8 @@ const Login = () => {
       const { data } = await axios.post(`${SERVER_URL}/api/users/login`, { credentials }, { withCredentials: true });
       const { success, userArray } = data;
 
-      console.log(success)
-      console.log(userArray)
+      alert(success)
+      alert(userArray)
       if (success) {
         navigate(`/`, { state: credentials.email });      
       }     
