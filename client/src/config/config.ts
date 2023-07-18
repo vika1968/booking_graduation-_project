@@ -3,7 +3,7 @@ import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 // dotenv.config();
 
 // let environment = process.env.ENVIRONMENT;
-let environment ="PROD"//"DEV" //"PROD"
+let environment ="PROD" //"DEV" //"PROD"
 let BACKEND_URL: string;
 
 if (environment === "DEV") {
