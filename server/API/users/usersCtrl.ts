@@ -113,14 +113,15 @@ export async function login(req: express.Request, res: express.Response) {
                     throw new Error("Password doesn't match or user doesn't exists.");
                 }
                 const cookie = { userID: results[0].userID };
-             
+              
                 const secret = process.env.JWT_SECRET;
                 if (!secret) throw new Error("Couldn't load secret key from .env file.");
 
                 const JWTCookie = jwt.encode(cookie, secret);
 
-                res.cookie("userId", JWTCookie);
-                res.send({ success: true, userArray: results });
+               // res.cookie("userId", JWTCookie);
+                res.send({ success: true, userArray: results[0] , cookie:JWTCookie });
+              
             } catch (error: any) {
                 res.status(500).send({ success: false, error: error.message });
             }

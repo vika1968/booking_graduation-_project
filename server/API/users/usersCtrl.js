@@ -125,8 +125,8 @@ function login(req, res) {
                     if (!secret)
                         throw new Error("Couldn't load secret key from .env file.");
                     const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
-                    res.cookie("userId", JWTCookie);
-                    res.send({ success: true, userArray: results });
+                    // res.cookie("userId", JWTCookie);
+                    res.send({ success: true, userArray: results[0], cookie: JWTCookie });
                 }
                 catch (error) {
                     res.status(500).send({ success: false, error: error.message });
