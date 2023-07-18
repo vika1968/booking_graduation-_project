@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { SERVER_URL } from "../../config/config";
+//import { SERVER_URL } from "../../config/config";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
 
 export const getAdminByCookieMain = createAsyncThunk("get-admin-by-cookie", async (_, thunkApi) => {
  try {  

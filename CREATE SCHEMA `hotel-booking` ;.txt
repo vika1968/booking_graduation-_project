@@ -118,38 +118,15 @@ VALUES ('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4
 SELECT CONCAT('ALTER TABLE `', table_name, '` DROP FOREIGN KEY `', constraint_name, '`;') AS 'SQL'
 FROM information_schema.key_column_usage
 WHERE constraint_schema = 'hotel-booking'
-  AND referenced_table_schema = 'hotel-booking'
-  AND referenced_column_name IS NOT NULL;
+AND referenced_table_schema = 'hotel-booking'
+AND referenced_column_name IS NOT NULL;
 
-  ---------------------------------------------------------
+---------------------------------------------------------
 
 ALTER TABLE `hotel-booking`.`hotel_photos` DROP FOREIGN KEY `hotel_photos_ibfk_2`;
 ALTER TABLE `hotel-booking`.`room_types` DROP FOREIGN KEY `room_types_ibfk_2`;
 ALTER TABLE `hotel-booking`.`room_unavailable_dates` DROP FOREIGN KEY `room_unavailable_dates_ibfk_1`;
 
-
-
 ALTER TABLE `hotel-booking`.rooms
 ADD CONSTRAINT fk_hotelID
 FOREIGN KEY (hotelID) REFERENCES `hotel-booking`.hotels(hotelID);
-
------------localStorage--------------
-
-// Сохранение данных в localStorage
-localStorage.setItem('username', 'John');
-localStorage.setItem('email', 'john@example.com');
-
-// Получение данных из localStorage
-const username = localStorage.getItem('username');
-const email = localStorage.getItem('email');
-
-console.log(username); // Выводит "John"
-console.log(email); // Выводит "john@example.com"
-
-// Удаление данных из localStorage
-localStorage.removeItem('username');
-localStorage.removeItem('email');
-
-// Проверка наличия данных в localStorage
-const isUsernameExists = localStorage.getItem('username') !== null;
-console.log(isUsernameExists); // Выводит false

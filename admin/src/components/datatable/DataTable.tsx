@@ -9,7 +9,6 @@ import { showToast } from "../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { HotelFieldsToUpdateInterface } from "../../helpers/hotelFieldsToUpdate";
-import { SERVER_URL } from "../../config/config";
 import axios from "axios";
 import "./dataTable.scss";
 
@@ -23,6 +22,7 @@ interface DataTableProps {
 }
 
 const DataTable: React.FC<DataTableProps> = ({ columns }) => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname.split("/")[1];

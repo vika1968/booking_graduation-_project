@@ -6,7 +6,7 @@ import axios from "axios";
 import { UserInterface } from "../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
-import { SERVER_URL } from "../../../config/config";
+//import { SERVER_URL } from "../../../config/config";
 import "./newUser.scss";
 
 interface Input {
@@ -22,6 +22,7 @@ interface NewProps {
 }
 
 const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   const initialInfo: UserInterface = inputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),
     { photos: [] } as unknown as UserInterface

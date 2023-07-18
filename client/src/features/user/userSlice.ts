@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { User } from "./userModel";
-import { getUserByCookieMain } from "./userAPI";
+import { getUserBySession } from "./userAPI";
 
 export enum Status {
   LOADING = "loading",
@@ -29,14 +29,14 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserByCookieMain.pending, (state) => {
+      .addCase(getUserBySession.pending, (state) => {
         state.status = Status.LOADING;     
       })
-      .addCase(getUserByCookieMain.fulfilled, (state, action) => {
+      .addCase(getUserBySession.fulfilled, (state, action) => {
         state.status = Status.IDLE;
         state.value = action.payload;       
       })
-      .addCase(getUserByCookieMain.rejected, (state) => {
+      .addCase(getUserBySession.rejected, (state) => {
         state.status = Status.FAILED;
       })
   },

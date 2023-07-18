@@ -8,10 +8,11 @@ import { UserInterface } from "./../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import { SERVER_URL } from "../../../config/config";
+//import { SERVER_URL } from "../../../config/config";
 import "./single.scss";
 
 const Single = () => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   const location = useLocation();
   const id = location.search.split("?")[1];
   const [singleUser, setSingleUser] = useState<UserInterface[] | null>(null);

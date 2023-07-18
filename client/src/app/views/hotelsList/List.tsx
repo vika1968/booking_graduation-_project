@@ -10,10 +10,11 @@ import { HotelInterface } from "../../../helpers/hotelInterface";
 import { useDispatch } from "react-redux";
 import { addSearch} from "../../../features/search/searchSlice";
 import { formatDatesToString } from "../../../helpers/transformDateToValidFormat";
-import { SERVER_URL } from "../../../config/config";
+//import { SERVER_URL } from "../../../config/config";
 import "./list.scss";
 
 const List: React.FC = () => { 
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
   const [dates, setDates] = useState(location.state.dates);

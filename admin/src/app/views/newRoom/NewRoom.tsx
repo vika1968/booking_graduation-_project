@@ -9,10 +9,11 @@ import { HotelInterface } from "../../../helpers/hotelInterface";
 import { roomTypesInterface } from "../../../helpers/roomTypesInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
-import { SERVER_URL } from "../../../config/config";
+//import { SERVER_URL } from "../../../config/config";
 import "./newRoom.scss";
 
 const NewRoom = () => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: RoomInterface = roomInputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),

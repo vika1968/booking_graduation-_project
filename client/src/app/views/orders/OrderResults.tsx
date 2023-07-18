@@ -2,20 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { User } from "../../../features/user/userModel";
-import {
-  Status,
-  userSelector,
-  userStatusSelector,
-} from "../../../features/user/userSlice";
+import {  Status,  userSelector,  userStatusSelector} from "../../../features/user/userSlice";
 import { OrderInterface } from "../../../helpers/orderInterface";
 import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { getUserByCookieMain } from "../../../features/user/userAPI";
-import { SERVER_URL } from "../../../config/config";
+import { getUserBySession } from "../../../features/user/userAPI";
+//import { SERVER_URL } from "../../../config/config";
 import "./orderResults.scss";
 
 const OrderResults = () => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   const navigate = useNavigate();
   const [results, setResults] = useState([]);
   const [message, setMessage] = useState("Your orders:");
@@ -24,7 +21,7 @@ const OrderResults = () => {
   const userStatus = useAppSelector(userStatusSelector);
 
   useEffect(() => {
-    dispatch(getUserByCookieMain());
+    dispatch(getUserBySession());
     const fetchOrderResults = async () => {
       try {       
         if (userStatus === Status.IDLE && user) {

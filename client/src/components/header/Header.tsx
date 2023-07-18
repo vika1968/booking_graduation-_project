@@ -20,6 +20,7 @@ import { useAppSelector } from "../../app/hooks";
 import "./header.scss";
 
 const Header = ({ type, city }: { type: string; city: string }) => {
+
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
   

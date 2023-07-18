@@ -8,11 +8,12 @@ import useFetch from "../../../hooks/useFetch";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
-import { SERVER_URL } from "../../../config/config";
+//import { SERVER_URL } from "../../../config/config";
 import "./newHotel.scss";
 
 
 const NewHotel = () => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: HotelInterface = hotelInputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),

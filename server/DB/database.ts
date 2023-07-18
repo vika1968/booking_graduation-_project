@@ -41,13 +41,15 @@ if (environment === "DEV") {
   const sqlDB_Name_Prod = process.env.DATABASE_PROD;
   const sqlHost_Prod = process.env.HOST_PROD;
 
+  console.log(sqlDB_Name_Prod)
+
   connection = mysql.createConnection({
     host: sqlHost_Prod,
     port: 3306,
     user: sqlUser_Prod,
     password: sqlPassword_Prod,
     database: sqlDB_Name_Prod,
-    //multipleStatements: true,
+    multipleStatements: true,
   });
 
   connection.connect((err) => {
@@ -64,28 +66,5 @@ if (environment === "DEV") {
     });
   });
 }
-
-// const DB =`hotel-booking`
-// console.log(DB)
-//const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`
-// connection.query(`SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 0`, (err, results) => {
-//   if (err) {
-//     console.error(err);
-//     return;
-//   }
-
-//   console.log(results);
-// });
-
-// connection.query(query, (err, results) => {
-//   if (err) {
-//     console.error(err);
-//     return;
-//   }
-
-//   console.log(results);
-// });
-
-
 
 export default connection;

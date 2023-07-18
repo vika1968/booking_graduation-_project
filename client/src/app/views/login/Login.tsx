@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
-import { SERVER_URL } from "../../../config/config";
+//import { SERVER_URL } from "../../../config/config";
 import "./login.scss";
 
 const Login = () => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
 
   const [credentials, setCredentials] = useState({
     email: undefined,
@@ -35,16 +36,10 @@ const Login = () => {
     try {
  
       const { data } = await axios.post(`${SERVER_URL}/api/users/login`, { credentials }, { withCredentials: true });
-      const { success, userArray, cookie } = data;
-
-      // alert(success)
-      // alert(userArray.userID)
-      // alert(userArray.password)
-      // alert(cookie)
-      //sessionStorage.setItem("userId", cookie);
-      
-      sessionStorage.setItem("userArray", userArray.password);
+      const { success, userArray, encryptedUser } = data;      
+  
       if (success) {
+        sessionStorage.setItem("userId", encryptedUser);       
         navigate(`/`, { state: credentials.email });      
       }     
     } catch (error: any) {

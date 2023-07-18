@@ -3,11 +3,12 @@ import { ToastContainer } from "react-toastify"; //npm install react-toastify
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../../helpers/toast";
 import { Link } from "react-router-dom";
-import { SERVER_URL } from "../../../config/config";
+//import { SERVER_URL } from "../../../config/config";
 import axios from "axios";
 import "./register.scss";
 
 const Register = () => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, "");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -63,12 +64,13 @@ const Register = () => {
         phone,
       };
 
-      await axios.post(`${SERVER_URL}/api/users/register`, newUser, { withCredentials: true });
-      setSubmitted(true);      
+      await axios.post(`${SERVER_URL}/api/users/register`, newUser,{ withCredentials: true });
+    
+      setSubmitted(true);
       showToast("User created!🎉", "success redirect", "/login");
-    } catch (err: any) {    
+    } catch (err: any) {
       setError(err.response.data.error);
-      showToast(err.response.data.error, "error no redirect", "");     
+      showToast(err.response.data.error, "error no redirect", "");
     }
   };
 
@@ -76,8 +78,14 @@ const Register = () => {
     <div className="regBody">
       <div className="register">
         <h1 className="register__title">Register</h1>
-        <div className="register__msg">If you are already registered. go to <Link className="register__tologin" to="/login">login</Link> tab. </div>
-        <div className="register__inputs"> 
+        <div className="register__msg">
+          If you are already registered. go to{" "}
+          <Link className="register__tologin" to="/login">
+            login
+          </Link>{" "}
+          tab.{" "}
+        </div>
+        <div className="register__inputs">
           <input
             onChange={handleUsername}
             className="register__input"
@@ -128,8 +136,7 @@ const Register = () => {
           <ToastContainer className="toast-container" />
           <button onClick={handleGoHome} className="register__btn home__btn">
             Go Home
-          </button>          
-
+          </button>
         </div>
         {submitted && (
           <div className="submit-success">User created successfully!</div>
@@ -140,7 +147,7 @@ const Register = () => {
             Error occurred. Please fill in all the fields.
           </div>
         )}
-      </div>     
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = exports.getUserByID = exports.deleteUser = exports.updateUser = exports.login = exports.register = exports.getUser = void 0;
+exports.getUsers = exports.getUserByID = exports.deleteUser = exports.login = exports.register = exports.getUserBySessionStorage = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jwt_simple_1 = __importDefault(require("jwt-simple"));
 const userValidator_1 = require("./userValidator");
@@ -28,13 +28,13 @@ if (environment === "DEV") {
 else {
     DB = process.env.DATABASE_PROD;
 }
-function getUser(req, res) {
+function getUserBySessionStorage(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const userId = req.params.sesStor;
             const secret = process.env.JWT_SECRET;
             if (!secret)
                 throw new Error("Couldn't load secret code from .env file.");
-            const { userId } = req.cookies;
             if (!userId)
                 throw new Error("No authorized user !!!!!!!");
             const decodedUserId = jwt_simple_1.default.decode(userId, secret);
@@ -53,7 +53,7 @@ function getUser(req, res) {
         }
     });
 }
-exports.getUser = getUser;
+exports.getUserBySessionStorage = getUserBySessionStorage;
 function register(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -88,10 +88,9 @@ function register(req, res) {
                 if (!secret)
                     return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
                 const insertId = results.insertId;
-                const cookie = { userID: insertId };
-                const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
-                res.cookie("userId", JWTCookie);
-                res.send({ success: true, userArray: results });
+                const activeUser = { userID: insertId };
+                const JWTEncryptedUser = jwt_simple_1.default.encode(activeUser, secret);
+                res.send({ success: true, userArray: results, encryptedUser: JWTEncryptedUser });
             });
         }
         catch (error) {
@@ -120,13 +119,12 @@ function login(req, res) {
                     if (!isMatch) {
                         throw new Error("Password doesn't match or user doesn't exists.");
                     }
-                    const cookie = { userID: results[0].userID };
+                    const activeUser = { userID: results[0].userID };
                     const secret = process.env.JWT_SECRET;
                     if (!secret)
                         throw new Error("Couldn't load secret key from .env file.");
-                    const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
-                    // res.cookie("userId", JWTCookie);
-                    res.send({ success: true, userArray: results[0], cookie: JWTCookie });
+                    const JWTEncryptedUser = jwt_simple_1.default.encode(activeUser, secret);
+                    res.send({ success: true, userArray: results[0], encryptedUser: JWTEncryptedUser });
                 }
                 catch (error) {
                     res.status(500).send({ success: false, error: error.message });
@@ -139,45 +137,6 @@ function login(req, res) {
     });
 }
 exports.login = login;
-function updateUser(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const { email, password, id } = req.body;
-            if (!email || !password || !id) {
-                throw new Error('No data received from the user.');
-            }
-            const { error } = userValidator_1.UserValidation.validate({ email, password });
-            if (error) {
-                return res.status(500).send({
-                    success: false,
-                    error: error.message,
-                });
-            }
-            const salt = bcrypt_1.default.genSaltSync(saltRounds);
-            const hash = bcrypt_1.default.hashSync(password, salt);
-            const query = `UPDATE \`${DB}\`.\`users\` SET email ='${email}', password ='${hash}' WHERE userID ='${id}';`;
-            database_1.default.query(query, (error, results) => {
-                if (error) {
-                    return res.status(500).send({
-                        success: false,
-                        error: "Failed to update user data.",
-                    });
-                }
-                const secret = process.env.JWT_SECRET;
-                if (!secret)
-                    return res.status(500).send({ success: false, error: "Couldn't load secret code from .env file." });
-                const cookie = { userID: id };
-                const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
-                res.cookie("userId", JWTCookie);
-                res.send({ success: true, userArray: results });
-            });
-        }
-        catch (error) {
-            res.status(500).send({ success: false, error: error.message });
-        }
-    });
-}
-exports.updateUser = updateUser;
 function deleteUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { resetUser, userSelector } from "../../features/user/userSlice";
-import { getUserByCookieMain } from "../../features/user/userAPI";
+import { getUserBySession } from "../../features/user/userAPI";
 import { User } from "../../features/user/userModel";
-import Cookies from "js-cookie";
 import "./navbar.scss";
 
 const Navbar = () => {
@@ -12,7 +11,7 @@ const Navbar = () => {
   const user = useAppSelector(userSelector) as User[] | null;
 
   useEffect(() => {
-    dispatch(getUserByCookieMain());
+    dispatch(getUserBySession());
   }, []);
 
   const [openModal, setOpenModal] = useState(false);
@@ -35,8 +34,11 @@ const Navbar = () => {
   const logOut = () => {
     setOpenModal(false);
     // Dispatch the resetUser action
-    dispatch(resetUser());
-    Cookies.remove("userId");
+    dispatch(resetUser());   
+   // Remove data from session storage
+    sessionStorage.removeItem("userId");
+    // Clear all data from session storage
+    sessionStorage.clear();
     navigate("/");
     document.location.reload();
   };

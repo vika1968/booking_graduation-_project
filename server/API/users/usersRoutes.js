@@ -9,9 +9,8 @@ const userRouter = express_1.default.Router();
 userRouter
     .get("/", usersCtrl_1.getUsers)
     .get("/:id", usersCtrl_1.getUserByID)
-    .get("/retrieve/get-user-by-cookie", usersCtrl_1.getUser)
+    .get("/retrieve/get-user-by-session/:sesStor", usersCtrl_1.getUserBySessionStorage)
     .post("/login", usersCtrl_1.login)
     .post("/register", usersCtrl_1.register)
-    .put("/update-user", usersCtrl_1.updateUser)
     .delete("/:id", usersCtrl_1.deleteUser);
 exports.default = userRouter;
