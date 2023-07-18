@@ -7,6 +7,7 @@ import { SERVER_URL } from "../../../config/config";
 import "./login.scss";
 
 const Login = () => {
+
   const [credentials, setCredentials] = useState({
     email: undefined,
     password: undefined,
@@ -32,6 +33,7 @@ const Login = () => {
     }
 
     try {
+ 
       const { data } = await axios.post(`${SERVER_URL}/api/users/login`, { credentials }, { withCredentials: true });
       const { success, userArray } = data;
 

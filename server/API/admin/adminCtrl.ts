@@ -5,8 +5,18 @@ import { AdminValidation } from "./adminValidator";
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
+import dotenv from "dotenv";
+dotenv.config();
 
 const saltRounds = 10;
+
+let environment = process.env.ENVIRONMENT
+let DB: string | undefined
+if (environment === "DEV") {
+    DB = process.env.DATABASE_DEV}
+else{
+    DB = process.env.DATABASE_PROD
+}
 
 export async function getAdmin(req: express.Request, res: express.Response) {
     try {
@@ -18,7 +28,7 @@ export async function getAdmin(req: express.Request, res: express.Response) {
 
         const decodedAdminId = jwt.decode(adminId, secret);
 
-        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND userID = '${decodedAdminId.adminID}'`;
+        const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 1 AND userID = '${decodedAdminId.adminID}'`;
 
         connection.query(query, [decodedAdminId], (error, results) => {
             if (error) {
@@ -56,7 +66,7 @@ export async function register(req: express.Request, res: express.Response) {
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
 
-        const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", true);`;
+        const query = `INSERT INTO \`${DB}\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", true);`;
 
         connection.query(query, (error, results: any, fields) => {
             if (error) {
@@ -92,7 +102,7 @@ export async function login(req: express.Request, res: express.Response) {
 
         if (!email || !password)
             throw new Error("no data from client login in login");
-        const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND email='${email}'`;
+        const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 1 AND email='${email}'`;
         connection.query(query, async (err, results: RowDataPacket[], fields) => {
             try {
                 if (err) throw err;

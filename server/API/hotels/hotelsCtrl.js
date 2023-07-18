@@ -14,6 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHotelRooms = exports.getHotelPhotoByID = exports.getHotelByID = exports.getHotels = exports.getHotelByName = exports.getHotel = exports.deleteHotel = exports.updateHotel = exports.createHotel = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+let environment = process.env.ENVIRONMENT;
+let DB;
+if (environment === "DEV") {
+    DB = process.env.DATABASE_DEV;
+}
+else {
+    DB = process.env.DATABASE_PROD;
+}
 function createHotel(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -36,7 +46,7 @@ function createHotel(req, res) {
                 newFeatured = 1;
             }
             const query = `
-      INSERT INTO \`hotel-booking\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
+      INSERT INTO \`${DB}\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
             const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, newFeatured];
@@ -49,7 +59,7 @@ function createHotel(req, res) {
                 }
                 const hotelId = hotelsResults.insertId;
                 const photosQuery = `
-        INSERT INTO \`hotel-booking\`.\`hotel_photos\` (hotelID, photo)
+        INSERT INTO \`${DB}\`.\`hotel_photos\` (hotelID, photo)
         VALUES
       `;
                 const photoValues = photos.map((photo) => `(${hotelId}, "${photo}")`).join(", ");
@@ -75,7 +85,7 @@ const updateHotel = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const { id } = req.params;
         const { name, type, title, city } = req.body;
         const query = `
-        UPDATE \`hotel-booking\`.hotels
+        UPDATE \`${DB}\`.hotels
         SET name = ?, type = ?, title = ?, city = ?
         WHERE hotelID =?
       `;
@@ -102,7 +112,7 @@ exports.updateHotel = updateHotel;
 const deleteHotel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = ?`;
+        const query = `DELETE FROM \`${DB}\`.hotels WHERE hotelID = ?`;
         const value = [id];
         database_1.default.query(query, value, (err, result) => {
             if (err) {
@@ -126,7 +136,7 @@ exports.deleteHotel = deleteHotel;
 const getHotel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
+        const query = `SELECT * FROM \`${DB}\`.hotels WHERE hotelID = ?`;
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
@@ -150,7 +160,7 @@ exports.getHotel = getHotel;
 const getHotelByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.params;
-        const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE name = ?';
+        const query = `SELECT * FROM \`${DB}\`.hotels WHERE name = ?`;
         const values = [name];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
@@ -174,7 +184,7 @@ exports.getHotelByName = getHotelByName;
 const getHotels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { city, min, max, limit } = req.query;
-        let query = 'SELECT *, (SELECT im.`image_path` FROM `hotel-booking`.`image_mapping` AS im INNER JOIN `hotel-booking`.`hotel_photos` hp ON im.`file_name` = hp.`photo` WHERE hp.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo` FROM `hotel-booking`.`hotels` WHERE 1=1';
+        let query = `SELECT *, (SELECT im.\`image_path\` FROM \`${DB}\`.\`image_mapping\` AS im INNER JOIN \`${DB}\`.\`hotel_photos\` hp ON im.\`file_name\` = hp.\`photo\` WHERE hp.hotelID = \`${DB}\`.\`hotels\`.\`hotelID\` LIMIT 1 ) AS \`photo\` FROM \`${DB}\`.\`hotels\` WHERE 1=1`;
         const values = [];
         if (typeof city === 'string' && city.trim()) {
             query += ' AND city = ?';
@@ -213,7 +223,7 @@ exports.getHotels = getHotels;
 const getHotelByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = 'SELECT *, (SELECT im.`image_path` FROM `hotel-booking`.`image_mapping` AS im INNER JOIN `hotel-booking`.`hotel_photos` hp ON im.`file_name` = hp.`photo` WHERE hp.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1) AS `photo` FROM `hotel-booking`.`hotels` WHERE hotelID = ?';
+        const query = `SELECT *, (SELECT im.\`image_path\` FROM \`${DB}\`.\`image_mapping\` AS im INNER JOIN \`${DB}\`.\`hotel_photos\` hp ON im.\`file_name\` = hp.\`photo\` WHERE hp.hotelID = \`${DB}\`.\`hotels\`.\`hotelID\` LIMIT 1) AS \`photo\` FROM \`${DB}\`.\`hotels\` WHERE hotelID = ?`;
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
@@ -237,7 +247,7 @@ exports.getHotelByID = getHotelByID;
 const getHotelPhotoByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = 'SELECT * FROM `hotel-booking`.`hotel_photos` AS hp INNER JOIN `hotel-booking`.`image_mapping` AS im ON hp.`photo` = im.`file_name` WHERE hotelID = ?';
+        const query = `SELECT * FROM \`${DB}\`.\`hotel_photos\` AS hp INNER JOIN \`${DB}\`.\`image_mapping\` AS im ON hp.\`photo\` = im.\`file_name\` WHERE hotelID = ?`;
         const values = [id];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
@@ -261,7 +271,7 @@ exports.getHotelPhotoByID = getHotelPhotoByID;
 const getHotelRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = `SELECT r.*, rd.Number FROM \`hotel-booking\`.rooms AS r INNER JOIN \`hotel-booking\`.room_numbers AS rd ON r.roomId = rd.roomId WHERE r.hotelID = ?`;
+        const query = `SELECT r.*, rd.Number FROM \`${DB}\`.rooms AS r INNER JOIN \`${DB}\`.room_numbers AS rd ON r.roomId = rd.roomId WHERE r.hotelID = ?`;
         const values = [id];
         database_1.default.query(query, req.params.id, (err, result) => {
             if (err) {

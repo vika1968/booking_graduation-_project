@@ -8,11 +8,13 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let connection;
 let environment = process.env.ENVIRONMENT;
+console.log(environment);
 if (environment === "DEV") {
     const sqlPassword_Dev = process.env.SQLPASSWORD_DEV;
     const sqlUser_Dev = process.env.SQLUSER_DEV;
     const sqlDB_Name_Dev = process.env.DATABASE_DEV;
     const sqlHost_Dev = process.env.HOST_DEV;
+    console.log(sqlDB_Name_Dev);
     connection = mysql2_1.default.createConnection({
         host: sqlHost_Dev,
         port: 3306,
@@ -58,11 +60,21 @@ else {
         });
     });
 }
-connection.query('SELECT * FROM `sql7633384`.`hotels`', (err, results) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(results);
-});
+// const DB =`hotel-booking`
+// console.log(DB)
+//const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`
+// connection.query(`SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 0`, (err, results) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+//   console.log(results);
+// });
+// connection.query(query, (err, results) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+//   console.log(results);
+// });
 exports.default = connection;

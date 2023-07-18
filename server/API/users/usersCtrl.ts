@@ -4,10 +4,19 @@ import jwt from "jwt-simple";
 import { UserValidation } from "./userValidator";
 import connection from "../../DB/database";
 import { OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
+import dotenv from "dotenv";
+dotenv.config();
 
 const saltRounds = 10;
-//const DB =`sql7633384`
-const DB =`\`hotel-booking\``
+
+let environment = process.env.ENVIRONMENT
+let DB: string | undefined
+if (environment === "DEV") {
+    DB = process.env.DATABASE_DEV}
+else{
+    DB = process.env.DATABASE_PROD
+}
+
 export async function getUser(req: express.Request, res: express.Response) {
     try {
         const secret: any = process.env.JWT_SECRET;
@@ -17,7 +26,7 @@ export async function getUser(req: express.Request, res: express.Response) {
         if (!userId) throw new Error("No authorized user !!!!!!!");
 
         const decodedUserId = jwt.decode(userId, secret);
-        const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0 AND userID = '${decodedUserId.userID}'`;
+        const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 0 AND userID = '${decodedUserId.userID}'`;
       
         connection.query(query, [decodedUserId], (error, results) => {
             if (error) {
@@ -56,7 +65,7 @@ export async function register(req: express.Request, res: express.Response) {
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
 
-        const query = `INSERT INTO '${DB}'.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
+        const query = `INSERT INTO \`${DB}\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
 
          connection.query(query, (error, results: any) => {
             if (error) {              
@@ -92,7 +101,7 @@ export async function login(req: express.Request, res: express.Response) {
 
         if (!email || !password)
             throw new Error("no data from client login in login");
-        const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0 AND email='${email}'`;
+        const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 0 AND email='${email}'`;
         connection.query(query, async (err, results: RowDataPacket[]) => {
             try {
                 if (err) throw err;
@@ -137,7 +146,7 @@ export async function updateUser(req: express.Request, res: express.Response) {
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
 
-        const query = `UPDATE '${DB}'.\`users\` SET email ='${email}', password ='${hash}' WHERE userID ='${id}';`;
+        const query = `UPDATE \`${DB}\`.\`users\` SET email ='${email}', password ='${hash}' WHERE userID ='${id}';`;
 
         connection.query(query, (error, results) => {
             if (error) {
@@ -173,7 +182,7 @@ export async function deleteUser(req: express.Request, res: express.Response) {
 
         res.clearCookie('userId');
 
-        const query = `DELETE FROM '${DB}'.\`users\` WHERE userID = ?`;
+        const query = `DELETE FROM \`${DB}\`.\`users\` WHERE userID = ?`;
         const value = [id];
 
        connection.query(query, value, (err, result: OkPacket) => {
@@ -196,7 +205,7 @@ export async function deleteUser(req: express.Request, res: express.Response) {
 export async function getUserByID(req: express.Request, res: express.Response) {
     try {
         const id = req.params.id;
-        const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0 AND userID = ${id}`;
+        const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 0 AND userID = ${id}`;
 
         connection.query(query, (err, result: ResultSetHeader) => {
             if (err) {
@@ -214,7 +223,7 @@ export async function getUserByID(req: express.Request, res: express.Response) {
 
 export async function getUsers(req: express.Request, res: express.Response) {
     try {          
-        const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0`;       
+        const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 0`;       
        
         connection.query(query, (error, results) => {
             if (error) {

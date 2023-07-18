@@ -17,7 +17,17 @@ const database_1 = __importDefault(require("../../DB/database"));
 const adminValidator_1 = require("./adminValidator");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jwt_simple_1 = __importDefault(require("jwt-simple"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const saltRounds = 10;
+let environment = process.env.ENVIRONMENT;
+let DB;
+if (environment === "DEV") {
+    DB = process.env.DATABASE_DEV;
+}
+else {
+    DB = process.env.DATABASE_PROD;
+}
 function getAdmin(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -28,7 +38,7 @@ function getAdmin(req, res) {
             if (!adminId)
                 throw new Error("No authorized admin !!!!!!!");
             const decodedAdminId = jwt_simple_1.default.decode(adminId, secret);
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND userID = '${decodedAdminId.adminID}'`;
+            const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 1 AND userID = '${decodedAdminId.adminID}'`;
             database_1.default.query(query, [decodedAdminId], (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing SQL query." });
@@ -66,7 +76,7 @@ function register(req, res) {
             }
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
             const hash = bcrypt_1.default.hashSync(password, salt);
-            const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", true);`;
+            const query = `INSERT INTO \`${DB}\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", true);`;
             database_1.default.query(query, (error, results, fields) => {
                 if (error) {
                     return res.status(500).send({
@@ -98,7 +108,7 @@ function login(req, res) {
             const password = credentials.password;
             if (!email || !password)
                 throw new Error("no data from client login in login");
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 1 AND email='${email}'`;
+            const query = `SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 1 AND email='${email}'`;
             database_1.default.query(query, (err, results, fields) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     if (err)

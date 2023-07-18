@@ -5,11 +5,15 @@ dotenv.config();
 let connection: mysql.Connection;
 let environment = process.env.ENVIRONMENT
 
+console.log(environment)
+
 if (environment === "DEV") {
   const sqlPassword_Dev = process.env.SQLPASSWORD_DEV;
   const sqlUser_Dev = process.env.SQLUSER_DEV;
   const sqlDB_Name_Dev = process.env.DATABASE_DEV;
   const sqlHost_Dev = process.env.HOST_DEV;
+
+  console.log(sqlDB_Name_Dev)
 
   connection = mysql.createConnection({
     host: sqlHost_Dev,
@@ -61,14 +65,27 @@ if (environment === "DEV") {
   });
 }
 
-connection.query('SELECT * FROM `sql7633384`.`hotels`', (err, results) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
+// const DB =`hotel-booking`
+// console.log(DB)
+//const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`
+// connection.query(`SELECT * FROM \`${DB}\`.\`users\` WHERE isAdmin = 0`, (err, results) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
 
-  console.log(results);
-});
+//   console.log(results);
+// });
+
+// connection.query(query, (err, results) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+
+//   console.log(results);
+// });
+
 
 
 export default connection;

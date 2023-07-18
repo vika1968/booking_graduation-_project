@@ -14,10 +14,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateRoomAvailability = exports.deleteRoom = exports.createRoom = exports.getRoomTypes = exports.getRooms = void 0;
 const database_1 = __importDefault(require("../../DB/database"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+let environment = process.env.ENVIRONMENT;
+let DB;
+if (environment === "DEV") {
+    DB = process.env.DATABASE_DEV;
+}
+else {
+    DB = process.env.DATABASE_PROD;
+}
 const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
-        const query = `SELECT * FROM \`hotel-booking\`.rooms`;
+        const query = `SELECT * FROM \`${DB}\`.rooms`;
         const values = [min, max, limit];
         database_1.default.query(query, values, (err, result) => {
             if (err) {
@@ -42,7 +52,7 @@ exports.getRooms = getRooms;
 const getRoomTypes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = `
-    SELECT * FROM \`hotel-booking\`.room_types`;
+    SELECT * FROM \`${DB}\`.room_types`;
         database_1.default.query(query, (err, result) => {
             if (err) {
                 res
@@ -68,7 +78,7 @@ const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const hotelID = req.params.hotelID;
         const { title, price, maxPeople, description, roomNumbers, typeID } = req.body;
         const checkRoomQuery = `
-      SELECT * FROM \`hotel-booking\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ? AND typeID = ?;
+      SELECT * FROM \`${DB}\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ? AND typeID = ?;
     `;
         const checkRoomValues = [
             hotelID,
@@ -92,7 +102,7 @@ const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 });
             }
             const roomQuery = `
-        INSERT INTO \`hotel-booking\`.\`rooms\` (hotelID, title, price, maxPeople, description, typeID)
+        INSERT INTO \`${DB}\`.\`rooms\` (hotelID, title, price, maxPeople, description, typeID)
         VALUES (?, ?, ?, ?, ?, ?);
       `;
             const roomValues = [
@@ -112,7 +122,7 @@ const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 }
                 const roomId = roomResults.insertId;
                 const roomNumbersQuery = `
-          INSERT INTO \`hotel-booking\`.\`room_numbers\` (roomId, number)
+          INSERT INTO \`${DB}\`.\`room_numbers\` (roomId, number)
           VALUES
         `;
                 const roomNumbersValues = roomNumbers
@@ -125,9 +135,7 @@ const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                             error: "Failed to insert room numbers data into the database.",
                         });
                     }
-                    res
-                        .status(200)
-                        .json({
+                    res.status(200).json({
                         success: true,
                         message: "Room successfully created and linked to the hotel.",
                     });
@@ -143,7 +151,7 @@ exports.createRoom = createRoom;
 const deleteRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const query = `DELETE FROM \`hotel-booking\`.rooms WHERE roomID = '${id}'`;
+        const query = `DELETE FROM \`${DB}\`.rooms WHERE roomID = '${id}'`;
         database_1.default.query(query, (err, result) => {
             if (err) {
                 res.status(404).json({ error: "Room has not been deleted." });
@@ -167,7 +175,7 @@ const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const { roomNumber } = req.params;
         const { user, dates, hotelId } = req.body;
-        const selectQuery = "SELECT rm.ID FROM `hotel-booking`.`rooms` AS r INNER JOIN `hotel-booking`.`hotels` AS h ON r.HotelID = h.HotelID INNER JOIN `hotel-booking`.`room_numbers`AS rm ON r.roomId = rm.roomId WHERE h.hotelId = ? AND rm.number = ?";
+        const selectQuery = `SELECT rm.ID FROM \`${DB}\`.\`rooms\` AS r INNER JOIN \`${DB}\`.\`hotels\` AS h ON r.HotelID = h.HotelID INNER JOIN \`${DB}\`.\`room_numbers\` AS rm ON r.roomId = rm.roomId WHERE h.hotelId = ? AND rm.number = ?`;
         const selectValues = [hotelId, roomNumber];
         database_1.default.query(selectQuery, selectValues, (selectError, rows) => {
             if (selectError) {
@@ -182,7 +190,7 @@ const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, f
                 const hotelRoomId = rows[0].ID;
                 const checkQuery = `
         SELECT ID
-        FROM  \`hotel-booking\`.\`room_unavailable_dates\`
+        FROM  \`${DB}\`.\`room_unavailable_dates\`
         WHERE hotelRoomId = ?
         AND (
           (unavailableDateStart < DATE(DATE_ADD(?, INTERVAL 1 DAY)) AND unavailableDateEnd > DATE(DATE_ADD(?, INTERVAL 1 DAY)))
@@ -205,15 +213,13 @@ const updateRoomAvailability = (req, res) => __awaiter(void 0, void 0, void 0, f
                             .json({ error: "Failed to update room availability." });
                     }
                     else if (checkResult.length > 0) {
-                        res
-                            .status(400)
-                            .json({
+                        res.status(400).json({
                             error: `Room ${roomNumber} is already unavailable for the selected dates.`,
                         });
                     }
                     else {
                         const insertQuery = `
-              INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
+              INSERT INTO \`${DB}\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
               VALUES (?, ?, ?, ?);
             `;
                         const insertValues = [

@@ -1,12 +1,22 @@
 import { Request, Response, NextFunction } from "express";
 import connection from "../../DB/database";
 import { OkPacket, RowDataPacket } from "mysql2/promise";
+import dotenv from "dotenv";
+dotenv.config();
+
+let environment = process.env.ENVIRONMENT;
+let DB: string | undefined;
+if (environment === "DEV") {
+  DB = process.env.DATABASE_DEV;
+} else {
+  DB = process.env.DATABASE_PROD;
+}
 
 export const getRooms = async (req: Request, res: Response) => {
   try {
     const { min, max, limit } = req.query;
 
-    const query = `SELECT * FROM \`hotel-booking\`.rooms`;
+    const query = `SELECT * FROM \`${DB}\`.rooms`;
 
     const values = [min, max, limit];
     connection.query(query, values, (err, result: RowDataPacket[]) => {
@@ -30,7 +40,7 @@ export const getRooms = async (req: Request, res: Response) => {
 export const getRoomTypes = async (req: Request, res: Response) => {
   try {
     const query = `
-    SELECT * FROM \`hotel-booking\`.room_types`;
+    SELECT * FROM \`${DB}\`.room_types`;
 
     connection.query(query, (err, result: RowDataPacket[]) => {
       if (err) {
@@ -57,7 +67,7 @@ export const createRoom = async (req: Request, res: Response) => {
       req.body;
 
     const checkRoomQuery = `
-      SELECT * FROM \`hotel-booking\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ? AND typeID = ?;
+      SELECT * FROM \`${DB}\`.\`rooms\` WHERE hotelID = ? AND title = ? AND price = ? AND maxPeople = ? AND description = ? AND typeID = ?;
     `;
     const checkRoomValues = [
       hotelID,
@@ -87,7 +97,7 @@ export const createRoom = async (req: Request, res: Response) => {
           });
         }
         const roomQuery = `
-        INSERT INTO \`hotel-booking\`.\`rooms\` (hotelID, title, price, maxPeople, description, typeID)
+        INSERT INTO \`${DB}\`.\`rooms\` (hotelID, title, price, maxPeople, description, typeID)
         VALUES (?, ?, ?, ?, ?, ?);
       `;
         const roomValues = [
@@ -110,7 +120,7 @@ export const createRoom = async (req: Request, res: Response) => {
           const roomId = roomResults.insertId;
 
           const roomNumbersQuery = `
-          INSERT INTO \`hotel-booking\`.\`room_numbers\` (roomId, number)
+          INSERT INTO \`${DB}\`.\`room_numbers\` (roomId, number)
           VALUES
         `;
           const roomNumbersValues = roomNumbers
@@ -128,12 +138,10 @@ export const createRoom = async (req: Request, res: Response) => {
                 });
               }
 
-              res
-                .status(200)
-                .json({
-                  success: true,
-                  message: "Room successfully created and linked to the hotel.",
-                });
+              res.status(200).json({
+                success: true,
+                message: "Room successfully created and linked to the hotel.",
+              });
             }
           );
         });
@@ -147,7 +155,7 @@ export const createRoom = async (req: Request, res: Response) => {
 export const deleteRoom = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const query = `DELETE FROM \`hotel-booking\`.rooms WHERE roomID = '${id}'`;
+    const query = `DELETE FROM \`${DB}\`.rooms WHERE roomID = '${id}'`;
 
     connection.query(query, (err, result: OkPacket) => {
       if (err) {
@@ -170,8 +178,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
     const { roomNumber } = req.params;
     const { user, dates, hotelId } = req.body;
 
-    const selectQuery =
-      "SELECT rm.ID FROM `hotel-booking`.`rooms` AS r INNER JOIN `hotel-booking`.`hotels` AS h ON r.HotelID = h.HotelID INNER JOIN `hotel-booking`.`room_numbers`AS rm ON r.roomId = rm.roomId WHERE h.hotelId = ? AND rm.number = ?";
+    const selectQuery = `SELECT rm.ID FROM \`${DB}\`.\`rooms\` AS r INNER JOIN \`${DB}\`.\`hotels\` AS h ON r.HotelID = h.HotelID INNER JOIN \`${DB}\`.\`room_numbers\` AS rm ON r.roomId = rm.roomId WHERE h.hotelId = ? AND rm.number = ?`;
 
     const selectValues = [hotelId, roomNumber];
 
@@ -190,7 +197,7 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
 
           const checkQuery = `
         SELECT ID
-        FROM  \`hotel-booking\`.\`room_unavailable_dates\`
+        FROM  \`${DB}\`.\`room_unavailable_dates\`
         WHERE hotelRoomId = ?
         AND (
           (unavailableDateStart < DATE(DATE_ADD(?, INTERVAL 1 DAY)) AND unavailableDateEnd > DATE(DATE_ADD(?, INTERVAL 1 DAY)))
@@ -217,17 +224,14 @@ export const updateRoomAvailability = async (req: Request, res: Response) => {
                   .status(500)
                   .json({ error: "Failed to update room availability." });
               } else if (checkResult.length > 0) {
-                res
-                  .status(400)
-                  .json({
-                    error: `Room ${roomNumber} is already unavailable for the selected dates.`,
-                  });
+                res.status(400).json({
+                  error: `Room ${roomNumber} is already unavailable for the selected dates.`,
+                });
               } else {
                 const insertQuery = `
-              INSERT INTO \`hotel-booking\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
+              INSERT INTO \`${DB}\`.\`room_unavailable_dates\` (hotelRoomId, userID, unavailableDateStart, unavailableDateEnd)
               VALUES (?, ?, ?, ?);
             `;
-
                 const insertValues = [
                   hotelRoomId,
                   user,

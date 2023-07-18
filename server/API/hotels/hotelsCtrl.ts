@@ -3,6 +3,16 @@
 import express, { Request, Response, NextFunction } from "express";
 import connection from "../../DB/database";
 import { OkPacket, RowDataPacket } from "mysql2/promise";
+import dotenv from "dotenv";
+dotenv.config();
+
+let environment = process.env.ENVIRONMENT
+let DB: string | undefined
+if (environment === "DEV") {
+    DB = process.env.DATABASE_DEV}
+else{
+    DB = process.env.DATABASE_PROD
+}
 
 export async function createHotel(req: express.Request, res: express.Response) {
   try {
@@ -27,7 +37,7 @@ export async function createHotel(req: express.Request, res: express.Response) {
     }
 
     const query = `
-      INSERT INTO \`hotel-booking\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
+      INSERT INTO \`${DB}\`.\`hotels\` (name, type, city, address, distance, title, description, rating, cheapestPrice, featured)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     `;
     const values = [name, type, city, address, distance, title, description, rating, cheapestPrice, newFeatured];
@@ -43,7 +53,7 @@ export async function createHotel(req: express.Request, res: express.Response) {
       const hotelId = hotelsResults.insertId;
 
       const photosQuery = `
-        INSERT INTO \`hotel-booking\`.\`hotel_photos\` (hotelID, photo)
+        INSERT INTO \`${DB}\`.\`hotel_photos\` (hotelID, photo)
         VALUES
       `;
       const photoValues = photos.map((photo: string) => `(${hotelId}, "${photo}")`).join(", ");
@@ -72,7 +82,7 @@ export const updateHotel = async (req: Request, res: Response) => {
     const { name, type, title, city } = req.body;
 
     const query = `
-        UPDATE \`hotel-booking\`.hotels
+        UPDATE \`${DB}\`.hotels
         SET name = ?, type = ?, title = ?, city = ?
         WHERE hotelID =?
       `;
@@ -98,7 +108,7 @@ export const deleteHotel = async (req: Request, res: Response) => {
   try {
 
     const { id } = req.params;
-    const query = `DELETE FROM \`hotel-booking\`.hotels WHERE hotelID = ?`;
+    const query = `DELETE FROM \`${DB}\`.hotels WHERE hotelID = ?`;
     const value = [id];
 
     connection.query(query, value, (err, result: OkPacket) => {
@@ -121,7 +131,7 @@ export const deleteHotel = async (req: Request, res: Response) => {
 export const getHotel = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE hotelID = ?';
+    const query = `SELECT * FROM \`${DB}\`.hotels WHERE hotelID = ?`;
     const values = [id];
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
@@ -143,7 +153,7 @@ export const getHotel = async (req: Request, res: Response) => {
 export const getHotelByName = async (req: Request, res: Response) => {
   try {
     const { name } = req.params;
-    const query = 'SELECT * FROM \`hotel-booking\`.hotels WHERE name = ?';
+    const query = `SELECT * FROM \`${DB}\`.hotels WHERE name = ?`;
     const values = [name];
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
@@ -165,7 +175,7 @@ export const getHotelByName = async (req: Request, res: Response) => {
 export const getHotels = async (req: Request, res: Response) => {
   try {
     const { city, min, max, limit } = req.query;
-    let query = 'SELECT *, (SELECT im.`image_path` FROM `hotel-booking`.`image_mapping` AS im INNER JOIN `hotel-booking`.`hotel_photos` hp ON im.`file_name` = hp.`photo` WHERE hp.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1 ) AS `photo` FROM `hotel-booking`.`hotels` WHERE 1=1';
+    let query = `SELECT *, (SELECT im.\`image_path\` FROM \`${DB}\`.\`image_mapping\` AS im INNER JOIN \`${DB}\`.\`hotel_photos\` hp ON im.\`file_name\` = hp.\`photo\` WHERE hp.hotelID = \`${DB}\`.\`hotels\`.\`hotelID\` LIMIT 1 ) AS \`photo\` FROM \`${DB}\`.\`hotels\` WHERE 1=1`;
     const values = [];
 
     if (typeof city === 'string' && city.trim()) {
@@ -208,7 +218,7 @@ export const getHotelByID = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const query = 'SELECT *, (SELECT im.`image_path` FROM `hotel-booking`.`image_mapping` AS im INNER JOIN `hotel-booking`.`hotel_photos` hp ON im.`file_name` = hp.`photo` WHERE hp.hotelID = `hotel-booking`.`hotels`.`hotelID` LIMIT 1) AS `photo` FROM `hotel-booking`.`hotels` WHERE hotelID = ?';
+    const query = `SELECT *, (SELECT im.\`image_path\` FROM \`${DB}\`.\`image_mapping\` AS im INNER JOIN \`${DB}\`.\`hotel_photos\` hp ON im.\`file_name\` = hp.\`photo\` WHERE hp.hotelID = \`${DB}\`.\`hotels\`.\`hotelID\` LIMIT 1) AS \`photo\` FROM \`${DB}\`.\`hotels\` WHERE hotelID = ?`;
     const values = [id];
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
@@ -231,7 +241,7 @@ export const getHotelPhotoByID = async (req: Request, res: Response) => {
   try {
 
     const { id } = req.params;
-    const query = 'SELECT * FROM `hotel-booking`.`hotel_photos` AS hp INNER JOIN `hotel-booking`.`image_mapping` AS im ON hp.`photo` = im.`file_name` WHERE hotelID = ?';
+    const query = `SELECT * FROM \`${DB}\`.\`hotel_photos\` AS hp INNER JOIN \`${DB}\`.\`image_mapping\` AS im ON hp.\`photo\` = im.\`file_name\` WHERE hotelID = ?`;
     const values = [id];
 
     connection.query(query, values, (err, result: RowDataPacket[]) => {
@@ -254,7 +264,7 @@ export const getHotelRooms = async (req: Request, res: Response) => {
   try {
 
     const { id } = req.params;
-    const query = `SELECT r.*, rd.Number FROM \`hotel-booking\`.rooms AS r INNER JOIN \`hotel-booking\`.room_numbers AS rd ON r.roomId = rd.roomId WHERE r.hotelID = ?`;
+    const query = `SELECT r.*, rd.Number FROM \`${DB}\`.rooms AS r INNER JOIN \`${DB}\`.room_numbers AS rd ON r.roomId = rd.roomId WHERE r.hotelID = ?`;
     const values = [id];
 
     connection.query(query, req.params.id, (err, result: RowDataPacket[]) => {
