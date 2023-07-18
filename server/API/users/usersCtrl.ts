@@ -7,7 +7,7 @@ import { OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
 const saltRounds = 10;
 //const DB =`sql7633384`
-//const DB =`\`hotel-booking\``
+const DB =`\`hotel-booking\``
 export async function getUser(req: express.Request, res: express.Response) {
     try {
         const secret: any = process.env.JWT_SECRET;

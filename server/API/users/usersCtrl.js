@@ -19,7 +19,7 @@ const userValidator_1 = require("./userValidator");
 const database_1 = __importDefault(require("../../DB/database"));
 const saltRounds = 10;
 //const DB =`sql7633384`
-//const DB =`\`hotel-booking\``
+const DB = `\`hotel-booking\``;
 function getUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
