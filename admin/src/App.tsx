@@ -13,28 +13,12 @@ import { userInputs } from "./helpers/formSource";
 import ProtectedRoute from "./helpers/ProtectedRoute";
 import Page404 from "./app/views/page404/Page404";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"//npm i @fvilers/disable-react-devtools
-import { environment } from "./config/config";
 import "./style/dark.scss";
 
-//Dlya deploy - deaktivaziya  react dev tools
-//npm i @fvilers/disable-react-devtools  - ustanovim
-
-// let environment = 'PROD'//"DEV"; menyaetm po neobxodimosti na "PROD"
-// let SERVER_API_URL: string; 
-
-// // environment === "DEV" ? BACKEND_URL = SERVER_URL : BACKEND_URL = ""
-// // environment === "DEV" ? null : disableReactDevTools()
-// if (environment === "DEV") {
-//   SERVER_API_URL = LOCAL_SERVER_URL;
-// } else {
-//   SERVER_API_URL = SERVER_URL;//"https://moovi-booking-back.onrender.com";// suda podstavili
-//   disableReactDevTools(); 
-// }
-
+const environment = process.env.REACT_APP_API_ENVIRONMENT;
 if (environment === "PROD"){
   disableReactDevTools(); 
 }
-
 
 function App() {
   const darkMode = useAppSelector(darkModeSelector);

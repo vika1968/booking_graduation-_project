@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Admin } from "./adminModel";
-import { getAdminByCookieMain } from "./adminAPI";
+import { getAdminBySession } from "./adminAPI";
 
 export enum Status {
   LOADING = "loading",
@@ -29,15 +29,15 @@ export const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAdminByCookieMain.pending, (state) => {
+      .addCase(getAdminBySession.pending, (state) => {
         state.status = Status.LOADING;
       })
-      .addCase(getAdminByCookieMain.fulfilled, (state, action) => {
+      .addCase(getAdminBySession.fulfilled, (state, action) => {
         state.status = Status.IDLE;
         state.value = action.payload;
 
       })
-      .addCase(getAdminByCookieMain.rejected, (state) => {
+      .addCase(getAdminBySession.rejected, (state) => {
         state.status = Status.FAILED;
       })
   },

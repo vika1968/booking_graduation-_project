@@ -144,7 +144,6 @@ function deleteUser(req, res) {
             if (!id) {
                 return res.status(400).json({ error: "Missing user ID." });
             }
-            res.clearCookie('userId');
             const query = `DELETE FROM \`${DB}\`.\`users\` WHERE userID = ?`;
             const value = [id];
             database_1.default.query(query, value, (err, result) => {

@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getUserBySession } from "../../../features/user/userAPI";
-//import { SERVER_URL } from "../../../config/config";
 import "./orderResults.scss";
 
 const OrderResults = () => {

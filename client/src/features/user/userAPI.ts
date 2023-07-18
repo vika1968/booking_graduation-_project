@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
 import axios from "axios";
-//import { SERVER_URL } from "../../config/config";
+
 const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
 
 export const getUserBySession = createAsyncThunk("get-user-by-session", async (_, thunkApi) => {

@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-//import { SERVER_URL } from "../../config/config";
+
 const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
 
-export const getAdminByCookieMain = createAsyncThunk("get-admin-by-cookie", async (_, thunkApi) => {
+export const getAdminBySession = createAsyncThunk("get-admin-by-session", async (_, thunkApi) => {
  try {  
-    const { data } = await axios.get(`${SERVER_URL}/api/admin/retrieve/get-admin-by-cookie`, { withCredentials: true }); 
-    if (!data) throw new Error("Couldn't receive data from axios GET '/get-admin-by-cookie' from: adminAPI ");
+    const { data } = await axios.get(`${SERVER_URL}/api/admin/retrieve/get-admin-by-session/${sessionStorage.getItem("adminId")}`, { withCredentials: true }); 
+    if (!data) throw new Error("Couldn't receive data from axios GET '/get-admin-by-session' from: adminAPI ");
     const { adminData } = data;   
     
     return adminData;

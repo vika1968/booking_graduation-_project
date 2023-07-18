@@ -8,13 +8,11 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 let connection;
 let environment = process.env.ENVIRONMENT;
-console.log(environment);
 if (environment === "DEV") {
     const sqlPassword_Dev = process.env.SQLPASSWORD_DEV;
     const sqlUser_Dev = process.env.SQLUSER_DEV;
     const sqlDB_Name_Dev = process.env.DATABASE_DEV;
     const sqlHost_Dev = process.env.HOST_DEV;
-    console.log(sqlDB_Name_Dev);
     connection = mysql2_1.default.createConnection({
         host: sqlHost_Dev,
         port: 3306,
@@ -39,7 +37,6 @@ else {
     const sqlUser_Prod = process.env.SQLUSER_PROD;
     const sqlDB_Name_Prod = process.env.DATABASE_PROD;
     const sqlHost_Prod = process.env.HOST_PROD;
-    console.log(sqlDB_Name_Prod);
     connection = mysql2_1.default.createConnection({
         host: sqlHost_Prod,
         port: 3306,

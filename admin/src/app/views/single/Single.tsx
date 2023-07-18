@@ -8,7 +8,6 @@ import { UserInterface } from "./../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-//import { SERVER_URL } from "../../../config/config";
 import "./single.scss";
 
 const Single = () => {

@@ -10,7 +10,11 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const logOut = () => {  
-    dispatch(resetAdmin());  
+    dispatch(resetAdmin()); 
+    // Remove data from session storage
+    sessionStorage.removeItem("adminId");
+    // Clear all data from session storage
+    sessionStorage.clear(); 
   };
  
   const confirmationButton = () => {

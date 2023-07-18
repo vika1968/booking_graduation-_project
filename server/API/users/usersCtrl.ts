@@ -33,8 +33,7 @@ export async function getUserBySessionStorage(req: express.Request, res: express
         connection.query(query, [decodedUserId], (error, results) => {
             if (error) {
                 res.status(500).send({ error: "Error executing SQL query." });
-            } else {
-              
+            } else {              
                 res.send({ sucess: true, userData: results });
             }
         });
@@ -138,9 +137,7 @@ export async function deleteUser(req: express.Request, res: express.Response) {
       
         if (!id) {
             return res.status(400).json({ error: "Missing user ID." });
-        }
-
-        res.clearCookie('userId');
+        }    
 
         const query = `DELETE FROM \`${DB}\`.\`users\` WHERE userID = ?`;
         const value = [id];

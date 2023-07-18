@@ -10,7 +10,6 @@ import { HotelInterface } from "../../../helpers/hotelInterface";
 import { useDispatch } from "react-redux";
 import { addSearch} from "../../../features/search/searchSlice";
 import { formatDatesToString } from "../../../helpers/transformDateToValidFormat";
-//import { SERVER_URL } from "../../../config/config";
 import "./list.scss";
 
 const List: React.FC = () => { 

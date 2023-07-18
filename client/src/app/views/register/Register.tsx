@@ -3,7 +3,6 @@ import { ToastContainer } from "react-toastify"; //npm install react-toastify
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../../helpers/toast";
 import { Link } from "react-router-dom";
-//import { SERVER_URL } from "../../../config/config";
 import axios from "axios";
 import "./register.scss";
 

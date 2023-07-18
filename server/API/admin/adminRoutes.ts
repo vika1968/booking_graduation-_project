@@ -5,7 +5,7 @@ import { getAdmin, login, register} from "./adminCtrl";
 const adminRouter = express.Router();
 
 adminRouter
-  .get("/retrieve/get-admin-by-cookie", getAdmin)  
+  .get("/retrieve/get-admin-by-session/:sesStor", getAdmin)  
   .post("/login", login)
   .post("/register", register)
 export default adminRouter;

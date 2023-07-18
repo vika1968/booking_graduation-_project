@@ -20,10 +20,11 @@ else{
 
 export async function getAdmin(req: express.Request, res: express.Response) {
     try {
+        const adminId  = req.params.sesStor;
         const secret: any = process.env.JWT_SECRET;
-        if (!secret) throw new Error("Couldn't load secret code from .env file.");
 
-        const { adminId } = req.cookies;
+        if (!secret) throw new Error("Couldn't load secret code from .env file.");
+      
         if (!adminId) throw new Error("No authorized admin !!!!!!!");
 
         const decodedAdminId = jwt.decode(adminId, secret);
@@ -82,11 +83,10 @@ export async function register(req: express.Request, res: express.Response) {
 
             const insertId = results.insertId;
 
-            const cookie = { adminID: insertId };
-            const JWTCookie = jwt.encode(cookie, secret);
-
-            res.cookie("adminId", JWTCookie);
-            res.send({ success: true, adminArray: results });
+            const activeAdmin = { adminID: insertId };
+            const JWTEncryptedAdmin = jwt.encode(activeAdmin, secret);
+           
+            res.send({ success: true, adminArray: results, encryptedAdmin: JWTEncryptedAdmin });
         });
 
     } catch (error: any) {
@@ -113,15 +113,14 @@ export async function login(req: express.Request, res: express.Response) {
                 if (!isMatch) {
                     throw new Error("Password doesn't match or admin doesn't exists.");
                 }
-                const cookie = { adminID: results[0].userID };
+                const activeAdmin = { adminID: results[0].userID };
 
                 const secret = process.env.JWT_SECRET;
                 if (!secret) throw new Error("Couldn't load secret key from .env file.");
 
-                const JWTCookie = jwt.encode(cookie, secret);
-
-                res.cookie("adminId", JWTCookie);
-                res.send({ success: true, adminArray: results });
+                const JWTEncryptedAdmin = jwt.encode(activeAdmin, secret);
+              
+                res.send({ success: true, adminArray: results[0], encryptedAdmin: JWTEncryptedAdmin  });
             } catch (error: any) {
                 res.status(500).send({ success: false, error: error.message });
             }

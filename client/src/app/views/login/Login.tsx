@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
-//import { SERVER_URL } from "../../../config/config";
 import "./login.scss";
 
 const Login = () => {

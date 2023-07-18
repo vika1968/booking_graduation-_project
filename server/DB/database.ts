@@ -5,15 +5,11 @@ dotenv.config();
 let connection: mysql.Connection;
 let environment = process.env.ENVIRONMENT
 
-console.log(environment)
-
 if (environment === "DEV") {
   const sqlPassword_Dev = process.env.SQLPASSWORD_DEV;
   const sqlUser_Dev = process.env.SQLUSER_DEV;
   const sqlDB_Name_Dev = process.env.DATABASE_DEV;
   const sqlHost_Dev = process.env.HOST_DEV;
-
-  console.log(sqlDB_Name_Dev)
 
   connection = mysql.createConnection({
     host: sqlHost_Dev,
@@ -32,7 +28,6 @@ if (environment === "DEV") {
       console.error(error);
     }
   });
-
 }
  else 
  {
@@ -40,8 +35,6 @@ if (environment === "DEV") {
   const sqlUser_Prod = process.env.SQLUSER_PROD;
   const sqlDB_Name_Prod = process.env.DATABASE_PROD;
   const sqlHost_Prod = process.env.HOST_PROD;
-
-  console.log(sqlDB_Name_Prod)
 
   connection = mysql.createConnection({
     host: sqlHost_Prod,

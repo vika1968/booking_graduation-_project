@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Admin } from '../features/admin/adminModel';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { getAdminByCookieMain } from '../features/admin/adminAPI';
+import { getAdminBySession } from '../features/admin/adminAPI';
 import { adminSelector, adminStatusSelector, Status } from '../features/admin/adminSlice';
 import { Navigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   
   useEffect(() => {
     if (!admin) {
-      dispatch(getAdminByCookieMain());
+      dispatch(getAdminBySession());
     }
   }, [admin, dispatch]);
 
