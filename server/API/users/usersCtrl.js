@@ -18,6 +18,8 @@ const jwt_simple_1 = __importDefault(require("jwt-simple"));
 const userValidator_1 = require("./userValidator");
 const database_1 = __importDefault(require("../../DB/database"));
 const saltRounds = 10;
+//const DB =`sql7633384`
+//const DB =`\`hotel-booking\``
 function getUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -28,7 +30,7 @@ function getUser(req, res) {
             if (!userId)
                 throw new Error("No authorized user !!!!!!!");
             const decodedUserId = jwt_simple_1.default.decode(userId, secret);
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND userID = '${decodedUserId.userID}'`;
+            const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0 AND userID = '${decodedUserId.userID}'`;
             database_1.default.query(query, [decodedUserId], (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing SQL query." });
@@ -66,7 +68,7 @@ function register(req, res) {
             }
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
             const hash = bcrypt_1.default.hashSync(password, salt);
-            const query = `INSERT INTO \`hotel-booking\`.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
+            const query = `INSERT INTO '${DB}'.\`users\` (username, email, password, country, city, phone, isAdmin) VALUES ("${username}", "${email}", "${hash}", "${country}", "${city}", "${phone}", false);`;
             database_1.default.query(query, (error, results) => {
                 if (error) {
                     return res.status(500).send({
@@ -98,7 +100,7 @@ function login(req, res) {
             const password = credentials.password;
             if (!email || !password)
                 throw new Error("no data from client login in login");
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND email='${email}'`;
+            const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0 AND email='${email}'`;
             database_1.default.query(query, (err, results) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     if (err)
@@ -145,7 +147,7 @@ function updateUser(req, res) {
             }
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
             const hash = bcrypt_1.default.hashSync(password, salt);
-            const query = `UPDATE \`hotel-booking\`.\`users\` SET email ='${email}', password ='${hash}' WHERE userID ='${id}';`;
+            const query = `UPDATE '${DB}'.\`users\` SET email ='${email}', password ='${hash}' WHERE userID ='${id}';`;
             database_1.default.query(query, (error, results) => {
                 if (error) {
                     return res.status(500).send({
@@ -176,7 +178,7 @@ function deleteUser(req, res) {
                 return res.status(400).json({ error: "Missing user ID." });
             }
             res.clearCookie('userId');
-            const query = `DELETE FROM \`hotel-booking\`.\`users\` WHERE userID = ?`;
+            const query = `DELETE FROM '${DB}'.\`users\` WHERE userID = ?`;
             const value = [id];
             database_1.default.query(query, value, (err, result) => {
                 if (err) {
@@ -203,7 +205,7 @@ function getUserByID(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const id = req.params.id;
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0 AND userID = ${id}`;
+            const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0 AND userID = ${id}`;
             database_1.default.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).json({ error: "Something went wrong." });
@@ -223,7 +225,7 @@ exports.getUserByID = getUserByID;
 function getUsers(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const query = `SELECT * FROM \`hotel-booking\`.\`users\` WHERE isAdmin = 0`;
+            const query = `SELECT * FROM '${DB}'.\`users\` WHERE isAdmin = 0`;
             database_1.default.query(query, (error, results) => {
                 if (error) {
                     res.status(500).send({ error: "Error executing receive all users ( no admins )." });

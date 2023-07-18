@@ -132,3 +132,24 @@ ALTER TABLE `hotel-booking`.`room_unavailable_dates` DROP FOREIGN KEY `room_unav
 ALTER TABLE `hotel-booking`.rooms
 ADD CONSTRAINT fk_hotelID
 FOREIGN KEY (hotelID) REFERENCES `hotel-booking`.hotels(hotelID);
+
+-----------localStorage--------------
+
+// Сохранение данных в localStorage
+localStorage.setItem('username', 'John');
+localStorage.setItem('email', 'john@example.com');
+
+// Получение данных из localStorage
+const username = localStorage.getItem('username');
+const email = localStorage.getItem('email');
+
+console.log(username); // Выводит "John"
+console.log(email); // Выводит "john@example.com"
+
+// Удаление данных из localStorage
+localStorage.removeItem('username');
+localStorage.removeItem('email');
+
+// Проверка наличия данных в localStorage
+const isUsernameExists = localStorage.getItem('username') !== null;
+console.log(isUsernameExists); // Выводит false
