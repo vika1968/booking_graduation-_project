@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { resetAdmin } from "../../features/admin/adminSlice";
-import { ToastContainer, toast } from "react-toastify";
 import { confirmAlert } from 'react-confirm-alert';//npm install react-confirm-alert
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import "./sidebar.scss";
@@ -68,8 +67,7 @@ const Sidebar = () => {
           </Link>
           <p className="title">ADMIN</p>
           <li onClick={confirmationButton}>
-            <span className="icon">Logout</span>
-            <ToastContainer />
+            <span className="icon">Logout</span>           
           </li>
         </ul>
       </div>
