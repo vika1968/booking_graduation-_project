@@ -17,6 +17,7 @@ import moment from "moment"; // JavaScript library for parsing, manipulating, an
 import Promotion from "../../../components/promotion/Promotion";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+
 import "./hotel.scss";
 
 const Hotel = () => {
@@ -83,7 +84,9 @@ const Hotel = () => {
     if (user) {
       setOpenModal(true);
     } else {
-      showToast("You are an unauthorized user, therefore you cannot reserve on our site. Please login or regoster.", "error redirect", "/login")
+     // showToast("You are an unauthorized user, therefore you cannot reserve on our site. Please login or regoster.", "error redirect", "/login")
+     showToast("You are an unauthorized user, therefore you cannot reserve on our site. Please login or regoster.", "error no redirect", "")
+     navigate("/login");
      }
   };
 
