@@ -54,8 +54,8 @@ const Navbar = () => {
         </Link>
         {user ? (         
           <>
-            <button className="navbar__navButton" onClick={logOut}>
-              Log Out <span>{user ? user[0].email : ""}</span>
+            <button className="navbar__navButton" onClick={logOut}>             
+              Log Out <span>{user && user.length > 0 ? user[0].email : ""}</span>
             </button>
             <button className="navbar__navButton" onClick={handleOrders}>
             {user ? "My Orders" : ""} 

@@ -127,8 +127,10 @@ ALTER TABLE `hotel-booking`.`hotel_photos` DROP FOREIGN KEY `hotel_photos_ibfk_2
 ALTER TABLE `hotel-booking`.`room_types` DROP FOREIGN KEY `room_types_ibfk_2`;
 ALTER TABLE `hotel-booking`.`room_unavailable_dates` DROP FOREIGN KEY `room_unavailable_dates_ibfk_1`;
 
-
-
 ALTER TABLE `hotel-booking`.rooms
 ADD CONSTRAINT fk_hotelID
 FOREIGN KEY (hotelID) REFERENCES `hotel-booking`.hotels(hotelID);
+
+https://hotel-booking-user.onrender.com
+https://hotel-booking-admin-lrtu.onrender.com
+https://hotel-booking-backend-fjj9.onrender.com
