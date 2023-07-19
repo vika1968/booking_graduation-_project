@@ -45,6 +45,7 @@ else {
         database: sqlDB_Name_Prod,
         multipleStatements: true,
     });
+    console.log(`Current DataBase is : ${sqlDB_Name_Prod}`);
     connection.connect((err) => {
         if (err) {
             console.trace(err);
