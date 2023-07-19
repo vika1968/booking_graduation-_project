@@ -130,3 +130,9 @@ ALTER TABLE `hotel-booking`.`room_unavailable_dates` DROP FOREIGN KEY `room_unav
 ALTER TABLE `hotel-booking`.rooms
 ADD CONSTRAINT fk_hotelID
 FOREIGN KEY (hotelID) REFERENCES `hotel-booking`.hotels(hotelID);
+
+
+https://hotel-booking-user.onrender.com
+https://hotel-booking-admin-lrtu.onrender.com
+https://hotel-booking-backend-fjj9.onrender.com
+
