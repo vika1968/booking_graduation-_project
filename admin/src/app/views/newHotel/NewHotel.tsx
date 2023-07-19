@@ -27,7 +27,7 @@ const NewHotel = () => {
     {}
   );
 
-  const { loading: roomsLoading, data: roomsData, error: roomsError} = useFetch("/api/rooms");
+  const { loading: roomsLoading, data: roomsData, error: roomsError} = useFetch(`${SERVER_URL}/api/rooms`);
 
   useEffect(() => {
     const updatedPlaceholders: { [key: string]: string } = {};

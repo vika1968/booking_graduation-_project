@@ -33,7 +33,9 @@ const NewRoom = () => {
     data: roomTypesData,
     loading: roomTypesLoading,
     error: roomTypesError,
-  } = useFetch("/api/rooms/room-types");
+  } = useFetch(`${SERVER_URL}/api/rooms/room-types`);
+
+  console.log(data)
 
   useEffect(() => {
     const updatedPlaceholders: { [key: string]: string } = {};
