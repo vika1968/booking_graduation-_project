@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   AreaChart,
   Area,
@@ -8,27 +8,37 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import "./chart.scss";
+
 interface ChartProps {
   aspect: number;
   title: string;
 }
 
-const data = [
-  {
-    name: "January",
-    Total: Math.floor(Math.random() * (1200 - 1000 + 1)) + 1000,
-  },
-  {
-    name: "February",
-    Total: Math.floor(Math.random() * (2100 - 300 + 1)) + 300,
-  },
-  { name: "March", Total: Math.floor(Math.random() * (800 - 300 + 1)) + 300 },
-  { name: "April", Total: Math.floor(Math.random() * (1600 - 500 + 1)) + 500 },
-  { name: "May", Total: Math.floor(Math.random() * (800 - 400 + 1)) + 400 },
-  { name: "June", Total: Math.floor(Math.random() * (1700 - 1000 + 1)) + 1000 },
-];
-
 const Chart: React.FC<ChartProps> = ({ aspect, title }) => {
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const newData = generateData();
+    setData(newData);
+  }, []);
+
+  const generateData = () => {
+    return [
+      {
+        name: "January",
+        Total: Math.floor(Math.random() * (1200 - 1000 + 1)) + 1000,
+      },
+      {
+        name: "February",
+        Total: Math.floor(Math.random() * (2100 - 300 + 1)) + 300,
+      },
+      { name: "March", Total: Math.floor(Math.random() * (800 - 300 + 1)) + 300 },
+      { name: "April", Total: Math.floor(Math.random() * (1600 - 500 + 1)) + 500 },
+      { name: "May", Total: Math.floor(Math.random() * (800 - 400 + 1)) + 400 },
+      { name: "June", Total: Math.floor(Math.random() * (1700 - 1000 + 1)) + 1000 },
+    ];
+  };
+
   return (
     <div className="chart">
       <div className="title">{title}</div>
