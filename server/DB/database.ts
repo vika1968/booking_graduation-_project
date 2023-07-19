@@ -10,13 +10,6 @@ dotenv.config();
 const sqlPassword = process.env.SQLPASSWORD_DEV; 
 const sqlUser = process.env.SQLUSER_DEV; 
 
-
-// SQLPASSWORD_DEV = "max1998"
-// SQLUSER_DEV = "max"
-// DATABASE_DEV = "hotel-booking"
-// HOST_DEV = "localhost"
-
-
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
