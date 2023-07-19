@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { HotelFieldsToUpdateInterface } from "../../helpers/hotelFieldsToUpdate";
 import axios from "axios";
-import "./dataTable.scss";
+import "../datatable/dataTable.scss"
 
 interface Row {
   id: string;
