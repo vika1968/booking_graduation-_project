@@ -35,8 +35,6 @@ const NewRoom = () => {
     error: roomTypesError,
   } = useFetch(`${SERVER_URL}/api/rooms/room-types`);
 
-  console.log(data)
-
   useEffect(() => {
     const updatedPlaceholders: { [key: string]: string } = {};
     roomInputs.forEach((input) => {

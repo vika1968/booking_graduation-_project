@@ -28,7 +28,6 @@ const getRooms = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { min, max, limit } = req.query;
         const query = `SELECT * FROM \`${DB}\`.rooms`;
-        console.log(query);
         const values = [min, max, limit];
         database_1.default.query(query, values, (err, result) => {
             if (err) {

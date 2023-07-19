@@ -17,7 +17,7 @@ export const getRooms = async (req: Request, res: Response) => {
     const { min, max, limit } = req.query;
 
     const query = `SELECT * FROM \`${DB}\`.rooms`;
-console.log (query)
+
     const values = [min, max, limit];
     connection.query(query, values, (err, result: RowDataPacket[]) => {
       if (err) {
