@@ -10,10 +10,12 @@ import { HotelInterface } from "../../../helpers/hotelInterface";
 import { useDispatch } from "react-redux";
 import { addSearch} from "../../../features/search/searchSlice";
 import { formatDatesToString } from "../../../helpers/transformDateToValidFormat";
+import { useNavigate } from "react-router-dom";
 import "./list.scss";
 
 const List: React.FC = () => { 
   const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+  const navigate = useNavigate();
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
   const [dates, setDates] = useState(location.state.dates);
@@ -55,6 +57,9 @@ const List: React.FC = () => {
     );
   }, [dates, options]);
 
+  const handleGoHome = () => {
+    navigate("/");
+  };
 
  const handleOption = (optionName: keyof typeof options, value: string) => {
     if (optionName==='minPrice'){
@@ -168,6 +173,9 @@ const List: React.FC = () => {
             <button className="list-search__button" onClick={handleClick}>
               Search!!!!
             </button>
+            <button onClick={handleGoHome} className="list-search__button home__btn">
+               Go Home
+            </button> 
           </div>
           <div className="list-result">
             {loading ? (
