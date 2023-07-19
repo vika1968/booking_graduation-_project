@@ -1,12 +1,8 @@
 
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 export const showToast = (message: string, type: string, redirect: string) => {
-  const navigate = useNavigate();
-  
      if (type === "error no redirect") {
         toast.error(message, {
             position: toast.POSITION.TOP_CENTER,
@@ -31,8 +27,7 @@ export const showToast = (message: string, type: string, redirect: string) => {
             className: "custom-toast",  
             onClose: async () => {
               await new Promise((resolve) => setTimeout(resolve, 1000)); 
-             // window.location.assign(redirect);
-             navigate(redirect);
+              window.location.assign(redirect);
             },
           });
     }
@@ -61,8 +56,7 @@ export const showToast = (message: string, type: string, redirect: string) => {
             className: "custom-toast",  
             onClose: async () => {
               await new Promise((resolve) => setTimeout(resolve, 1000)); 
-              //window.location.assign(redirect);
-              navigate(redirect);
+              window.location.assign(redirect);
             },
           });
     }
