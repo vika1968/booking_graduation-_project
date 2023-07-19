@@ -67,11 +67,11 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
       const response = await axios.delete(`${SERVER_URL}/api/${path}/${id}`);
       const { message } = response.data;
     
-      showToast(message, "success no redirect", "");
+      showToast(message, "success no redirect", "",navigate);
       
       setList((prevList) => prevList?.filter((item) => item.id !== id) ?? null);
     } catch (error: any) {    
-     showToast(error.response.data.error, "error no redirect", "");
+     showToast(error.response.data.error, "error no redirect", "",navigate);
     }
   };
 
@@ -79,7 +79,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
     try {
       const response = await axios.put(`${SERVER_URL}/api/${path}/${id}`, updatedFields);
       const { message } = response.data;    
-      showToast(message, "success no redirect", "");
+      showToast(message, "success no redirect", "",navigate);
 
       setList(
         (prevList) =>
@@ -88,7 +88,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
           ) ?? null
       );
     } catch (error: any) { 
-    showToast(error.response.data.error, "error no redirect", "");
+    showToast(error.response.data.error, "error no redirect", "",navigate);
     }
   };
 
@@ -163,7 +163,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
       try {   
       await handleUpdate(id, { name: value, type: value, title: value, city: value});
       } catch (error: any) {   
-        showToast(error.response.data.error, "error no redirect", "");
+        showToast(error.response.data.error, "error no redirect", "",navigate);
       }
     }
   };

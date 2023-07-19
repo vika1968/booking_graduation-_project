@@ -21,6 +21,7 @@ interface ReserveProps {
 
 const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+  const navigate = useNavigate();
   const [roomID, setRoomID] = useState<number>(0)
 
   const currentDate = new Date();
@@ -81,7 +82,7 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
       showToast(
         "Please enter your reservation dates again.",
         "error redirect",
-        "/"
+        "/",navigate
       );
       return;
     }
@@ -101,14 +102,14 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
       showToast(
         "Please enter your reservation dates again. Your Start Date and End Date look like the same.",
         "error redirect",
-        "/"
+        "/", navigate
       );
       return;
      }
     }
 
     if (selectedRooms.length === 0) {
-      showToast("Please select at least one room.", "error no redirect", "");
+      showToast("Please select at least one room.", "error no redirect", "", navigate);
       return;
     }
 
@@ -123,10 +124,10 @@ const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
       showToast(
         "Your reservation ended successfully.!🎉",
         "success redirect",
-        "/"
+        "/", navigate
       );     
     } catch (error: any) {    
-      showToast(error.response.data.error, "error no redirect", "");    
+      showToast(error.response.data.error, "error no redirect", "", navigate);    
     }
   };
 

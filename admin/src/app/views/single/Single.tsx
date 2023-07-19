@@ -8,10 +8,12 @@ import { UserInterface } from "./../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./single.scss";
 
 const Single = () => {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+  const navigate = useNavigate();
   const location = useLocation();
   const id = location.search.split("?")[1];
   const [singleUser, setSingleUser] = useState<UserInterface[] | null>(null);
@@ -27,7 +29,7 @@ const Single = () => {
           setSingleUser(user);
         }
       } catch (error: any) {
-        showToast(error.response.data.error, "error no redirect", "");
+        showToast(error.response.data.error, "error no redirect", "",navigate);
       }
     };
 

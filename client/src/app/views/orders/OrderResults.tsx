@@ -32,7 +32,7 @@ const OrderResults = () => {
         }      
      
       } catch (error: any) {
-        showToast(error.response.data.error, "error no redirect", "");
+        showToast(error.response.data.error, "error no redirect", "", navigate );
       }
     };
 

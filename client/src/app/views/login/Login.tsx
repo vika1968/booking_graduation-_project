@@ -23,12 +23,12 @@ const Login = () => {
     e.preventDefault();
 
     if (!credentials.email || !credentials.password) {   
-      showToast( "Please enter both email and password.", "error no redirect", "" );
+      showToast( "Please enter both email and password.", "error no redirect", "", navigate );
       return;
     }
 
     if (!validateEmail(credentials.email)) { 
-      showToast("Please enter a valid email.", "error no redirect", "");
+      showToast("Please enter a valid email.", "error no redirect", "", navigate );
       return;
     }
 
@@ -42,7 +42,7 @@ const Login = () => {
         navigate(`/`, { state: credentials.email });      
       }     
     } catch (error: any) {
-      showToast(error.response.data.error, "error no redirect", "");
+      showToast(error.response.data.error, "error no redirect", "", navigate );
     }
   };
 

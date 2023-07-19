@@ -6,6 +6,7 @@ import axios from "axios";
 import { UserInterface } from "../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "./newUser.scss";
 interface Input {
   id: string;
@@ -20,6 +21,7 @@ interface NewProps {
 
 const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+  const navigate = useNavigate();
   const initialInfo: UserInterface = inputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),
     { photos: [] } as unknown as UserInterface
@@ -85,7 +87,7 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
       });
 
       if (!isValid) {
-        showToast("Please fill all fields", "error no redirect", "");
+        showToast("Please fill all fields", "error no redirect", "",navigate);
         return;
       }
 
@@ -97,7 +99,7 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
       const { data } = await axios.post(`${SERVER_URL}/api/admin/register`, newUser, { withCredentials: true });
       const { success } = data;
       if (success) {
-        showToast("New admin successfully added!🎉", "success no redirect", "");
+        showToast("New admin successfully added!🎉", "success no redirect", "",navigate);
         handleClear();
 
         // Reset placeholders
@@ -108,7 +110,7 @@ const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
         setPlaceholders(updatedPlaceholders);
       }
     } catch (error: any) {
-      showToast(error.response.data.error, "error no redirect", "");
+      showToast(error.response.data.error, "error no redirect", "",navigate);
     }
   };
 

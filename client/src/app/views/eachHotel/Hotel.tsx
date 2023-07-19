@@ -84,10 +84,8 @@ const Hotel = () => {
     if (user) {
       setOpenModal(true);
     } else {
-     // showToast("You are an unauthorized user, therefore you cannot reserve on our site. Please login or regoster.", "error redirect", "/login")
-     showToast("You are an unauthorized user, therefore you cannot reserve on our site. Please login or regoster.", "error no redirect", "")
-     navigate("/login");
-     }
+      showToast("You are an unauthorized user, therefore you cannot reserve on our site. Please login or regoster.", "error redirect", "/login", navigate)
+    }
   };
 
   return (

@@ -2,7 +2,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const showToast = (message: string, type: string, redirect: string) => {
+export const showToast = (message: string, type: string, redirect: string, navigate: (path: string) => void) => {
      if (type === "error no redirect") {
         toast.error(message, {
             position: toast.POSITION.TOP_CENTER,
@@ -27,7 +27,8 @@ export const showToast = (message: string, type: string, redirect: string) => {
             className: "custom-toast",  
             onClose: async () => {
               await new Promise((resolve) => setTimeout(resolve, 3000)); 
-              window.location.assign(redirect);
+             // window.location.assign(redirect);
+             navigate(redirect);
             },
           });
     }
@@ -56,7 +57,8 @@ export const showToast = (message: string, type: string, redirect: string) => {
             className: "custom-toast",  
             onClose: async () => {
               await new Promise((resolve) => setTimeout(resolve, 3000)); 
-              window.location.assign(redirect);
+             // window.location.assign(redirect);
+             navigate(redirect);
             },
           });
     }

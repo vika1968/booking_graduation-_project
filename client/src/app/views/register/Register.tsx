@@ -2,12 +2,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { ToastContainer } from "react-toastify"; //npm install react-toastify
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../../helpers/toast";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./register.scss";
 
 const Register = () => {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, "");
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,10 +67,10 @@ const Register = () => {
       await axios.post(`${SERVER_URL}/api/users/register`, newUser,{ withCredentials: true });
     
       setSubmitted(true);
-      showToast("User created!🎉", "success redirect", "/login");
+      showToast("User created!🎉", "success redirect", "/login", navigate );
     } catch (err: any) {
       setError(err.response.data.error);
-      showToast(err.response.data.error, "error no redirect", "");
+      showToast(err.response.data.error, "error no redirect", "", navigate );
     }
   };
 

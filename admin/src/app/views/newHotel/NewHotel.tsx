@@ -8,10 +8,12 @@ import useFetch from "../../../hooks/useFetch";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "./newHotel.scss";
 
 const NewHotel = () => {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+  const navigate = useNavigate();
   //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: HotelInterface = hotelInputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),
@@ -71,17 +73,17 @@ const NewHotel = () => {
         isNaN(Number(info.cheapestPrice)) ||
         Number(info.cheapestPrice) === 0
       ) {      
-        showToast("The 'Price' field must be a number.", "error no redirect", "");
+        showToast("The 'Price' field must be a number.", "error no redirect", "", navigate);
         return;
       }
 
       if (isNaN(Number(info.distance)) || Number(info.distance) === 0) {     
-        showToast("The 'Distance' field must be a number.", "error no redirect", "");
+        showToast("The 'Distance' field must be a number.", "error no redirect", "", navigate);
         return;
       }
 
       if (sendFiles.length === 0) {       
-        showToast("The 'Images' must be chosen.", "error no redirect", "");
+        showToast("The 'Images' must be chosen.", "error no redirect", "",navigate);
         return;
       }
 
@@ -97,7 +99,7 @@ const NewHotel = () => {
       });
 
       if (!isValid) {       
-        showToast("Please fill all fields.", "error no redirect", "");
+        showToast("Please fill all fields.", "error no redirect", "",navigate);
         return;
       }
 
@@ -109,7 +111,7 @@ const NewHotel = () => {
       const { data } = await axios.post(`${SERVER_URL}/api/hotels`, { newHotel });
       const { success } = data;
       if (success) {      
-        showToast("New hotel successfully added!🎉", "success no redirect", "");
+        showToast("New hotel successfully added!🎉", "success no redirect", "",navigate);
         handleClear();
 
         // Reset placeholders
@@ -120,7 +122,7 @@ const NewHotel = () => {
         setPlaceholders(updatedPlaceholders);
       }
     } catch (error: any) {      
-      showToast(error.response.data.error, "error no redirect", "");
+      showToast(error.response.data.error, "error no redirect", "",navigate);
     }
   };
 

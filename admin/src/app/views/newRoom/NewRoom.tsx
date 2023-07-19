@@ -7,12 +7,14 @@ import useFetch from "../../../hooks/useFetch";
 import { RoomInterface } from "../../../helpers/roomInterface";
 import { HotelInterface } from "../../../helpers/hotelInterface";
 import { roomTypesInterface } from "../../../helpers/roomTypesInterface";
+import { useNavigate } from "react-router-dom";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import "./newRoom.scss";
 
 const NewRoom = () => {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+  const navigate = useNavigate();
   //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: RoomInterface = roomInputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),
@@ -62,26 +64,18 @@ const NewRoom = () => {
     event.preventDefault();
 
     if (isNaN(info.price) || info.price.toString() === "") {
-      showToast("The 'Price' field must be a number.", "error no redirect", "");
+      showToast("The 'Price' field must be a number.", "error no redirect", "",navigate);
       return;
     }
 
     if (isNaN(info.maxPeople) || info.maxPeople.toString() === "") {
-      showToast(
-        "The 'Max People' field must be a number.",
-        "error no redirect",
-        ""
-      );
+      showToast("The 'Max People' field must be a number.", "error no redirect","" ,navigate );
       return;
     }
 
     const cleanedRooms = parseInt(rooms.replace(/,/g, ""), 10);
     if (isNaN(cleanedRooms)) {
-      showToast(
-        "The 'Rooms' must be a comma-separated numbers or single number.",
-        "error no redirect",
-        ""
-      );
+      showToast("The 'Rooms' must be a comma-separated numbers or single number.", "error no redirect", "",navigate);
       return;
     }
 
@@ -99,12 +93,12 @@ const NewRoom = () => {
     });
 
     if (!isValid) {
-      showToast("Please fill all fields.", "error no redirect", "");
+      showToast("Please fill all fields.", "error no redirect", "",navigate);
       return;
     }
 
     if (rooms.length === 0) {
-      showToast("The 'Rooms' field must be chosen.", "error no redirect", "");
+      showToast("The 'Rooms' field must be chosen.", "error no redirect", "",navigate);
       return;
     }
 
@@ -120,12 +114,12 @@ const NewRoom = () => {
 
     try {
       if (hotelID === undefined || hotelID === 0) {
-        showToast("The 'Hotel' must be chosen.", "error no redirect", "");
+        showToast("The 'Hotel' must be chosen.", "error no redirect", "",navigate);
         return;
       }
 
       if (typeID === undefined || typeID === 0) {
-        showToast("The 'Room Type' must be chosen.", "error no redirect", "");
+        showToast("The 'Room Type' must be chosen.", "error no redirect", "",navigate);
         return;
       }
 
@@ -141,12 +135,12 @@ const NewRoom = () => {
         showToast(
           "New room(s) successfully added!🎉",
           "success no redirect",
-          ""
+          "",navigate
         );
         handleClear();
       }
     } catch (error: any) {
-      showToast(error.response.data.error, "error no redirect", "");
+      showToast(error.response.data.error, "error no redirect", "",navigate);
     }
   };
 
