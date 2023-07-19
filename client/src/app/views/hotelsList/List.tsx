@@ -174,7 +174,7 @@ const List: React.FC = () => {
               Search!!!!
             </button>   
 
-            <button onClick={handleGoHome} className="list-search__button home__btn">
+            <button onClick={handleGoHome} className="list-search__button--home">
                Go Home
             </button>  
                  

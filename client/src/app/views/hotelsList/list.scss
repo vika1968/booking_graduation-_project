@@ -87,7 +87,7 @@
     }
   }
 
-  &__button {
+  &__button, &__button--home {
     display: block;
     width: 100%;
     padding: 10px;
@@ -104,6 +104,13 @@
       background-color: $primary-color;
     }
   }
+
+  &__button--home {
+    margin: auto;
+    width: 150px;
+    margin-top: 15px;
+    height: 45px;
+  }  
 }
 
 .list-result {
@@ -114,11 +121,4 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
   }
-}
-
-.home__btn{
-  margin: auto;
-  width: 150px;
-  margin-top: 15px;
-  height: 45px;
 }
