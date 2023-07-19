@@ -26,8 +26,7 @@ export const showToast = (message: string, type: string, redirect: string, navig
             progress: undefined,
             className: "custom-toast",  
             onClose: async () => {
-              await new Promise((resolve) => setTimeout(resolve, 3000)); 
-             // window.location.assign(redirect);
+              await new Promise((resolve) => setTimeout(resolve, 1000));         
              navigate(redirect);
             },
           });
@@ -56,8 +55,7 @@ export const showToast = (message: string, type: string, redirect: string, navig
             progress: undefined,
             className: "custom-toast",  
             onClose: async () => {
-              await new Promise((resolve) => setTimeout(resolve, 3000)); 
-             // window.location.assign(redirect);
+              await new Promise((resolve) => setTimeout(resolve, 1000));            
              navigate(redirect);
             },
           });

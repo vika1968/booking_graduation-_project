@@ -116,8 +116,7 @@ const List: React.FC = () => {
                   <input
                     type="number"
                     placeholder={'0'}
-                    min="0"
-                    //onChange={(e) => setMin(Number(e.target.value))}
+                    min="0"                  
                     onChange={(e) => handleOption("minPrice", e.target.value)}
                     className="list-search__option-input"
                   />
@@ -130,8 +129,7 @@ const List: React.FC = () => {
                     type="number"
                     placeholder={'1000000'}
                     min="0"
-                    className="list-search__option-input"
-                   // onChange={(e) => setMax(Number(e.target.value))}
+                    className="list-search__option-input"                   
                     onChange={(e) => handleOption("maxPrice", e.target.value === "0" ? "1000000" : e.target.value)}
                   />
                 </div>

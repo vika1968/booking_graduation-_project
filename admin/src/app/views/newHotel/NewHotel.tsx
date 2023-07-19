@@ -114,7 +114,7 @@ const NewHotel = () => {
         showToast("New hotel successfully added!🎉", "success no redirect", "",navigate);
         handleClear();
 
-        // Reset placeholders
+         Reset placeholders
         const updatedPlaceholders: { [key: string]: string } = {};
         hotelInputs.forEach((input) => {
           updatedPlaceholders[input.id] = input.placeholder;
