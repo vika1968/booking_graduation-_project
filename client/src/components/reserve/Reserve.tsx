@@ -11,6 +11,7 @@ import { User } from "../../features/user/userModel";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../helpers/toast";
+import { SERVER_URL } from "../../App";
 import axios from "axios";
 import "./reserve.scss";
 
@@ -19,8 +20,7 @@ interface ReserveProps {
   hotelId: string;
 }
 
-const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+const Reserve: React.FC<ReserveProps> = ({ setOpen, hotelId }) => { 
   const navigate = useNavigate();
   const [roomID, setRoomID] = useState<number>(0)
 

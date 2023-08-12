@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { AreaChart,  Area,  XAxis,  CartesianGrid,  Tooltip,  ResponsiveContainer } from "recharts";
 import "./chart.scss";
 
 interface ChartProps {
@@ -61,7 +54,7 @@ const Chart: React.FC<ChartProps> = ({ aspect, title }) => {
           <Area
             type="monotone"
             dataKey="Total"
-            stroke="#8884d8"
+            stroke="#030304"
             fillOpacity={1}
             fill="url(#total)"
           />

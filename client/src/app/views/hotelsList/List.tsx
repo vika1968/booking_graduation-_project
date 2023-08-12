@@ -11,10 +11,10 @@ import { useDispatch } from "react-redux";
 import { addSearch} from "../../../features/search/searchSlice";
 import { formatDatesToString } from "../../../helpers/transformDateToValidFormat";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../../../App";
 import "./list.scss";
 
-const List: React.FC = () => { 
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+const List: React.FC = () => {  
   const navigate = useNavigate();
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);

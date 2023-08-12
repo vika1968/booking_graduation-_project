@@ -3,11 +3,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
+import { SERVER_URL } from "../../../App";
 import "./login.scss";
 
 const Login = () => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
-
   const [credentials, setCredentials] = useState({
     email: undefined,
     password: undefined,

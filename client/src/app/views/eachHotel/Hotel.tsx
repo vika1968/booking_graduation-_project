@@ -17,12 +17,12 @@ import moment from "moment"; // JavaScript library for parsing, manipulating, an
 import Promotion from "../../../components/promotion/Promotion";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { SERVER_URL } from "../../../App";
 
 import "./hotel.scss";
 
 const Hotel = () => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
-  const location = useLocation();
+   const location = useLocation();
   const id = location.pathname.split("/")[2]; // Hotel ID
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);

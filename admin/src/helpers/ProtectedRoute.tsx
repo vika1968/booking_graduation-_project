@@ -5,8 +5,7 @@ import { getAdminBySession } from '../features/admin/adminAPI';
 import { adminSelector, adminStatusSelector, Status } from '../features/admin/adminSlice';
 import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const dispatch = useAppDispatch();
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {  const dispatch = useAppDispatch();
   const admin = useAppSelector(adminSelector) as Admin | null;
   const adminStatus = useAppSelector(adminStatusSelector);
   

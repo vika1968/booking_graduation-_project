@@ -16,9 +16,9 @@ const Sidebar = () => {
     sessionStorage.clear(); 
   };
  
-  const confirmationButton = () => {
+  const handleConfirmation = () => {
     confirmAlert({
-      title: 'Confirmation',
+      title: 'Log Out confirmation',
       message: 'Are you sure you want to log out from the admin page? Only admins are allowed.',
       buttons: [
         {
@@ -66,7 +66,7 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">ADMIN</p>
-          <li onClick={confirmationButton}>
+          <li onClick={handleConfirmation}>
             <span className="icon">Logout</span>           
           </li>
         </ul>

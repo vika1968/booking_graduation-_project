@@ -8,10 +8,10 @@ import { ToastContainer } from "react-toastify";
 import { showToast } from "../../../helpers/toast";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getUserBySession } from "../../../features/user/userAPI";
+import { SERVER_URL } from "../../../App";
 import "./orderResults.scss";
 
-const OrderResults = () => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+const OrderResults = () => { 
   const navigate = useNavigate();
   const [results, setResults] = useState([]);
   const [message, setMessage] = useState("Your orders:");

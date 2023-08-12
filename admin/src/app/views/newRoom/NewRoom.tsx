@@ -10,10 +10,10 @@ import { roomTypesInterface } from "../../../helpers/roomTypesInterface";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
+import { SERVER_URL } from "../../../App";
 import "./newRoom.scss";
 
-const NewRoom = () => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+const NewRoom = () => {  
   const navigate = useNavigate();
   //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: RoomInterface = roomInputs.reduce(

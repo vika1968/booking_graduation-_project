@@ -4,7 +4,13 @@ CREATE DATABASE `hotel-booking`;
 And then Server --> import
 
 Users/ Vika/ Documents/dumps
-//--------------------------
+//-----user---------------------
+vika4@tdnet.com
+Qwerty1!
+//------admin--------------------
+vika@tdnet.com
+Qwerty1!
+//--------------------------------
 
 CREATE SCHEMA `hotel-booking` ;
 

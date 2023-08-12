@@ -14,8 +14,9 @@ import ProtectedRoute from "./helpers/ProtectedRoute";
 import Page404 from "./app/views/page404/Page404";
 import { disableReactDevTools } from "@fvilers/disable-react-devtools"//npm i @fvilers/disable-react-devtools
 import "./style/dark.scss";
-
+export const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
 const environment = process.env.REACT_APP_API_ENVIRONMENT;
+
 if (environment === "PROD"){
   disableReactDevTools(); 
 }

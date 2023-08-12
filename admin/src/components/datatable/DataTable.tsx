@@ -9,8 +9,10 @@ import { showToast } from "../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { HotelFieldsToUpdateInterface } from "../../helpers/hotelFieldsToUpdate";
+import { SERVER_URL } from "../../App";
 import axios from "axios";
 import "./datatable.scss"
+import { confirmAlert } from "react-confirm-alert";
 
 interface Row {
   id: string;
@@ -22,7 +24,6 @@ interface DataTableProps {
 }
 
 const DataTable: React.FC<DataTableProps> = ({ columns }) => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname.split("/")[1];
@@ -59,8 +60,24 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
 
   const handleViewTransactions = (id: string) => {  
     navigate(`/users/trans?${id}`);
-  };
-  
+  }; 
+
+  const handleConfirmation = (id: string, title:string, path: string) => {
+    confirmAlert({
+      title: `Remove confirmation`,
+      message: `Are you sure you want to remove ''${title}'' ${path.slice(0, -1)}?`,
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => handleDelete(id)       
+        },
+        {
+          label: 'No',
+          onClick: () => {}        
+        }
+      ]
+    });
+  };  
 
   const handleDelete = async (id: string) => {
     try {
@@ -71,7 +88,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
       
       setList((prevList) => prevList?.filter((item) => item.id !== id) ?? null);
     } catch (error: any) {    
-     showToast(error.response.data.error, "error no redirect", "",navigate);
+     showToast(error.response.data.error, "error no redirect", "", navigate);
     }
   };
 
@@ -123,8 +140,8 @@ const DataTable: React.FC<DataTableProps> = ({ columns }) => {
             ""
           )}
           <div
-            className="delete-button"
-            onClick={() => handleDelete(params.row.id)}
+           className="delete-button"     
+            onClick={() => handleConfirmation ( params.row.id, path === "users" ? params.row.email : params.row.title, path)}
           >
             Delete
           </div>

@@ -11,19 +11,7 @@ else{
     DB = process.env.DATABASE_PROD
 }
 
-interface Order {
-  id: number;
-  username: string;
-  email: string;
-  country: string;
-  city: string;
-  hotelname: string;
-  hotelcity: string;
-  datestart: Date;
-  dateend: Date;
-  roomnumber: number;
-  price: number;
-}
+
 export const getOrdersByUserID = (
   req: express.Request,
   res: express.Response

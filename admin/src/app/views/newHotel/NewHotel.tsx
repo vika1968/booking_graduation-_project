@@ -9,10 +9,10 @@ import { HotelInterface } from "../../../helpers/hotelInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../../../App";
 import "./newHotel.scss";
 
-const NewHotel = () => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+const NewHotel = () => {  
   const navigate = useNavigate();
   //reduce() method to convert the roomInputs array into an initialInfo object.
   const initialInfo: HotelInterface = hotelInputs.reduce(

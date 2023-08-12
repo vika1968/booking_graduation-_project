@@ -3,11 +3,11 @@ import { ToastContainer } from "react-toastify"; //npm install react-toastify
 import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../../../helpers/toast";
 import { Link,useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../../../App";
 import axios from "axios";
 import "./register.scss";
 
-const Register = () => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, "");
+const Register = () => { 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

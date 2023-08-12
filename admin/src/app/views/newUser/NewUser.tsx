@@ -7,6 +7,7 @@ import { UserInterface } from "../../../helpers/userInterface";
 import { showToast } from "../../../helpers/toast";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../../../App";
 import "./newUser.scss";
 interface Input {
   id: string;
@@ -19,8 +20,7 @@ interface NewProps {
   title: string;
 }
 
-const NewUser: React.FC<NewProps> = ({ inputs, title }) => {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL?.replace(/['"`]+/g, '');
+const NewUser: React.FC<NewProps> = ({ inputs, title }) => { 
   const navigate = useNavigate();
   const initialInfo: UserInterface = inputs.reduce(
     (accumulator, input) => ({ ...accumulator, [input.id]: "" }),
