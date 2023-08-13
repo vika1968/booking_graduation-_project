@@ -58,7 +58,7 @@ export async function register(req: express.Request, res: express.Response) {
         if (!city)          
             return res.status(500).send({ success: false, error: "No city available." });
         if (!phone)         
-            return res.status(500).send({ success: phone, error: "No city available." });
+            return res.status(500).send({ success: false, error: "No phone available." });
         const { error } = AdminValidation.validate({ email, password });
         if (error) {
             return res.status(500).send({ success: false, error: error.message });
